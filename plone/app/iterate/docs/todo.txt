@@ -1,0 +1,37 @@
+----
+Todo
+----
+
+Short Term
+----------
+
+ - always increment version on checkout (iff doc is not upto date )
+   - better offer form option.
+
+ - default event adapter for setting workflow on checked out content
+    
+ - refactor policy, move all invariants to event subscribers
+   [ locking, event marking, versioning ]
+
+ - version adapters
+
+ - refactor copier
+    [ should create a reference ]
+    copyTo - container
+    copyReferences ( working_copy, state_storage )
+    merge
+
+[ requires hacks to other products that provide this functionality ]
+ - disable workflow changes on baseline.
+
+ - disable versioning on baseline. ( based on lock status )
+
+
+Long Term
+---------
+
+ - multiple checkouts w/ diffs, merges and updates
+
+ - check ref catalog for baselines
+
+

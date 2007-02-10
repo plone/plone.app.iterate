@@ -1,0 +1,118 @@
+====================
+Customizing Workflow
+====================
+
+:Author: Kapil Thangavelu
+:Version: $Revision: 1808 $
+:Copyright: ObjectRealms, LLC (c) Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License
+
+WC workflow can be manipulated via an event subscriber. as a result of the copy the workflow
+state of the working copy is reset to the default for the content type. in plone 2.5 an object
+or container attribute market can be utilized to signify a custom workflow for an instance or
+containment structure. in plone 2.5, a custom workflow is utilized by the default adapter
+to restrict availability of the checkout to only the owner. The same behavior can be had
+in plone 2.1, by installing cmfplaceful workflow. 
+
+This relies, on an important part of the customization abilities offered by
+iterate in addition to creating custom policy adapters, namely event
+based integration, there are two events published by iterate during
+the lifecycle of a content checkout, an event for checkout, and an
+event for checkin (not nesc. parallel as checkouts can be cancelled).
+
+Example Scenario
+----------------
+ 
+We want content in the published state to allow for a user with the
+Owner role to checkout the document, the content cannot be checked in
+by the owner, it must be submitted for review and published by someone
+with the 'Reviewer' role, on publishing the content should be checked in.
+
+we can do this by creating a custom of workflow to apply to checkout
+content.
+
+Considerations
+--------------
+
+Its important to keep in mind that we can get the effect of this just
+by configuring workflow to not allow the owner the permission to
+checkin content in its default state and normal workflow, ie. this 
+example is illustrative but not exhaustive or nesc. the easiest
+solution, but its a good illustration of doing more interesting things 
+with adding additional policy to iterate using events. 
+
+a more illustrative use case, which is implemented as a consequence
+of this example scenario is applying a different workflow to checkouts of 
+content then the normal workflow assigned to that content, wherin we 
+can apply arbitrary business rules to govern checkouts.
+
+also this example utilizes the cmfplacefulworkflow api, which is not
+to be taken as endorsement of that api, which is fairly ugly at best,
+but the process of putting in something better is beyond the scope of
+this tutorial.
+
+Customization Process
+---------------------
+
+assumptions
+===========
+
+you should already have your custom workflow created, and installed in 
+the workflow tool. as part of using the cmfplaceful workflow api, you 
+should have created a custom workflow policy which will be used for
+content checkouts, and which maps content types to custom checkout
+workflows. typically just setting the default to your checkout
+workflow's id will suffice. to match the rest of the tutorial code,
+the custom workflow policy created should have an id of 'checkout_workflow_policy'
+
+high level intro to cmfplacefulworkflow api
+===========================================
+
+the cmfplacefulworkflow api consists of attaching a workflow policy
+config object on the content to point to the workflow policy within 
+the cmfplacefulworkflow tool in the portal root. this workflow policy
+is a mapping of content types to portal_workflow tool workflows, that
+replaces the standard mapping of the portal_workflow tool wherever a
+workflow policy config object is available in the containment chain
+of a piece of content.
+ 
+create an event adapter for checkout
+====================================
+
+the adapter will modify the checkout, and using the cmfplaceful workflow
+api will apply a custom workflow to content, taking care to preserve
+for checkin any custom workflow already in place on the content for
+use after the working copy is checked in by marking the customization 
+in such a way that we can distinguish between existing workflow
+customization.
+
+create an event adapter for checkin
+===================================
+
+the adapter will modify the checkin, to remove the custom workflow
+api, so that the normal content's workflow continues from this point.
+
+code
+====
+
+What follows is an example of registering an event subscriber, to change the workflow
+for checkouts, as outlined above::
+
+  from Acquisition import aq_base
+  from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig
+  from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+
+  USE_WORKFLOW = "checkout_workflow_policy"
+
+  def checkout_workflow_subscriber( event, object ):
+      existing_policy = getattr( aq_base( object ),WorkflowPolicyConfig_Id, None )
+      if existing_policy is not None:
+          object	       	  
+      policy = WorkflowPolicyConfig(USE_WORKFLOW)
+      policy.coci_created = True
+      setattr( object, WorkflowPolicyConfig_id, policy )
+
+  def checkin_workflow_subscriber( event, object ):
+      policy = getattr( aq_base(object), WorkflowPolicyConfig_id, None )
+      if policy is None or not getattr( policy, 'coci_created', None):
+          return
+      delattr( policy, WorkflowPolicyConfig_id )

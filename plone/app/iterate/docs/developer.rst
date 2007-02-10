@@ -1,0 +1,111 @@
+===============
+Developer Guide
+===============
+
+:Author: Kapil Thangavelu
+:Version: $Revision:$
+:Copyright: ObjectRealms, LLC (c) Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License
+
+a design walkthrough and configuration guide. 
+
+Features
+--------
+
+- Enabling Concurrent Development
+   Utilizes existing dav lock machinery, with separate lock token namespace.
+
+- Versioning Repository  
+   iterate utilizes cmfeditions for versioning. 
+
+- Iterations Tool
+   The tool itself is mostly a facade for easy access from z2 skin code to a checkin
+   checkout policy adapter, it does enforce api access w/ basic invariants, so adapter 
+   implementations don't have to.
+
+
+Checkin/Checkout Events
+-----------------------
+
+The easiest way to add additional behavior to the checkin / checkout process is to
+configure an event subscriber to the Checkin and Checkout events. Examples of such
+behavior are setting workflow and security for the checkout, or notifications on
+checkin.
+
+Configuration Checkin/Checkout Policy Adapters
+----------------------------------------------
+
+Policy Adapters form the main place to plug business logic within the product, they 
+are currently responsible for implementing the checkin, checkout, and cancelCheckout
+methods.
+
+Terms::
+
+ Baseline
+   the original version of the content object, that the checkout was performed on.
+
+ Working Copy (WC)
+   a copy of the baseline, placed in a selectable container.
+
+The default policy adapter its meant to be easily subclassed, see policy.py for details,
+it does however have alot of responsibilities and maintains a series of invariants which
+any replacement must also maintain, described below. if your business logic can be
+encapsulated in an event subscriber it is much better to integrate it via that mechanism.
+
+A policy's adapter adaptation context is a content object, by registered for by default
+AT IBaseObject. Adapter configuration changes can be specified via zcml.
+
+Checkin/Checkout Invariants
+===========================
+
+When a working copy is checked out a dav lock is taken out on the baseline, to prevent
+mutation of the baseline. other forms of locking are available, but dav locks are the only common
+infrastructure between different frameworks. this means currently only one checkout of
+a given content object at a time.
+
+A custom reference class ( see relation.py ) is used to track
+bookeeping information regarding the checkout via the archetypes
+reference engine, and to serve as an annotation property bag to 
+store (custom) information about the checkout. it is utilized as a
+reference between the working copy to the baseline ( backref wc ).
+
+Reference Adapters
+------------------
+    
+are a plugin point for developers using/developing rich archetypes reference applications 
+to have the flexiblity to implement support for custom reference classes, and change 
+backref policy.
+
+Reference handling is a topic onto itself, see `references.rst`__, if you dont use 
+backreferences, or custom reference classes, then the default configuration 
+which copies forward references to the working copy and merges any changes back,
+should suffice.
+
+__ references.html
+
+Working Copy Workflow
+---------------------
+
+WC workflow can be manipulated via an event subscriber. as a result of the copy the workflow
+state of the working copy is reset to the default for the content type. in plone 2.5 an object
+or container attribute market can be utilized to signify a custom workflow for an instance or
+containment structure. in plone 2.5, a custom workflow is utilized by the default adapter
+to restrict availability of the checkout to only the owner. The same behavior can be had
+in earlier versions by installing cmfplaceful workflow. 
+
+a complete example of customizing workflow can be found in `workflow.rst`__
+
+__ workflow.html
+    
+Permissions
+-----------
+
+Iterate utilizes two permissions, CheckinPermission which is an alias for 
+CMFEditions.SaveNewVersion and CheckoutPermission which is an alias for 
+CMFEditions.CheckoutToLocation.
+
+
+ 
+
+
+
+

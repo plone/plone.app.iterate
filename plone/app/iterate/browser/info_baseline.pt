@@ -1,0 +1,28 @@
+<div class="portalMessage"
+     tal:define="working_copy view/working_copy;"
+     i18n:domain="iterate">
+     
+    <tal:block i18n:translate="working_copy_info">
+     
+        This item is being edited by
+        
+        <a i18n:name="creator"
+            tal:attributes="href view/creator_url" 
+            tal:content="view/creator_name">john smith</a>
+            
+        in a
+        
+    </tal:block>
+        
+    <a i18n:translate="working_copy"
+       tal:attributes="href working_copy/absolute_url;
+                       title working_copy/Description">working copy</a>
+                       
+    <tal:block i18n:translate="working_copy_created">
+        created on <span i18n:name="created" tal:content="view/created"/>.
+    </tal:block>
+    
+    (<a i18n:translate="view_changes"
+         tal:attributes="href string:${context/absolute_url}/@@iterate_diff">View changes</a>)
+         
+</div>

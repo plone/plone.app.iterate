@@ -1,0 +1,29 @@
+---------------
+Iterate Install
+---------------
+
+Dependencies
+------------
+
+ - Zope 2.9 
+
+ - Plone 2.1.3 or Plone 2.5
+
+ - CMFEditions  ( 1.0 Branch )
+
+ - CMFDiffTool  ( 0.2 Branch )
+
+There is an iterate bundle which comes with known working combinations
+of cmfeditions, cmfdifftool, and iterate as well. 
+
+http://svn.objectrealms.net/svn/public/iterate/bundles/0.3-plone-2.1-2.5/
+
+Installation
+------------
+
+ Standard Plone Installation, after putting the product into your plone product's directory,
+ and restarting zope, go into the Plone control panel, and click the add/remove icon, and
+ check the box by the iterate product and click install.
+
+
+

@@ -1,0 +1,51 @@
+=================================
+Iterate and Archetypes References
+=================================
+
+Iterate tries to have a sensible default handling of references on working copies and
+baselines. By default references from the baseline (forward references) are copied to
+the baseline during the checkout process. References are copied utilizing only their
+relation name, and target uids, References to the baseline (backward references) are
+not copied to the working copy. On checking in the working copy, forward and backward
+references on the working copy are kept, as are backward references to the baseline. 
+
+Customizing reference handling
+------------------------------
+
+Developers can define reference checkin/checkout adapters to customize handling,
+the adapters are looked up by relation name, and utilizing the content object as 
+a context.
+
+for example if you wanted to keep forward references with the relation name ( subscriptions )
+only on the baseline version, and not have it copied to the working copy you would register
+the following adapter, in your product zcml or in the instance's overrides.zcml::
+
+    <adapter 
+       for="Products.Archetypes.interfaces.IBaseObject"
+       provides=".interfaces.ICheckinCheckoutReference"
+       factory=".relation.NoCopyReferenceAdapter"
+       name="subscriptions"
+       />
+
+and any references on any content objects, with the "subscriptions" relation would not be
+copied to the working copy, but would be kept when the working copy is checked in. this
+adapter also keeps reference state.
+
+
+Backreferences
+--------------
+
+Developers utilizing semantically signifigant backreferences that can
+be modified on the working copy are expected to write a custom
+reference adapter ( see ICheckinCheckoutReference in interfaces.py )
+with implementations for checkoutBackReference and
+checkinBackReference, the default adapter implementation does nothing with
+backreferences.
+
+Custom Reference Adapters
+-------------------------
+
+Reference adapters have access to an annotation storage, to keep persistent information
+regarding references copied, or their state. This storage is automatically discarded after
+the working copy is checked in. The storage is maintained on the
+archetypes reference.

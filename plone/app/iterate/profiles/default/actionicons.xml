@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<action-icons>
+ <action-icon category="object_buttons" action_id="iterate_checkin"
+              title="Checkin" priority="0"
+              icon_expr="++resource++checkout.png"/>
+ <action-icon category="object_buttons" action_id="iterate_checkout"
+              title="Checkin" priority="0"
+              icon_expr="++resource++checkout.png"/>
+<!--
+ <action-icon category="object_buttons" action_id="iterate_cancel"
+              title="Checkin" priority="0"
+              icon_expr="cancel_checkout.png"/>
+-->
+</action-icons>

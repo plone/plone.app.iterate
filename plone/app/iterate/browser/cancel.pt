@@ -1,0 +1,42 @@
+<html metal:use-macro="here/@@standard_macros/page" i18n:domain="iterate">
+
+<div metal:fill-slot="body">
+    
+    <form action="#"
+        method="post"
+        tal:attributes="action string:${context/absolute_url}/@@content-cancel-checkout">
+
+      <h1 i18n:translate="title_cancel">
+        Cancel Checkout of <span i18n:name="object_title" tal:content="context/Title" />
+      </h1>
+
+      <p i18n:translate="description_cancel">
+        Canceling the checkout will delete this working copy, and any modifications
+        made to it will be lost. The baseline version of the content will become
+        unlocked. Click cancel checkout to complete the process. 
+      </p>
+    
+      <div class="formControls">
+    
+        <input 
+            class="destructive"
+            type="submit"
+            name="form.button.Cancel"
+            value="Cancel checkout"
+            i18n:attributes="value"
+            />
+            
+        <input 
+            class="standalone"
+            type="submit"
+            name="form.button.Keep"
+            value="Keep checkout"
+            i18n:attributes="value"
+            />
+
+      </div>
+
+    </form>
+</div>
+
+</html>

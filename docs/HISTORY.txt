@@ -1,0 +1,9 @@
+Changelog for plone.app.iterate
+
+    (name of developer listed in brackets)
+
+plone.app.iterate - 0.1 Unreleased
+
+    - Initial package structure.
+      [zopeskel]
+

@@ -1,0 +1,62 @@
+<html metal:use-macro="context/@@standard_macros/page" i18n:domain="iterate">
+
+<div metal:fill-slot="body">
+
+    <form action="#"
+        method="post"
+        tal:attributes="action string:${context/absolute_url}/@@content-checkin">
+
+    <h1 i18n:translate="title_checkin">
+        Check in <span i18n:name="object_title" tal:content="here/Title" />
+    </h1>
+
+    <p i18n:translate="description_checkin">
+        Checking in this working copy, will replace the current current version,
+        with the working copy, and delete the working copy. You will be
+        redirected to the new version.
+    </p>
+    
+    <fieldset>
+
+            <div class="field">
+              <label for="description"
+                    i18n:translate="label_checkin_message">Check-in Message
+               </label>
+
+              <div class="formHelp" i18n:translate="help_checkin_message">
+                  Enter a message to be saved alongside the check-in. This
+                  should explain what the edit achieved, for audit purposes.
+              </div>
+              
+              <textarea cols="60"
+                        rows="3"
+                        tabindex=""
+                        id="checkin_message"
+                        name="checkin_message"></textarea>
+            </div>
+
+            <div class="formControls">
+                <input
+                    class="context"
+                    type="submit"
+                    name="form.button.Checkin"
+                    value="Check in"
+                    tabindex=""
+                    />
+                
+                <input
+                    class="standalone"
+                    type="submit"
+                    name="form.button.Cancel"
+                    value="Cancel"
+                    tabindex=""
+                    />
+            </div>
+
+    </fieldset>
+
+    </form>
+
+</div>
+
+</html>
