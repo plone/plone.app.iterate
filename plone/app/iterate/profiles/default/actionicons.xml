@@ -6,9 +6,7 @@
  <action-icon category="object_buttons" action_id="iterate_checkout"
               title="Checkin" priority="0"
               icon_expr="++resource++checkout.png"/>
-<!--
- <action-icon category="object_buttons" action_id="iterate_cancel"
+ <action-icon category="object_buttons" action_id="iterate_checkout_cancel"
               title="Checkin" priority="0"
-              icon_expr="cancel_checkout.png"/>
--->
+              icon_expr="++resource++cancel-checkout.png"/>
 </action-icons>

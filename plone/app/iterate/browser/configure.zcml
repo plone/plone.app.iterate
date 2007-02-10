@@ -76,11 +76,9 @@
         image="checkout.png"
         />
         
-    <!--
     <browser:resource
         name="cancel-checkout.png"
         image="cancel.png"
         />
-    -->
     
 </configure>
