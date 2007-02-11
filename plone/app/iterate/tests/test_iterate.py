@@ -30,21 +30,20 @@ from zope.component import getMultiAdapter
 from Acquisition import aq_base
 from AccessControl import getSecurityManager
 
+from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
+
 from Products.PloneTestCase import PloneTestCase
-PloneTestCase.setupPloneSite(extension_profiles=("plone.app.iterate",))
+PloneTestCase.setupPloneSite()
 
 class TestIterations(PloneTestCase.PloneTestCase):
 
     def afterSetUp(self):
-        try:
-            self.shim()
-        except:
-            import sys, pdb, traceback
-            traceback.print_exc()
-            pdb.post_mortem( sys.exc_info()[-1])
-            
-    def shim(self):
         self.setRoles(['Manager',])
+        
+        # Since we depend on ZCML being loaded, we can't do this
+        # until the layer is set up
+        
+        self.portal.portal_quickinstaller.installProduct('plone.app.iterate')
 
         # add a folder with two documents in it
         self.portal.invokeFactory('Folder', 'docs')
@@ -60,7 +59,6 @@ class TestIterations(PloneTestCase.PloneTestCase):
     def beforeTearDown(self):
         self.repo = None
         self.wf   = None
-        self.iterate = None
 
     def shim_test( self, test_method):
 
@@ -87,12 +85,12 @@ class TestIterations(PloneTestCase.PloneTestCase):
         state = self.wf.getInfoFor( doc, 'review_state')
         
         self.repo.save( doc )
-        wc = self.iterate.checkout( self.portal.workarea, doc )
+        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
         wc_state = self.wf.getInfoFor( wc, 'review_state')
         
         self.assertNotEqual( state, wc_state )
 
-        self.iterate.checkin( wc, "modified" )
+        ICheckinCheckoutPolicy( wc ).checkin( "modified" )
         bstate = self.wf.getInfoFor( wc, 'review_state')
         self.assertEqual( state, bstate )
         self.setRoles(['Owner',])
@@ -111,7 +109,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
         history = self.repo.getHistory( doc )
         self.assertEqual( len(history), 0 )
 
-        self.iterate.checkout( self.portal.workarea, doc )
+        ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
 
         history = self.repo.getHistory( doc )
         self.assertEqual( len(history), 1 )
@@ -119,20 +117,19 @@ class TestIterations(PloneTestCase.PloneTestCase):
         doc2 = self.portal.docs.doc2
         self.repo.save( doc2 )
 
-        self.iterate.checkout( self.portal.workarea, doc2 )
+        ICheckinCheckoutPolicy( doc2 ).checkout( self.portal.workarea )
 
         history = self.repo.getHistory( doc2 )
         self.assertEqual( len(history), 1 )
     
     def test_wcNewForwardReferencesCopied( self ):
         # ensure that new wc references are copied back to the baseline on checkin
-        
         doc = self.portal.docs.doc1
         doc.addReference( self.portal.docs )
         self.assertEqual( len(doc.getReferences("zebra")), 0)
-        wc = self.iterate.checkout( self.portal.workarea, doc )
-        wc.addReference( self.portal.docs.doc2, "zebra")
-        doc = self.iterate.checkin( wc, "updated" )
+        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
+        wc.addReference( self.portal.docs.doc2, "zebra")        
+        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
         self.assertEqual( len(doc.getReferences("zebra")), 1 )
         
     def test_wcNewBackwardReferencesCopied( self ):
@@ -140,10 +137,10 @@ class TestIterations(PloneTestCase.PloneTestCase):
 
         doc = self.portal.docs.doc1
         self.assertEqual( len(doc.getBackReferences("zebra")), 0)
-        wc = self.iterate.checkout( self.portal.workarea, doc )
+        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
         self.portal.docs.doc2.addReference( wc, "zebra")
         self.assertEqual( len( wc.getBackReferences("zebra")), 1 )        
-        doc = self.iterate.checkin( wc, "updated")
+        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated")
         self.assertEqual( len( doc.getBackReferences("zebra")), 1 )
 
     def test_baselineReferencesMaintained( self ):
@@ -154,9 +151,9 @@ class TestIterations(PloneTestCase.PloneTestCase):
         doc.addReference( self.portal.docs, "elephant" )
         self.portal.docs.doc2.addReference( doc )
 
-        wc = self.iterate.checkout( self.portal.workarea, doc )
+        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
 
-        doc = self.iterate.checkin( wc, "updated" )
+        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
 
         self.assertEqual( len(doc.getReferences()), 1 )
         self.assertEqual( len(doc.getBackReferences()), 1 )
@@ -180,11 +177,11 @@ class TestIterations(PloneTestCase.PloneTestCase):
         ref = doc.addReference( self.portal.docs, "zebra", referenceClass=CustomReference )
         ref.custom_state = "hello world"
 
-        wc = self.iterate.checkout( self.portal.workarea, doc )
+        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
 
         self.assertEqual( len(wc.getReferences("zebra")), 0)
 
-        doc = self.iterate.checkin( wc, "updated" )
+        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
 
         self.assertEqual( len(doc.getReferences("zebra")), 1)
 

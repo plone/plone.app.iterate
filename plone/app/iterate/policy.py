@@ -28,7 +28,7 @@ $Id: policy.py 1824 2007-02-08 17:59:41Z hazmat $
 from zope import component
 from zope.event import notify
 from zope.interface import implements
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from Acquisition import Implicit, aq_base, aq_inner, aq_parent
 
@@ -114,10 +114,10 @@ class CheckinCheckoutPolicyAdapter( object ):
         refs = self.context.getRefs( WorkingCopyRelation.relationship )
 
         if not len(refs) == 1:
-            raise CheckinException( "Baseline count mismatch" )
+            raise interfaces.CheckinException( "Baseline count mismatch" )
 
         if not refs or refs[0] is None:
-            raise CheckinException( "Baseline has disappeared" )
+            raise interfaces.CheckinException( "Baseline has disappeared" )
 
         baseline = refs[0]
         return baseline
