@@ -1,5 +1,4 @@
 README.txt
-setup.cfg
 setup.py
 docs/HISTORY.txt
 docs/INSTALL.txt
