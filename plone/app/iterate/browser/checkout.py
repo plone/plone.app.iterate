@@ -33,6 +33,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckoutException
 from plone.app.iterate.interfaces import IWCContainerLocator
+from plone.app.iterate.interfaces import IObjectArchiver
 
 class Checkout(BrowserView):
     
@@ -45,19 +46,6 @@ class Checkout(BrowserView):
         for name, locator in getAdapters((context,), IWCContainerLocator):
             if locator.available:
                 yield dict(name=name, locator=locator)
-
-    def up_to_date(self):
-        """Find out if the baseline version is up to date
-        """
-        context = aq_inner(self.context)
-        portal_repository = getToolByName(context, 'portal_repository')
-        
-        try:
-            return bool(portal_repository.isUpToDate(context))
-        except ConflictError:
-            raise
-        except:
-            return True
     
     def __call__(self):
         context = aq_inner(self.context)
@@ -75,15 +63,6 @@ class Checkout(BrowserView):
                 IStatusMessage(self.request).addStatusMessage("Cannot find checkout location", type='stop')
                 self.request.response.redirect(self.context.absolute_url())
                 return
-
-            # create version if context has unversioned changes
-            if self.request.form.get('version_before', False):
-                version_message = self.request.form.get('version_message', "")
-                up_to_date = self.up_to_date()
-            
-                if not up_to_date:
-                    portal_repository = getToolByName(context, 'portal_repository')
-                    portal_repository.save(context, version_message)
 
             policy = ICheckinCheckoutPolicy(context)
             wc = policy.checkout(locator())
