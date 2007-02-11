@@ -25,7 +25,7 @@ $Id: relation.py 1392 2006-06-20 01:02:17Z hazmat $
 
 from zope.interface import implements
 from zope.component import adapts
-from zope.app.annotation.interfaces import IAttributeAnnotatable
+from zope.annotation.interfaces import IAttributeAnnotatable
 
 from Products.Archetypes import config as atconf
 from Products.Archetypes.ReferenceEngine import Reference
@@ -91,7 +91,6 @@ class NoCopyReferenceAdapter( object ):
     """
 
     implements( ICheckinCheckoutReference )
-    adapts( IIterateAware )
 
     def __init__(self, context):
         self.context = context

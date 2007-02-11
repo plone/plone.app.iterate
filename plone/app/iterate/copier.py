@@ -25,7 +25,7 @@ $Id: copier.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
 from zope import interface, component
-from zope.app.annotation.interfaces import IAnnotations
+from zope.annotation.interfaces import IAnnotations
 
 from Acquisition import aq_base, aq_parent, aq_inner
 from ZODB.PersistentMapping import PersistentMapping
@@ -161,6 +161,8 @@ class ContentCopier( object ):
 
         annotations = IAnnotations( wc_ref )
         
+        baseline_adapter = interfaces.ICheckinCheckoutReference( baseline )
+        
         # handle forward references
         for relationship in baseline.getRelationships():
             # look for a named relation adapter first
@@ -169,7 +171,7 @@ class ContentCopier( object ):
                                               relationship )
             
             if adapter is None: # default
-                adapter = interfaces.ICheckinCheckoutReference( baseline )
+                adapter = baseline_adapter
                 
             references = baseline.getReferenceImpl( relationship )
 
@@ -184,12 +186,9 @@ class ContentCopier( object ):
                                               interfaces.ICheckinCheckoutReference,
                                               relationship )
             if adapter is None:
-                adapter = interfaces.ICheckinCheckoutReference( baseline )
+                adapter = baseline_adapter
                 
             references = baseline.getBackReferenceImpl( relationship )
             
             mode_method = getattr( adapter, mode )
             mode_method( baseline, wc, references, annotations )
-
-        
-            
