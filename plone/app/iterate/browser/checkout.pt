@@ -20,24 +20,6 @@
         
         <legend i18n:translate="legend_details">Details</legend>
 
-            <div class="field" tal:condition="not:view/up_to_date">
-                
-                <label for="version_message" i18n:translate="label_version_message">
-                    Create new version before checkout
-                </label>
-                <div class="formHelp" i18n:translate="help_version_message">
-                    The content has been modified since it was last committed. A new version
-                    will be created before checkout. You can enter a change message here.
-                </div>
-                <textarea
-                    cols="50"
-                    rows="3"
-                    id="version_message"
-                    name="version_message"></textarea>
-                        
-                <input type="hidden" name="version_before:boolean" value="True">
-            </div>
-       
             <div class="field">
 
             <label for="checkout_folder" i18n:translate="label_checkout_folder">

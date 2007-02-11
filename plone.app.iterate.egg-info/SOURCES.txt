@@ -1,4 +1,5 @@
 README.txt
+setup.cfg
 setup.py
 docs/HISTORY.txt
 docs/INSTALL.txt
@@ -12,6 +13,7 @@ plone.app.iterate.egg-info/entry_points.txt
 plone.app.iterate.egg-info/namespace_packages.txt
 plone.app.iterate.egg-info/not-zip-safe
 plone.app.iterate.egg-info/paster_plugins.txt
+plone.app.iterate.egg-info/requires.txt
 plone.app.iterate.egg-info/top_level.txt
 plone/app/__init__.py
 plone/app/iterate/LICENSE.GPL

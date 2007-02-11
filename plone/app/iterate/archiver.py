@@ -60,6 +60,3 @@ class ContentArchiver( object ):
             return not repository.isUpToDate( self.context )
         except:
             return False
-        
-        
-    

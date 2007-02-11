@@ -34,9 +34,3 @@ def handleBeforeCheckout( event ):
 def handleAfterCheckin( event ):
     archiver = interfaces.IObjectArchiver( event.object )
     archiver.save( event.message )
-    
-    
-    
-    
-
-
