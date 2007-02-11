@@ -1,12 +1,15 @@
 Metadata-Version: 1.0
 Name: plone.app.iterate
-Version: 0.1dev
+Version: 1.0a2
 Summary: check-out/check-in staging for Plone
 Home-page: http://svn.plone.org/svn/plone/plone.app.iterate
 Author: Kapil Thangavelu
 Author-email: plone-developers@lists.sourceforge.net
 License: GPL
-Description: UNKNOWN
+Description: plone.app.iterate is a check-out/check-in staging solution for Plone,
+        initially released as a Zope 2 product called "iterate". It uses CMFEditions,
+        CMFDiffTool and other Plone 3 features.
+        
 Platform: UNKNOWN
 Classifier: Framework :: Zope2
 Classifier: Framework :: Zope3
