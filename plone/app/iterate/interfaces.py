@@ -26,7 +26,7 @@ $Id: interfaces.py 1811 2007-02-06 18:40:02Z hazmat $
 from zope.interface import Interface, Attribute
 from zope import schema
 
-from zope.app.event.interfaces import IObjectEvent
+from zope.component.interfaces import IObjectEvent
 from plone.locking.interfaces import LockType
 
 from Products.Archetypes.interfaces import IReferenceable

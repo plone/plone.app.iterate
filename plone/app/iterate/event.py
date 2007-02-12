@@ -24,7 +24,7 @@ $Id: event.py 1811 2007-02-06 18:40:02Z hazmat $
 """
 from zope.interface import implements
 from zope.event import notify
-from zope.app.event.objectevent import ObjectEvent
+from zope.component.interfaces import ObjectEvent
 
 import interfaces
 import relation
