@@ -29,7 +29,7 @@ from zope import schema
 from zope.component.interfaces import IObjectEvent
 from plone.locking.interfaces import LockType
 
-from Products.Archetypes.interfaces import IReferenceable
+from Products.Archetypes.interfaces import IReferenceable, IReference
 
 #################################
 ## Marker interface
@@ -125,6 +125,10 @@ class IWorkingCopy( IIterateManagedContent ):
 
 class IBaseline( IIterateManagedContent ):
     """A baseline
+    """
+
+class IWorkingCopyRelation( IReference ):
+    """A relationship to a working copy
     """
 
 #################################

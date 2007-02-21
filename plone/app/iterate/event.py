@@ -78,12 +78,9 @@ class BeforeCheckoutEvent( ObjectEvent ):
     implements( interfaces.IBeforeCheckoutEvent )
     
 
-def handleDeletion( object, event ):
+def handleDeletion( reference, event ):
     # a filtering/enriching event rebroadcaster for working copy deletions
-    references = object.getReferences( relation.WorkingCopyRelation.relationship )
-    if not references: 
-        return
-    baseline = references[0]
-    wc_ref = object.getReferenceImpl( relation.WorkingCopyRelation.relationship )[ 0 ]
-    notify( WorkingCopyDeletedEvent( object, baseline, wc_ref ) )
+    workingCopy = reference.getSourceObject()
+    baseline = reference.getTargetObject()
+    notify( WorkingCopyDeletedEvent( workingCopy, baseline, reference ) )
     

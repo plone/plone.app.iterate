@@ -30,6 +30,7 @@ from zope.annotation.interfaces import IAttributeAnnotatable
 from Products.Archetypes import config as atconf
 from Products.Archetypes.ReferenceEngine import Reference
 
+from interfaces import IWorkingCopyRelation
 from interfaces import ICheckinCheckoutReference
 from interfaces import IIterateAware
 
@@ -42,7 +43,7 @@ class WorkingCopyRelation( Reference ):
     """
     relationship = "Working Copy Relation"
 
-    implements( IAttributeAnnotatable )
+    implements( IWorkingCopyRelation, IAttributeAnnotatable )
 
 
 class CheckinCheckoutReferenceAdapter ( object ):

@@ -1,5 +1,6 @@
 <div class="portalMessage"
      tal:define="working_copy view/working_copy;"
+     tal:condition="nocall:working_copy"
      i18n:domain="iterate">
      
     <tal:block i18n:translate="working_copy_info">

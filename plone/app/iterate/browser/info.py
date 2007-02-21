@@ -67,7 +67,10 @@ class BaseInfoViewlet( BrowserView ):
     @memoize
     def properties( self ):
         wc_ref = self._getReference()
-        return get_storage( wc_ref )
+        if wc_ref is not None:
+            return get_storage( wc_ref )
+        else:
+            return {}
 
     def _getReference( self ):
         raise NotImplemented
@@ -77,22 +80,34 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
     render = ViewPageTemplateFile('info_baseline.pt')
 
     def working_copy( self ):
-        return self.context.getBRefs( WorkingCopyRelation.relationship )[0]
+        refs = self.context.getBRefs( WorkingCopyRelation.relationship )
+        if len( refs ) > 0:
+            return refs[0]
+        else:
+            return None
 
     def _getReference( self ):
         refs = self.context.getBackReferenceImpl( WorkingCopyRelation.relationship )
-        wc_ref = refs[0]
-        return wc_ref
+        if len( refs ) > 0:
+            return refs[0]
+        else:
+            return None
         
 class CheckoutInfoViewlet( BaseInfoViewlet ):
     
     render = ViewPageTemplateFile('info_checkout.pt')
     
     def baseline( self ):
-        return self.context.getReferences( WorkingCopyRelation.relationship )[0]
+        refs = self.context.getReferences( WorkingCopyRelation.relationship )
+        if len( refs ) > 0:
+            return refs[0]
+        else:
+            return None
     
     def _getReference( self ):
         refs = self.context.getReferenceImpl( WorkingCopyRelation.relationship )
-        wc_ref = refs[0]
-        return wc_ref
+        if len( refs ) > 0:
+            return refs[0]
+        else:
+            return None
         
