@@ -14,7 +14,7 @@
     
     <genericsetup:registerProfile
       name="plone.app.iterate"
-      title="Iterate staging"
+      title="In-place Staging (Iterate)"
       directory="profiles/default"
       description="Extension profile for default plone.app.iterate setup."
       provides="Products.GenericSetup.interfaces.EXTENSION"
