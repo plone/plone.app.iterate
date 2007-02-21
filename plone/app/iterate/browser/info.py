@@ -8,10 +8,12 @@ from zope.component import getUtility
 from zope.viewlet.interfaces import IViewlet
 
 from DateTime import DateTime
+from AccessControl import getSecurityManager
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFPlone.interfaces import ITranslationServiceTool
 
 from plone.app.iterate.util import get_storage
@@ -34,10 +36,9 @@ class BaseInfoViewlet( BrowserView ):
     def update( self ):
         pass
     
-    def render(self):
-        raise NotImplementedError(
-            '`render` method must be implemented by subclass.')
-    
+    def render( self ):
+        raise NotImplementedError
+        
     @memoize
     def created( self ):
         time = self.properties.get( keys.checkout_time, DateTime() )
@@ -77,8 +78,16 @@ class BaseInfoViewlet( BrowserView ):
         
 class BaselineInfoViewlet( BaseInfoViewlet ):
     
-    render = ViewPageTemplateFile('info_baseline.pt')
+    template = ViewPageTemplateFile('info_baseline.pt')
 
+    def render(self):
+        if self.working_copy() is not None and \
+            getSecurityManager().checkPermission(ModifyPortalContent, self.context):
+            return self.template()
+        else:
+            return ""
+
+    @memoize
     def working_copy( self ):
         refs = self.context.getBRefs( WorkingCopyRelation.relationship )
         if len( refs ) > 0:
@@ -95,8 +104,16 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
         
 class CheckoutInfoViewlet( BaseInfoViewlet ):
     
-    render = ViewPageTemplateFile('info_checkout.pt')
+    template = ViewPageTemplateFile('info_checkout.pt')
     
+    def render(self):
+        if self.baseline() is not None and \
+            getSecurityManager().checkPermission(ModifyPortalContent, self.context):
+            return self.template()
+        else:
+            return ""
+    
+    @memoize
     def baseline( self ):
         refs = self.context.getReferences( WorkingCopyRelation.relationship )
         if len( refs ) > 0:

@@ -1,6 +1,5 @@
 <div class="portalMessage"
      tal:define="baseline view/baseline;"
-     tal:condition="nocall:baseline"
      i18n:domain="iterate">
      
     <tal:block i18n:translate="checkout_info">
