@@ -54,6 +54,7 @@
         class=".info.BaselineInfoViewlet"
         permission="zope2.View" 
         for="..interfaces.IBaseline"
+        view="plone.app.layout.globals.interfaces.IViewView"
         />
     
     <browser:viewlet
@@ -62,6 +63,7 @@
         class=".info.CheckoutInfoViewlet"
         permission="zope2.View" 
         for="..interfaces.IWorkingCopy"
+        view="plone.app.layout.globals.interfaces.IViewView"
         />
                
     <!-- Resources -->
