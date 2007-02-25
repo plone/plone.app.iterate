@@ -14,9 +14,9 @@
     
     <genericsetup:registerProfile
       name="plone.app.iterate"
-      title="In-place Staging (Iterate)"
+      title="Working Copy Support (Iterate)"
       directory="profiles/default"
-      description="Extension profile for default plone.app.iterate setup."
+      description="Adds working copy support (aka. in-place staging) to Plone."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
