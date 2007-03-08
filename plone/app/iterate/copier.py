@@ -32,6 +32,7 @@ from ZODB.PersistentMapping import PersistentMapping
 
 from Products.Archetypes.Referenceable import Referenceable
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import IConfigurableWorkflowTool
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
 
 import interfaces
@@ -118,7 +119,7 @@ class ContentCopier( object ):
         new_baseline.workflow_history = PersistentMapping( baseline.workflow_history.items() )
 
         # reset wf state security directly
-        workflow_tool = getToolByName( self.context, 'portal_workflow')
+        workflow_tool = component.getUtility(IConfigurableWorkflowTool)
         wfs = workflow_tool.getWorkflowsFor( self.context )
         for wf in wfs:
             if not isinstance( wf, DCWorkflowDefinition ):

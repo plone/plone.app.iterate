@@ -21,12 +21,11 @@
 ##################################################################
 
 from zope.interface import implements
-from zope.component import adapts
+from zope.component import adapts, getUtility
 
 from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
-from Products.CMFCore.interfaces import IDynamicType
-from Products.CMFCore.utils import getToolByName
+from Products.CMFCore.interfaces import IDynamicType, IMembershipTool
 from Products.CMFCore.permissions import AddPortalContent
 
 from plone.app.iterate.interfaces import IWCContainerLocator
@@ -47,7 +46,7 @@ class HomeFolderLocator(object):
         return self() is not None
         
     def __call__(self):
-        return getToolByName(aq_inner(self.context), 'portal_membership').getHomeFolder()
+        return getUtility(IMembershipTool).getHomeFolder()
         
 class ParentFolderLocator(object):
     """Locate the parent of the context, if the user has the

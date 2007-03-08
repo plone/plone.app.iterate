@@ -27,9 +27,10 @@ Applies new checkout specific workflows to content that is checked out.
 """
 
 from Acquisition import aq_base
+from zope.component import getUtility
+from Products.CMFCore.interfaces import IPropertiesTool
 from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
-from Products.CMFCore.utils import getToolByName
 from plone.app.iterate.util import get_storage
 
 USE_WORKFLOW = "checkout_workflow_policy"
@@ -38,7 +39,7 @@ policy_storage = "previous_wf_policy"
 
 def handleCheckout( event ):
     # defer to setting
-    properties = getToolByName( event.object, 'portal_properties')
+    properties = getUtility(IPropertiesTool)
     enabled = properties.site_properties.getProperty('enable_checkout_workflow')
     if not enabled:
         return

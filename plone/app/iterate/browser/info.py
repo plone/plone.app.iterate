@@ -12,8 +12,9 @@ from AccessControl import getSecurityManager
 
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import ModifyPortalContent
+from Products.CMFCore.interfaces import IMembershipTool
+from Products.CMFCore.interfaces import IURLTool
 from Products.CMFPlone.interfaces import ITranslationServiceTool
 
 from plone.app.iterate.util import get_storage
@@ -48,7 +49,7 @@ class BaseInfoViewlet( BrowserView ):
     @memoize
     def creator( self ):
         user_id = self.properties.get( keys.checkout_user )
-        membership = getToolByName( self.context, 'portal_membership' )
+        membership = getUtility(IMembershipTool)
         if not user_id:
             return membership.getAuthenticatedMember()
         return membership.getMemberById( user_id )
@@ -56,7 +57,7 @@ class BaseInfoViewlet( BrowserView ):
     @memoize
     def creator_url( self ):
         creator = self.creator()
-        portal_url = getToolByName( self.context, 'portal_url' )
+        portal_url = getUtility(IURLTool)
         return "%s/author/%s" % ( portal_url(), creator.getId() )
         
     @memoize
