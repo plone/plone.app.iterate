@@ -23,10 +23,12 @@
 $Id: archiver.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from Products.CMFCore.utils import getToolByName
-
 from zope.interface import implements
 from zope.component import adapts
+from zope.component import getUtility
+
+from Products.CMFEditions.interfaces import IArchivistTool
+from Products.CMFEditions.interfaces.IRepository import IRepositoryTool
 
 import interfaces
 
@@ -39,22 +41,22 @@ class ContentArchiver( object ):
         self.context = context
     
     def save( self, checkin_message ):
-        repository = getToolByName( self.context, 'portal_repository')
+        repository = getUtility(IRepositoryTool)
         repository.save( self.context, checkin_message )
 
     def isVersionable( self ):
-        repository = getToolByName( self.context, 'portal_repository')
+        repository = getUtility(IRepositoryTool)
         if not repository.isVersionable( self.context ):
             return False
         return True
 
     def isVersioned( self ):
-        archivist = getToolByName( self.context, 'portal_archivist')
+        archivist = getUtility(IArchivistTool)
         version_count = len( archivist.queryHistory( self.context ) )
         return bool( version_count )
 
     def isModified( self ):
-        repository = getToolByName( self.context, 'portal_repository')
+        repository = getUtility(IRepositoryTool)
 
         try:
             return not repository.isUpToDate( self.context )

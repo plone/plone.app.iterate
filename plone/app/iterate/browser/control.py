@@ -25,7 +25,6 @@ from plone.memoize.view import memoize
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Products.Five.browser import BrowserView
-from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.interfaces import IReferenceable
 
 from plone.app.iterate import interfaces

@@ -2,8 +2,10 @@
 $Id: diff.py 1807 2007-02-06 06:52:46Z hazmat $
 """
 
+from zope.component import getUtility
+
+from Products.CMFDiffTool.interfaces import IDiffTool
 from Products.Five.browser import BrowserView
-from Products.CMFCore.utils import getToolByName
 
 from plone.app.iterate.interfaces import IWorkingCopy, IBaseline
 from plone.app.iterate.relation import WorkingCopyRelation
@@ -23,7 +25,7 @@ class DiffView( BrowserView ):
             raise AttributeError("Invalid Context")
 
     def diffs( self ):
-        diff = getToolByName(self.context, 'portal_diff')
+        diff = getUtility(IDiffTool)
         return diff.createChangeSet( self.baseline,
                                      self.working_copy,
                                      id1="Baseline",
