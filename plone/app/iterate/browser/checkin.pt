@@ -12,7 +12,7 @@
     </h1>
 
     <p i18n:translate="description_checkin">
-        Checking in this working copy will replace the current version
+        Checking in this working copy will replace the existing item
         with the working copy.
     </p>
     
@@ -25,7 +25,7 @@
 
               <div class="formHelp" i18n:translate="help_checkin_message">
                   Enter a message to be saved alongside the check-in. This
-                  should explain what the edit achieved, for audit purposes.
+                  should explain what was changed, for audit purposes.
               </div>
               
               <textarea cols="60"

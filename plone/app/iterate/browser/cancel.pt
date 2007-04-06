@@ -13,7 +13,7 @@
 
       <p i18n:translate="description_cancel">
         Canceling the check-out will delete this working copy, and any modifications
-        made to it will be lost. The baseline version of the content will become
+        made to it will be lost. The existing version of the content will become
         unlocked. 
       </p>
     
