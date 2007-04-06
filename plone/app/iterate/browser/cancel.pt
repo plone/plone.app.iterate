@@ -6,14 +6,15 @@
         method="post"
         tal:attributes="action string:${context/absolute_url}/@@content-cancel-checkout">
 
-      <h1 i18n:translate="title_cancel">
-        Cancel Checkout of <span i18n:name="object_title" tal:content="context/Title" />
+      <h1 class="documentFirstHeading"
+          i18n:translate="title_cancel">
+        Cancel check-out of <span i18n:name="object_title" tal:content="context/Title" />
       </h1>
 
       <p i18n:translate="description_cancel">
-        Canceling the checkout will delete this working copy, and any modifications
+        Canceling the check-out will delete this working copy, and any modifications
         made to it will be lost. The baseline version of the content will become
-        unlocked. Click cancel checkout to complete the process. 
+        unlocked. 
       </p>
     
       <div class="formControls">

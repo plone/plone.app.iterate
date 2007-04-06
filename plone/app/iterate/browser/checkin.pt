@@ -6,14 +6,14 @@
         method="post"
         tal:attributes="action string:${context/absolute_url}/@@content-checkin">
 
-    <h1 i18n:translate="title_checkin">
+    <h1 class="documentFirstHeading"
+        i18n:translate="title_checkin">
         Check in <span i18n:name="object_title" tal:content="here/Title" />
     </h1>
 
     <p i18n:translate="description_checkin">
-        Checking in this working copy, will replace the current current version,
-        with the working copy, and delete the working copy. You will be
-        redirected to the new version.
+        Checking in this working copy will replace the current version
+        with the working copy.
     </p>
     
     <fieldset>

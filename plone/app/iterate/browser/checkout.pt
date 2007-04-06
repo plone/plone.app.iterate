@@ -7,11 +7,11 @@
         tal:attributes="action string:${context/absolute_url}/@@content-checkout">
 
     <h1 i18n:translate="title_checkout">
-        Checkout <span i18:name="object_title" tal:content="here/Title" />
+        Check out <span i18:name="object_title" tal:content="here/Title" />
     </h1>
 
     <p i18n:translate="description_checkout">
-        On checkout, a working copy of the content item will be created in the selected
+        On check-out, a working copy of the content item will be created in the selected
         container, and the original will be locked to prevent other users from
         editing it.
     </p>
