@@ -54,7 +54,7 @@ class Control(BrowserView):
 
         archiver = interfaces.IObjectArchiver(context)
         if not archiver.isVersionable():
-            return
+            return False
 
         # check to see it is checkout
         if not len(context.getReferences(WorkingCopyRelation.relationship)) > 0:
@@ -79,7 +79,7 @@ class Control(BrowserView):
 
         archiver = interfaces.IObjectArchiver(context)
         if not archiver.isVersionable():
-            return
+            return False
 
         # check if there is an existing checkout
         if len(context.getBRefs(WorkingCopyRelation.relationship)) > 0:
