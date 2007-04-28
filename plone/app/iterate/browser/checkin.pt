@@ -30,7 +30,6 @@
               
               <textarea cols="60"
                         rows="3"
-                        tabindex=""
                         id="checkin_message"
                         name="checkin_message"></textarea>
             </div>
@@ -41,7 +40,6 @@
                     type="submit"
                     name="form.button.Checkin"
                     value="Check in"
-                    tabindex=""
                     />
                 
                 <input
@@ -49,7 +47,6 @@
                     type="submit"
                     name="form.button.Cancel"
                     value="Cancel"
-                    tabindex=""
                     />
             </div>
 
