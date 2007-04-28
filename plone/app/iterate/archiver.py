@@ -25,40 +25,35 @@ $Id: archiver.py 1824 2007-02-08 17:59:41Z hazmat $
 
 from zope.interface import implements
 from zope.component import adapts
-from zope.component import getUtility
 
-from Products.CMFEditions.interfaces import IArchivistTool
-from Products.CMFEditions.interfaces.IRepository import IRepositoryTool
+from Products.CMFCore.utils import getToolByName
 
 import interfaces
 
 class ContentArchiver( object ):
-    
+
     implements( interfaces.IObjectArchiver )
     adapts( interfaces.IIterateAware )
 
     def __init__( self, context ):
         self.context = context
-    
+        self.repository = getToolByName(context, 'portal_repository')
+
     def save( self, checkin_message ):
-        repository = getUtility(IRepositoryTool)
-        repository.save( self.context, checkin_message )
+        self.repository.save( self.context, checkin_message )
 
     def isVersionable( self ):
-        repository = getUtility(IRepositoryTool)
-        if not repository.isVersionable( self.context ):
+        if not self.repository.isVersionable( self.context ):
             return False
         return True
 
     def isVersioned( self ):
-        archivist = getUtility(IArchivistTool)
+        archivist = getToolByName(self.context, 'portal_archivist')
         version_count = len( archivist.queryHistory( self.context ) )
         return bool( version_count )
 
     def isModified( self ):
-        repository = getUtility(IRepositoryTool)
-
         try:
-            return not repository.isUpToDate( self.context )
+            return not self.repository.isUpToDate( self.context )
         except:
             return False

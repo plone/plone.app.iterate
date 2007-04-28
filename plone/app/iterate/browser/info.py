@@ -3,7 +3,6 @@ $Id: base.py 1808 2007-02-06 11:39:11Z hazmat $
 """
 
 from zope.interface import implements
-from zope.component import getUtility
 
 from zope.viewlet.interfaces import IViewlet
 
@@ -13,9 +12,7 @@ from AccessControl import getSecurityManager
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.permissions import ModifyPortalContent
-from Products.CMFCore.interfaces import IMembershipTool
-from Products.CMFCore.interfaces import IURLTool
-from Products.CMFPlone.interfaces import ITranslationServiceTool
+from Products.CMFCore.utils import getToolByName
 
 from plone.app.iterate.util import get_storage
 from plone.app.iterate.interfaces import keys
@@ -43,13 +40,13 @@ class BaseInfoViewlet( BrowserView ):
     @memoize
     def created( self ):
         time = self.properties.get( keys.checkout_time, DateTime() )
-        util = getUtility(ITranslationServiceTool)
+        util = getToolByName(self.context, 'translation_service')
         return util.ulocalized_time(time, None, self.context, domain='plonelocales')
 
     @memoize
     def creator( self ):
         user_id = self.properties.get( keys.checkout_user )
-        membership = getUtility(IMembershipTool)
+        membership = getToolByName(self.context, 'portal_membership')
         if not user_id:
             return membership.getAuthenticatedMember()
         return membership.getMemberById( user_id )
@@ -57,7 +54,7 @@ class BaseInfoViewlet( BrowserView ):
     @memoize
     def creator_url( self ):
         creator = self.creator()
-        portal_url = getUtility(IURLTool)
+        portal_url = getToolByName(self.context, 'portal_url')
         return "%s/author/%s" % ( portal_url(), creator.getId() )
         
     @memoize
