@@ -1,6 +1,7 @@
 #
 
 from Products.Archetypes.ReferenceEngine import Reference
+from Products.PloneTestCase import five
 class CustomReference( Reference ): pass
         
 class IterateLayer:

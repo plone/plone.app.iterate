@@ -36,6 +36,7 @@ from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
 
 import interfaces
 from relation import WorkingCopyRelation
+from interfaces import CheckinException
 
 class ContentCopier( object ):
 
