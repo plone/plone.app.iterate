@@ -53,5 +53,4 @@ class Cancel(BrowserView):
             self.request.response.redirect(self.context.absolute_url())
         else:
             return self.template()
-        
-    
+
