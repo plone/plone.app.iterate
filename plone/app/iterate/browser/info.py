@@ -60,7 +60,7 @@ class BaseInfoViewlet( BrowserView ):
     @memoize
     def creator_name( self ):
         creator = self.creator()
-        return creator.getProperty('fullname') or creator.getUserName()
+        return creator.getProperty('fullname') or creator.getId()
 
     @property
     @memoize
