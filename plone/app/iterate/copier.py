@@ -155,8 +155,6 @@ class ContentCopier( object ):
         # get a reference to the working copy
         target_id = result[0]['new_id']
         target = container._getOb( target_id )
-        if getattr(aq_base(target), 'version_id', None) is not None:
-            del target.version_id
         return target
 
     
