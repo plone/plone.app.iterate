@@ -33,6 +33,7 @@ from AccessControl import getSecurityManager
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 
 from Products.PloneTestCase import PloneTestCase
+from Testing.ZopeTestCase import FunctionalDocFileSuite
 PloneTestCase.setupPloneSite()
 
 class TestIterations(PloneTestCase.PloneTestCase):
@@ -195,4 +196,7 @@ def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestIterations))
+    suite.addTest(FunctionalDocFileSuite(
+        'browser.txt',
+        test_class=PloneTestCase.FunctionalTestCase))
     return suite
