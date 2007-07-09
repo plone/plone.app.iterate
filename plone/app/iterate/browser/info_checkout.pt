@@ -1,7 +1,9 @@
-<div class="portalMessage"
+<dl class="portalMessage info"
      tal:define="baseline view/baseline;"
      i18n:domain="iterate">
      
+    <dt i18n:translate="">Locked</dt>
+    <dd> 
     <tal:block i18n:translate="checkout_info">
      
         This is a working copy of 
@@ -23,5 +25,5 @@
     
     (<a i18n:translate="view_changes"
          tal:attributes="href string:${context/absolute_url}/@@iterate_diff">View changes</a>)
-         
-</div>
+    </dd> 
+</dl>
