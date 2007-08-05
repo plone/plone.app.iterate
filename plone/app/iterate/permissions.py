@@ -19,8 +19,12 @@
 # along with CMFDeployment; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
+
 from Products.CMFEditions import Permissions
+from Products.CMFCore.permissions import setDefaultRoles
 
 CheckinPermission  = "iterate : Check in content"
 CheckoutPermission = "iterate : Check out content"
 
+setDefaultRoles(CheckinPermission, ('Manager', 'Owner'))
+setDefaultRoles(CheckoutPermission, ('Manager', 'Owner'))
