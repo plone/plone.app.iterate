@@ -116,7 +116,11 @@ class ContentCopier( object ):
 
     def _reassembleWorkingCopy( self, new_baseline, baseline ):
         # reattach the source's workflow history, try avoid a dangling ref 
-        new_baseline.workflow_history = PersistentMapping( baseline.workflow_history.items() )
+        try:
+            new_baseline.workflow_history = PersistentMapping( baseline.workflow_history.items() )
+        except AttributeError:
+            # No workflow apparently.  Oh well.
+            pass
 
         # reset wf state security directly
         workflow_tool = getToolByName(self.context, 'portal_workflow')
