@@ -17,7 +17,8 @@
     </tal:block>
         
     <a i18n:translate="working_copy"
-       tal:attributes="href working_copy/absolute_url;
+       tal:define="template working_copy/@@plone_context_state/view_template_id;"
+       tal:attributes="href string:${working_copy/absolute_url}/${template};
                        title working_copy/Description">working copy</a>
                        
     <tal:block i18n:translate="working_copy_created">

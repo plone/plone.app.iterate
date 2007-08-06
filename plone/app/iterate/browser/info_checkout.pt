@@ -8,8 +8,9 @@
      
         This is a working copy of 
         <a i18n:name="baseline_title"
-            tal:attributes="href baseline/absolute_url;
-                           title baseline/Description"
+            tal:define="template baseline/@@plone_context_state/view_template_id;"
+            tal:attributes="href string:${baseline/absolute_url}/${template};
+                            title baseline/Description"
             tal:content="baseline/Title"/>, made by
 
         <a i18n:name="creator"

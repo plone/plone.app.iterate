@@ -38,7 +38,7 @@ form directly.  From there, we'll check out to the parent folder:
   >>> 'This is a working copy' in browser.contents
   True
   >>> browser.url
-  'http://nohost/plone/copy_of_hello-world'
+  'http://nohost/plone/copy_of_hello-world/document_view'
 
 When viewing the original document, we should see a note that
 someone's working on a working copy:
@@ -67,6 +67,6 @@ Now that we've made our changes we'll check the working copy in:
   >>> 'Checked in' in browser.contents
   True
   >>> browser.url
-  'http://nohost/plone/hello-world'
+  'http://nohost/plone/hello-world/document_view'
   >>> 'Hello, World! version 2.0' in browser.contents
   True
