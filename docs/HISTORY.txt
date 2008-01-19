@@ -1,9 +1,16 @@
-Changelog for plone.app.iterate
+Changelog
+---------
 
-    (name of developer listed in brackets)
+1.0.1 (svn/unreleased)
+~~~~~~~~~~~~~~~~~~~~~~
 
-plone.app.iterate - 0.1 Unreleased
+* Use README.txt and HISTORY.txt for the package's long description.
+  [wichert]
 
-    - Initial package structure.
-      [zopeskel]
+* Remove unneeded intialize method from __init__
+  [wichert]
 
+1.0
+~~~
+
+* First release

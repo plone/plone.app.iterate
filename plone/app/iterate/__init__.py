@@ -25,6 +25,3 @@ $Id: __init__.py 1395 2006-06-23 22:06:22Z hazmat $
     
 import permissions
     
-def initialize(context):
-    
-    pass

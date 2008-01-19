@@ -10,7 +10,7 @@
     <include package=".browser"/>
 
     <!-- Set up as a Zope product and register an extension profile -->
-    <five:registerPackage package="." initialize=".initialize" />
+    <five:registerPackage package="." />
     
     <genericsetup:registerProfile
       name="plone.app.iterate"
