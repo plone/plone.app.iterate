@@ -8,7 +8,7 @@ setup(name='plone.app.iterate',
       description="check-out/check-in staging for Plone",
       long_description=\
           open(os.path.join("plone", "app", "iterate", "README.txt")).read() + "\n" + \
-          open(os.path.join("docs", "HISTORY.txt.txt")).read(),
+          open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
         "Framework :: Zope2",
         "Framework :: Zope3",
