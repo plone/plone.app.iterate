@@ -7,7 +7,7 @@
         tal:attributes="action string:${context/absolute_url}/@@content-checkout">
 
     <h1 i18n:translate="title_checkout">
-        Check out <span i18:name="object_title" tal:content="here/Title" />
+        Check out <span i18n:name="object_title" tal:content="here/Title" />
     </h1>
 
     <p i18n:translate="description_checkout">
