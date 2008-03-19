@@ -1,6 +1,6 @@
 <dl class="portalMessage info"
      tal:define="working_copy view/working_copy;"
-     i18n:domain="iterate">
+     i18n:domain="plone">
      
     <dt i18n:translate="">Locked</dt>
     <dd>

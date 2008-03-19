@@ -4,6 +4,10 @@ Changelog
 1.0.1 (svn/unreleased)
 ~~~~~~~~~~~~~~~~~~~~~~
 
+* Updated i18n:domain in templates to the plone domain. There's no need for a
+  iterate domain.
+  [hannosch]
+
 * Use README.txt and HISTORY.txt for the package's long description.
   [wichert]
 
