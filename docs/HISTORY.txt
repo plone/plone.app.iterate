@@ -4,6 +4,10 @@ Changelog
 1.0.1 (svn/unreleased)
 ~~~~~~~~~~~~~~~~~~~~~~
 
+* Fixed i18n markup and updated some messages. This closes
+  http://dev.plone.org/plone/ticket/7958.
+  [hannosch]
+
 * Updated i18n:domain in templates to the plone domain. There's no need for a
   iterate domain.
   [hannosch]

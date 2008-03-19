@@ -26,7 +26,7 @@
                 Checkout Folder
             </label>
             <div class="formHelp" i18n:translate="help_checkout_folder">
-                Select the folder to checkout to
+                Select the folder to checkout to.
             </div>
          
             <div tal:repeat="item view/containers">
