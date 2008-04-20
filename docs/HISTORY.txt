@@ -1,8 +1,12 @@
 Changelog
 ---------
 
-1.0.1 (svn/unreleased)
-~~~~~~~~~~~~~~~~~~~~~~
+1.1.0 (April 20th 2008)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fixed dodgy test in test_iterate.py that was dependent on semantics of 
+  default workflow.
+  [optilude]
 
 * Fixed i18n markup and updated some messages. This closes
   http://dev.plone.org/plone/ticket/7958.
