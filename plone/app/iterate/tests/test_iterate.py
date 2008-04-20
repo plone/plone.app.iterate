@@ -94,12 +94,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
         ICheckinCheckoutPolicy( wc ).checkin( "modified" )
         bstate = self.wf.getInfoFor( wc, 'review_state')
         self.assertEqual( state, bstate )
-        self.setRoles(['Owner',])
-
-        # check that the owner can't modify the published doc
-        self.assertFalse( getSecurityManager().checkPermission(  "Modify portal content",
-                                                                 self.portal.docs.doc1 ))
-        
+        self.setRoles(['Owner',])       
 
     def test_baselineVersionCreated( self ):
         # if a baseline has no version ensure that one is created on checkout
