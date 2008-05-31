@@ -27,6 +27,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFPlone import PloneMessageFactory as _
 
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckoutException
@@ -47,7 +48,7 @@ class Cancel(BrowserView):
             baseline = policy.cancelCheckout()
             baseline.reindexObject()
             
-            IStatusMessage(self.request).addStatusMessage("Checkout cancelled", type='info')
+            IStatusMessage(self.request).addStatusMessage(_(u"Checkout cancelled"), type='info')
             view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         elif self.request.form.has_key('form.button.Keep'):

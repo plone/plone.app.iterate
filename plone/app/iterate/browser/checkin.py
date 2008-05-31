@@ -27,6 +27,7 @@ from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFPlone import PloneMessageFactory as _
 
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckinException
@@ -49,7 +50,7 @@ class Checkin(BrowserView):
             baseline = policy.checkin(message)
             baseline.reindexObject()
             
-            IStatusMessage(self.request).addStatusMessage("Checked in", type='info')
+            IStatusMessage(self.request).addStatusMessage(_("Checked in"), type='info')
             view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         elif self.request.form.has_key('form.button.Cancel'):

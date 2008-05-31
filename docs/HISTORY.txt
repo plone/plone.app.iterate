@@ -1,6 +1,10 @@
 Changelog
 ---------
 
+* Added i18n of status messages. This fixes part of 
+  http://dev.plone.org/plone/ticket/8022.
+  [naro]
+
 1.1.0 (April 20th 2008)
 ~~~~~~~~~~~~~~~~~~~~~~~
 

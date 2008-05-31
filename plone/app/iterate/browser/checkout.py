@@ -28,6 +28,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ZODB.POSException import ConflictError
 
 from Products.statusmessages.interfaces import IStatusMessage
+from Products.CMFPlone import PloneMessageFactory as _
 
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckoutException
@@ -67,7 +68,7 @@ class Checkout(BrowserView):
             try:
                 locator = [c['locator'] for c in self.containers() if c['name'] == location][0]
             except IndexError:
-                IStatusMessage(self.request).addStatusMessage("Cannot find checkout location", type='stop')
+                IStatusMessage(self.request).addStatusMessage(_("Cannot find checkout location"), type='stop')
                 view_url = context.restrictedTraverse("@@plone_context_state").view_url()
                 self.request.response.redirect(view_url)
                 return
@@ -78,7 +79,7 @@ class Checkout(BrowserView):
             # we do this for metadata update side affects which will update lock info
             context.reindexObject('review_state')
             
-            IStatusMessage(self.request).addStatusMessage("Check-out created", type='info')
+            IStatusMessage(self.request).addStatusMessage(_("Check-out created"), type='info')
             view_url = wc.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         elif self.request.form.has_key('form.button.Cancel'):
