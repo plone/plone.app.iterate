@@ -1,6 +1,10 @@
 Changelog
 ---------
 
+* Fixed typo in subscribers/workflow.py. This fixes
+  https://dev.plone.org/plone/ticket/8035.
+  [dunlapm]
+
 * Added i18n of status messages. This fixes part of 
   http://dev.plone.org/plone/ticket/8022.
   [naro]

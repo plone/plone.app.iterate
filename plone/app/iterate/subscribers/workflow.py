@@ -43,7 +43,7 @@ def handleCheckout( event ):
     if not enabled:
         return
 
-    policy_id = properties.site_properties.getProperty('checkout_worklow_policy')
+    policy_id = properties.site_properties.getProperty('checkout_workflow_policy')
     
     existing_policy = getattr( aq_base( event.working_copy ), WorkflowPolicyConfig_id, None )
     storage = get_storage( event.relation )
