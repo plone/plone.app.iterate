@@ -1,6 +1,9 @@
 Changelog
 ---------
 
+1.1.5 (August 18th 2008)
+~~~~~~~~~~~~~~~~~~~~~~~~
+
 * Fixed typo in subscribers/workflow.py. This fixes
   https://dev.plone.org/plone/ticket/8035.
   [dunlapm]
