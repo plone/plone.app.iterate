@@ -26,7 +26,6 @@ from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Products.Five.browser import BrowserView
 from Products.Archetypes.interfaces import IReferenceable
-import Products.CMFCore.permissions
 
 from plone.app.iterate import interfaces
 from plone.app.iterate.relation import WorkingCopyRelation
@@ -43,12 +42,11 @@ class Control(BrowserView):
         """Check if a checkin is allowed
         """
         context = aq_inner(self.context)
-        checkPermission = getSecurityManager().checkPermission
         
         if not interfaces.IIterateAware.providedBy(context):
             return False
     
-        if not checkPermission(permissions.CheckinPermission, context):
+        if not getSecurityManager().checkPermission(permissions.CheckinPermission, context):
             return False
         
         if not IReferenceable.providedBy(context):
@@ -59,12 +57,7 @@ class Control(BrowserView):
             return False
 
         # check to see it is checkout
-        refs = context.getRefs(WorkingCopyRelation.relationship)
-        if not len(refs):
-            return False
-
-        if not checkPermission(
-            Products.CMFCore.permissions.ModifyPortalContent, refs[0]):
+        if not len(context.getReferences(WorkingCopyRelation.relationship)) > 0:
             return False
         
         return True
