@@ -19,7 +19,7 @@
         name="content-checkout"
         class=".checkout.Checkout"
         template="checkout.pt"
-        permission="cmf.ModifyPortalContent"
+        permission="zope2.View"
         />
         
     <browser:page

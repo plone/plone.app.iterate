@@ -1,6 +1,15 @@
 Changelog
 ---------
 
+1.1.6 (unreleased)
+~~~~~~~~~~~~~~~~~~
+
+* Allow users without modify content permissions (but with the iterate
+  check out permission) to check out items, and only allows them to
+  check in back again when they have modify content
+  permissions.
+  [nouri]
+
 1.1.5 (August 18th 2008)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
