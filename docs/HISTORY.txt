@@ -1,8 +1,11 @@
 Changelog
 ---------
 
-1.2.0 (unreleased)
+1.2.1 (unreleased)
 ~~~~~~~~~~~~~~~~~~
+
+1.2.0 (October 24th 2008)
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Allow users without modify content permissions (but with the iterate
   check out permission) to check out items, and only allows them to
