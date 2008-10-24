@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-1.1.6 (unreleased)
+1.2.0 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
 * Allow users without modify content permissions (but with the iterate
