@@ -31,6 +31,8 @@ from Products.CMFCore.permissions import AddPortalContent
 
 from plone.app.iterate.interfaces import IWCContainerLocator
 
+from Products.CMFPlone import PloneMessageFactory as _
+
 class HomeFolderLocator(object):
     """Locate the current user's home folder, if possible.
     """
@@ -40,7 +42,7 @@ class HomeFolderLocator(object):
     def __init__(self, context):
         self.context = context
     
-    title = u"Home folder"
+    title = _(u"Home folder")
     
     @property
     def available(self):
@@ -59,7 +61,7 @@ class ParentFolderLocator(object):
     def __init__(self, context):
         self.context = context
     
-    title = u"Parent folder"
+    title = _(u"Parent folder")
     
     @property
     def available(self):

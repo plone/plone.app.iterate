@@ -54,6 +54,7 @@
                 type="submit"
                 name="form.button.Checkout"
                 value="Check out"
+                i18n:attributes="value"
                 />
 
             <input
@@ -61,6 +62,7 @@
                 type="submit"
                 name="form.button.Cancel"
                 value="Cancel"
+                i18n:attributes="value label_cancel"
                 />
                 
         </div>
