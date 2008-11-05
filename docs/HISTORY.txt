@@ -4,6 +4,9 @@ Changelog
 1.2.1 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Fix missing internationnalization (#8608 thanks to Vincent Fretin)
+  [encolpe]
+
 1.2.0 (October 24th 2008)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
