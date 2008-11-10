@@ -4,6 +4,15 @@ Changelog
 1.2.1 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Refine permissions fix from 1.2.0 and make tests pass again:
+
+  - Don't require Modify Portal Content (MPC) permission on the
+    original to check out, which was omitted in the fix for 1.2.0.
+
+  - Don't require MPC on the original for cancelling of checkout, only
+    require it on the working copy.
+  [nouri]
+
 * Fix missing internationnalization (#8608 thanks to Vincent Fretin)
   [encolpe]
 

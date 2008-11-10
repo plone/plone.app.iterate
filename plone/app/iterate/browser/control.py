@@ -38,7 +38,6 @@ class Control(BrowserView):
     This is a public view, referenced in action condition expressions.
     """
     
-    @memoize
     def checkin_allowed(self):
         """Check if a checkin is allowed
         """
@@ -48,9 +47,6 @@ class Control(BrowserView):
         if not interfaces.IIterateAware.providedBy(context):
             return False
     
-        if not checkPermission(permissions.CheckinPermission, context):
-            return False
-        
         if not IReferenceable.providedBy(context):
             return False
 
@@ -69,7 +65,6 @@ class Control(BrowserView):
         
         return True
         
-    @memoize
     def checkout_allowed(self):
         """Check if a checkout is allowed.
         """
@@ -78,9 +73,6 @@ class Control(BrowserView):
         if not interfaces.IIterateAware.providedBy(context):
             return False
         
-        if not getSecurityManager().checkPermission(permissions.CheckoutPermission, context):
-            return False
-
         if not IReferenceable.providedBy(context):
             return False
 

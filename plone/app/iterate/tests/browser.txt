@@ -74,9 +74,11 @@ Now that we've made our changes we'll check the working copy in:
 Permissions
 -----------
 
-For the standard workflow, we expect Editors to be able to check out
+For the community workflow, we expect Editors to be able to check out
 published pages:
 
+  >>> portal.portal_workflow.setDefaultChain('plone_workflow')
+  >>> ignore = portal.portal_workflow.updateRoleMappings()
   >>> browser.getLink("Publish").click()
   >>> "Item state changed" in browser.contents
   True
@@ -86,7 +88,6 @@ published pages:
   >>> portal.portal_membership.createMemberArea('editor')
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic editor:secret')
-
 
   >>> browser.open(portal.absolute_url() + '/hello-world')
   >>> browser.getLink("Check out").click()
