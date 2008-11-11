@@ -1,8 +1,11 @@
 Changelog
 ---------
 
-1.2.1 (unreleased)
+1.2.2 (unreleased)
 ~~~~~~~~~~~~~~~~~~
+
+1.2.1 (November 11th 2008)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Refine permissions fix from 1.2.0 and make tests pass again:
 
