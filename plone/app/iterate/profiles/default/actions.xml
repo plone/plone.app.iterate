@@ -32,7 +32,7 @@
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:${object_url}/@@content-cancel-checkout</property>
    <property name="icon_expr"></property>
-   <property name="available_expr"></property>
+   <property name="available_expr">python:path('object/@@iterate_control').cancel_allowed()</property>
    <property name="permissions">
     <element value="Modify portal content"/>
    </property>

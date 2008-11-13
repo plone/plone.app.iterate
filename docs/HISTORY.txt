@@ -4,6 +4,11 @@ Changelog
 1.2.2 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Fix action coniditions for the nth time; this time it's an
+  over-ambitious "Cancel check-out" permission.  This fixes
+  http://dev.plone.org/plone/ticket/8735
+  [nouri]
+
 1.2.1 (November 11th 2008)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 

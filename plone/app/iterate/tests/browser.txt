@@ -117,3 +117,11 @@ again and check in (and then possibly request for review):
   >>> browser.getControl("Check in").click()
   >>> "Checked in" in browser.contents
   True
+
+The "Cancel check-out" action should not be present on items that are
+not checked out (#8735):
+
+  >>> browser.getLink("Cancel check-out")
+  Traceback (most recent call last):
+  ...
+  LinkNotFoundError
