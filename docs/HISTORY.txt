@@ -1,8 +1,15 @@
 Changelog
 ---------
 
-1.2.3 (unreleased)
+1.2.4 (unreleased)
 ~~~~~~~~~~~~~~~~~~
+
+1.2.3 (November 14th 2008)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Fix assumption in control view: not every context object is
+  IReferenceable.  This fixes http://dev.plone.org/plone/ticket/8737
+  [nouri]
 
 1.2.2 (November 13th 2008)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~

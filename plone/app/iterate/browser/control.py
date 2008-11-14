@@ -38,13 +38,11 @@ class Control(BrowserView):
     This is a public view, referenced in action condition expressions.
     """
     
-    def is_checkout(self):
-        context = aq_inner(self.context)
-        refs = context.getRefs(WorkingCopyRelation.relationship)
-        if len(refs):
-            return True
-        else:
-            return False
+    def get_original(self, context):
+        if IReferenceable.providedBy(context):
+            refs = context.getRefs(WorkingCopyRelation.relationship)
+            if refs:
+                return refs[0]
 
     def checkin_allowed(self):
         """Check if a checkin is allowed
@@ -55,19 +53,16 @@ class Control(BrowserView):
         if not interfaces.IIterateAware.providedBy(context):
             return False
     
-        if not IReferenceable.providedBy(context):
-            return False
-
         archiver = interfaces.IObjectArchiver(context)
         if not archiver.isVersionable():
             return False
 
-        if not self.is_checkout():
+        original = self.get_original(context)
+        if original is None:
             return False
 
-        refs = context.getRefs(WorkingCopyRelation.relationship)
         if not checkPermission(
-            Products.CMFCore.permissions.ModifyPortalContent, refs[0]):
+            Products.CMFCore.permissions.ModifyPortalContent, original):
             return False
         
         return True
@@ -102,4 +97,4 @@ class Control(BrowserView):
         """Check to see if the user can cancel the checkout on the
         given working copy
         """
-        return self.is_checkout()
+        return self.get_original(aq_inner(self.context)) is not None

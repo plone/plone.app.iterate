@@ -8,6 +8,7 @@ Setup
   >>> from Products.Five.testbrowser import Browser
   >>> from Testing.ZopeTestCase import user_password
   >>> browser = Browser()
+  >>> browser.handleErrors = False
   >>> browser.addHeader('Authorization',
   ...                   'Basic %s:%s' % ('portal_owner', user_password))
 
@@ -118,6 +119,9 @@ again and check in (and then possibly request for review):
   >>> "Checked in" in browser.contents
   True
 
+Bugs
+----
+
 The "Cancel check-out" action should not be present on items that are
 not checked out (#8735):
 
@@ -125,3 +129,13 @@ not checked out (#8735):
   Traceback (most recent call last):
   ...
   LinkNotFoundError
+
+Some items, like the Plone site root, don't do references.  This broke
+the condition for the "Cancel check-out" action on these items
+(#8737):
+
+  >>> self.loginAsPortalOwner()
+  >>> portal.manage_delObjects(['front-page'])
+  >>> browser.open(portal.absolute_url())
+
+
