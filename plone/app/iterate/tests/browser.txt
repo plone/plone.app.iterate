@@ -135,7 +135,6 @@ the condition for the "Cancel check-out" action on these items
 (#8737):
 
   >>> self.loginAsPortalOwner()
-  >>> portal.manage_delObjects(['front-page'])
+  >>> if 'front-page' in portal:
+  ...     portal.manage_delObjects(['front-page'])
   >>> browser.open(portal.absolute_url())
-
-
