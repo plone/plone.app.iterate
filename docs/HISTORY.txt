@@ -4,6 +4,9 @@ Changelog
 1.2.4 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Specified package dependencies.
+  [hannosch]
+
 * Made the tests independent of default content.
   [hannosch]
 
