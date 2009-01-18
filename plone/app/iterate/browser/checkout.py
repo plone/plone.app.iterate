@@ -28,8 +28,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from ZODB.POSException import ConflictError
 
 from Products.statusmessages.interfaces import IStatusMessage
-from Products.CMFPlone import PloneMessageFactory as _
 
+from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckoutException
 from plone.app.iterate.interfaces import IWCContainerLocator

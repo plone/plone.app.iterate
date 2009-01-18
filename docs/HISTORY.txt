@@ -4,6 +4,9 @@ Changelog
 1.2.4 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Use our own PloneMessageFactory. We don't depend on CMFPlone anymore.
+  [hannosch]
+
 * Specified package dependencies.
   [hannosch]
 

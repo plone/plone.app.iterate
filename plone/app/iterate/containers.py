@@ -29,9 +29,9 @@ from Products.CMFCore.interfaces import IDynamicType
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.permissions import AddPortalContent
 
+from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.interfaces import IWCContainerLocator
 
-from Products.CMFPlone import PloneMessageFactory as _
 
 class HomeFolderLocator(object):
     """Locate the current user's home folder, if possible.
