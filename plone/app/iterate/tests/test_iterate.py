@@ -43,8 +43,9 @@ class TestIterations(PloneTestCase.PloneTestCase):
         
         # Since we depend on ZCML being loaded, we can't do this
         # until the layer is set up
-        
-        self.portal.portal_quickinstaller.installProduct('plone.app.iterate')
+
+        self.portal.portal_setup.runAllImportStepsFromProfile(
+            'profile-plone.app.iterate:plone.app.iterate')
 
         # add a folder with two documents in it
         self.portal.invokeFactory('Folder', 'docs')

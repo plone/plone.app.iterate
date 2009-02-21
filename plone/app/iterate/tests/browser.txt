@@ -2,8 +2,8 @@
 Setup
 -----
 
-  >>> self.portal.portal_quickinstaller.installProduct('plone.app.iterate')
-  ''
+  >>> result = self.portal.portal_setup.runAllImportStepsFromProfile(
+  ...   'profile-plone.app.iterate:plone.app.iterate')
 
   >>> from Products.Five.testbrowser import Browser
   >>> from Testing.ZopeTestCase import user_password

@@ -4,6 +4,9 @@ Changelog
 1.2.4 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Avoid a test dependency on quick installer.
+  [hannosch]
+
 * Use our own PloneMessageFactory. We don't depend on CMFPlone anymore.
   [hannosch]
 
