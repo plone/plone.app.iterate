@@ -4,6 +4,10 @@ Changelog
 1.2.4 (unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Added profiles/default/metadata.xml (version 120: lets leave plenty room in
+  case any profile changes are needed on the 1.1 branch).
+  [maurits]
+
 * Avoid a test dependency on quick installer.
   [hannosch]
 
