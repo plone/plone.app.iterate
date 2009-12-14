@@ -2,16 +2,13 @@
 iterate
 -------
 
-:Author: Kapil Thangavelu
-:Version: $Revision:$
-:Copyright: ObjectRealms, LLC (c) Creative Commons Attribution-NonCommercial-ShareAlike 2.5 License
-
 Summary
 -------
 
-iterate is a plone product that allows one to utilize a checkin / checkout procedure
-for content editing. It integrates in versioning, locking, and utilizes zope3 technology like 
-adapters and events to allow for easy customization.
+iterate is a plone product that allows one to utilize a checkin / checkout
+procedure for content editing. It integrates in versioning, locking, and
+utilizes Zope technology like adapters and events to allow for easy
+customization.
 
 Features
 --------
@@ -92,33 +89,6 @@ cancel checkout
 a confirmation dialog is displayed, if the checkout is canceled the
 working copy is destroyed, and the baseline is unlocked.
 
-Installation
-------------
-
-see docs/install.txt
-
-
-Configuration and Design
-------------------------
-
-see docs/developers.txt
-
-Development
------------
-
- project home page
-  
- http://plone.org/products/iterate
-
- mailing list
-
- svn repository
- 
- https://svn.objectrealms.net/svn/public/iterate
-
- issue tracker
-
- http://plone.org/products/iterate
 
 Credits
 -------
@@ -131,6 +101,5 @@ Credits
 
 License
 -------
- 
- GPL, see license.txt for details
 
+ GPL, see license.txt for details

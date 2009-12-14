@@ -1,5 +1,5 @@
-plone.app.iterate Package Readme
-=========================
+plone.app.iterate
+=================
 
 Overview
 --------
