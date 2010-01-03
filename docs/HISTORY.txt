@@ -1,15 +1,15 @@
 Changelog
----------
+=========
 
-1.2.5 (Unreleased)
-~~~~~~~~~~~~~~~~~~
+1.2.5 - Unreleased)
+-------------------
 
 * Fixed an undefined ``current_page_url`` variable in diff.pt. This closes
   http://dev.plone.org/plone/ticket/9819.
   [hannosch]
 
-1.2.4 (December 21st 2008)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.2.4 -2008-12-21
+-----------------
 
 * Added profiles/default/metadata.xml (version 120: lets leave plenty room in
   case any profile changes are needed on the 1.1 branch).
@@ -27,23 +27,23 @@ Changelog
 * Made the tests independent of default content.
   [hannosch]
 
-1.2.3 (November 14th 2008)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.2.3 - 2008-11-14
+------------------
 
 * Fix assumption in control view: not every context object is
   IReferenceable. This fixes http://dev.plone.org/plone/ticket/8737
   [nouri]
 
-1.2.2 (November 13th 2008)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.2.2 - 2008-11-13
+------------------
 
-* Fix action coniditions for the nth time; this time it's an
+* Fix action conditions for the nth time; this time it's an
   over-ambitious "Cancel check-out" permission.  This fixes
   http://dev.plone.org/plone/ticket/8735
   [nouri]
 
-1.2.1 (November 11th 2008)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+1.2.1 - 2008-11-11
+------------------
 
 * Refine permissions fix from 1.2.0 and make tests pass again:
 
@@ -54,19 +54,19 @@ Changelog
   require it on the working copy.
   [nouri]
 
-* Fix missing internationnalization (#8608 thanks to Vincent Fretin)
+* Fix missing internationalization (#8608 thanks to Vincent Fretin)
   [encolpe]
 
-1.2.0 (October 24th 2008)
-~~~~~~~~~~~~~~~~~~~~~~~~~
+1.2.0 - 2008-10-24
+------------------
 
 * Allow users without modify content permissions (but with the iterate
   check out permission) to check out items, and only allow them to
   check in back again only when they have modify content permissions.
   [nouri]
 
-1.1.5 (August 18th 2008)
-~~~~~~~~~~~~~~~~~~~~~~~~
+1.1.5 - 2008-08-18
+------------------
 
 * Fixed typo in subscribers/workflow.py. This fixes
   https://dev.plone.org/plone/ticket/8035.
@@ -76,8 +76,8 @@ Changelog
   http://dev.plone.org/plone/ticket/8022.
   [naro]
 
-1.1.0 (April 20th 2008)
-~~~~~~~~~~~~~~~~~~~~~~~
+1.1.0 - 2008-04-20
+------------------
 
 * Fixed dodgy test in test_iterate.py that was dependent on semantics of 
   default workflow.
@@ -94,10 +94,10 @@ Changelog
 * Use README.txt and HISTORY.txt for the package's long description.
   [wichert]
 
-* Remove unneeded intialize method from __init__
+* Remove unneeded initialize method from __init__
   [wichert]
 
 1.0
-~~~
+---
 
 * First release
