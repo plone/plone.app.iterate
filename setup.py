@@ -1,5 +1,4 @@
 from setuptools import setup, find_packages
-import os
 
 version = '1.2.5'
 
@@ -7,8 +6,8 @@ setup(name='plone.app.iterate',
       version=version,
       description="check-out/check-in staging for Plone",
       long_description=\
-          open(os.path.join("plone", "app", "iterate", "README.txt")).read() + "\n" + \
-          open(os.path.join("docs", "HISTORY.txt")).read(),
+          open("README.txt").read() + "\n" + \
+          open("CHANGES.txt").read(),
       classifiers=[
         "Framework :: Zope2",
         "Programming Language :: Python",
