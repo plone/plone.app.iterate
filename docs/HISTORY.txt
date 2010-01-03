@@ -4,6 +4,10 @@ Changelog
 1.2.5 (Unreleased)
 ~~~~~~~~~~~~~~~~~~
 
+* Fixed an undefined ``current_page_url`` variable in diff.pt. This closes
+  http://dev.plone.org/plone/ticket/9819.
+  [hannosch]
+
 1.2.4 (December 21st 2008)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -6,7 +6,9 @@
     i18n:domain="plone">
 
 <div metal:fill-slot="base">
-    <base href="" tal:attributes="href current_page_url" />
+    <base href=""
+          tal:define="current_page_url context/@@plone_context_state/current_page_url"
+          tal:attributes="href current_page_url" />
 </div>
 <tal:block metal:fill-slot="head_slot">
     <link rel="stylesheet" type="text/css" href="compare.css"
