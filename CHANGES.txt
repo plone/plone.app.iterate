@@ -1,15 +1,15 @@
 Changelog
 =========
 
-1.2.5 - Unreleased)
--------------------
+1.2.5 - 2010-01-03
+------------------
 
 * Fixed an undefined ``current_page_url`` variable in diff.pt. This closes
   http://dev.plone.org/plone/ticket/9819.
   [hannosch]
 
-1.2.4 -2008-12-21
------------------
+1.2.4 - 2008-12-21
+------------------
 
 * Added profiles/default/metadata.xml (version 120: lets leave plenty room in
   case any profile changes are needed on the 1.1 branch).
