@@ -4,6 +4,10 @@ Changelog
 1.2.6 - unreleased
 ------------------
 
+- Updated diff.pt to follow recent markup conventions.
+  References #9981
+  [spliter]
+
 
 1.2.5 - 2010-01-03
 ------------------
