@@ -4,6 +4,9 @@ Changelog
 2.0b1 - unreleased
 ------------------
 
+- Declare all package dependencies.
+  [hannosch]
+
 - Updated diff.pt to follow recent markup conventions.
   References #9981
   [spliter]
