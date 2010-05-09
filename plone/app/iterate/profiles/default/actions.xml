@@ -7,7 +7,7 @@
    <property name="title" i18n:translate="">Check in</property>
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:${object_url}/@@content-checkin</property>
-   <property name="icon_expr"></property>
+   <property name="icon_expr">string:${portal_url}/++resource++checkout.png</property>
    <property name="available_expr">python:path('object/@@iterate_control').checkin_allowed()</property>
    <property name="permissions">
     <element value="View"/>
@@ -19,7 +19,7 @@
    <property name="title" i18n:translate="">Check out</property>
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:${object_url}/@@content-checkout</property>
-   <property name="icon_expr"></property>
+   <property name="icon_expr">string:${portal_url}/++resource++checkout.png</property>
    <property name="available_expr">python:path('object/@@iterate_control').checkout_allowed()</property>
    <property name="permissions">
     <element value="View"/>
@@ -31,7 +31,7 @@
    <property name="title" i18n:translate="">Cancel check-out</property>
    <property name="description" i18n:translate=""></property>
    <property name="url_expr">string:${object_url}/@@content-cancel-checkout</property>
-   <property name="icon_expr"></property>
+   <property name="icon_expr">string:${portal_url}/++resource++cancel-checkout.png</property>
    <property name="available_expr">python:path('object/@@iterate_control').cancel_allowed()</property>
    <property name="permissions">
     <element value="Modify portal content"/>

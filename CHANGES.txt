@@ -4,6 +4,9 @@ Changelog
 2.0b2 - unreleased
 ------------------
 
+- Set action icons via icon_expr on the actions, to avoid deprecation warnings
+  in Plone 4.
+  [davisagli]
 
 2.0b1 - 2010-02-17
 ------------------
