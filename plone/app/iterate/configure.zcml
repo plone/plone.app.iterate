@@ -19,6 +19,15 @@
       description="Adds working copy support (aka. in-place staging) to Plone."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+    
+    <genericsetup:upgradeStep
+        source="*"
+        destination="121"
+        title="Reinstall plone.app.iterate"
+        description=""
+        profile="plone.app.iterate:plone.app.iterate"
+        handler="plone.app.iterate.util.upgrade_by_reinstall"
+        />
 
     <!-- Policy and behaviour for basic objects -->
     <class class="Products.Archetypes.BaseObject.BaseObject">

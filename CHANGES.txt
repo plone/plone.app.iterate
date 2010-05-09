@@ -4,6 +4,9 @@ Changelog
 2.0b2 - unreleased
 ------------------
 
+- Add naive upgrade step that reinstalls the product.
+  [davisagli]
+
 - Set action icons via icon_expr on the actions, to avoid deprecation warnings
   in Plone 4.
   [davisagli]

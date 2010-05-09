@@ -23,9 +23,14 @@
 from zope.annotation import IAnnotations
 from persistent.dict import PersistentDict
 from interfaces import annotation_key
+from Products.CMFCore.utils import getToolByName
 
 def get_storage( context ):
     annotations = IAnnotations( context )
     if not annotations.has_key( annotation_key ):
         annotations[ annotation_key ] = PersistentDict()
     return annotations[annotation_key]
+
+def upgrade_by_reinstall(context):
+    qi = getToolByName(context, 'portal_quickinstaller')
+    qi.reinstallProducts(['plone.app.iterate'])
