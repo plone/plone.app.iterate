@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0b2 - unreleased
+2.0b2 - 2010-06-03
 ------------------
 
 - Add naive upgrade step that reinstalls the product.
