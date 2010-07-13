@@ -1,6 +1,6 @@
 <html metal:use-macro="context/@@standard_macros/page" i18n:domain="plone">
 
-<div metal:fill-slot="body">
+<div id="content" metal:fill-slot="body">
 
     <form action="#"
         method="post"
