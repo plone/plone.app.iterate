@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.0b3'
+version = '2.0'
 
 setup(name='plone.app.iterate',
       version=version,
@@ -9,14 +9,18 @@ setup(name='plone.app.iterate',
           open("README.txt").read() + "\n" + \
           open("CHANGES.txt").read(),
       classifiers=[
-        "Framework :: Zope2",
-        "Programming Language :: Python",
+          "Environment :: Web Environment",
+          "Framework :: Plone",
+          "Framework :: Zope2",
+          "License :: OSI Approved :: GNU General Public License (GPL)",
+          "Operating System :: OS Independent",
+          "Programming Language :: Python",
         ],
       keywords='',
-      author='Kapil Thangavelu',
+      author='Plone Foundation',
       author_email='plone-developers@lists.sourceforge.net',
       url='http://pypi.python.org/pypi/plone.app.iterate',
-      license='GPL',
+      license='GPL version 2',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages = ['plone', 'plone.app'],
       include_package_data=True,

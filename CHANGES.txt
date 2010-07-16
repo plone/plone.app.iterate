@@ -1,8 +1,11 @@
 Changelog
 =========
 
-2.0b3 - Unreleased
-------------------
+2.0 - Unreleased
+----------------
+
+- Update license to GPL version 2 only.
+  [hannosch]
 
 - Add id="content" for the content divs. Else theming with deliverance gets
   harder.
