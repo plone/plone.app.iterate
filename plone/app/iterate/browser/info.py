@@ -41,7 +41,7 @@ class BaseInfoViewlet( BrowserView ):
     def created( self ):
         time = self.properties.get( keys.checkout_time, DateTime() )
         util = getToolByName(self.context, 'translation_service')
-        return util.ulocalized_time(time, None, self.context, domain='plonelocales')
+        return util.ulocalized_time(time, context=self.context, domain='plonelocales')
 
     @memoize
     def creator( self ):

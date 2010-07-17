@@ -4,6 +4,11 @@ Changelog
 2.0 - Unreleased
 ----------------
 
+- Fixed the info viewlet to show only the date, and not the time.
+  The issue was introduced because ulocalized_time changed its parameters order.
+  This closes http://dev.plone.org/plone/ticket/10759
+  [vincentfretin]
+
 - Update license to GPL version 2 only.
   [hannosch]
 
