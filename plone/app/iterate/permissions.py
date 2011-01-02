@@ -28,7 +28,7 @@ from Products.CMFCore.permissions import setDefaultRoles
 CheckinPermission  = "iterate : Check in content"
 CheckoutPermission = "iterate : Check out content"
 
-# Add Site Administrators group on Plone 4.1+ only.
+# Add Site Administrators role on Plone 4.1+ only.
 try:
     pkg_resources.get_distribution('Products.CMFPlone>=4.1a1')
 except (pkg_resources.VersionConflict, pkg_resources.DistributionNotFound):
