@@ -1,9 +1,11 @@
 Changelog
 =========
 
-2.0.1 - unreleased
+2.1b1 - unreleased
 ------------------
 
+- Update permission defaults for Plone 4.1's Site Administrator role.
+  [elro]
 
 2.0 - 2010-07-18
 ----------------
