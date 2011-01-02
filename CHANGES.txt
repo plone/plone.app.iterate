@@ -4,6 +4,9 @@ Changelog
 2.1b1 - unreleased
 ------------------
 
+- Add autoinclude entry point.
+  [elro]
+
 - Update permission defaults for Plone 4.1's Site Administrator role.
   [elro]
 

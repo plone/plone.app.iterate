@@ -52,4 +52,8 @@ setup(name='plone.app.iterate',
           'ZODB3',
           'Zope2',
       ],
+      entry_points = '''
+          [z3c.autoinclude.plugin]
+          target = plone
+      ''',
       )
