@@ -1,8 +1,12 @@
 Changelog
 =========
 
-2.1b1 - unreleased
+2.0.1 - unreleased
 ------------------
+
+- Test Products.CMFPlone version to set default permission, keeping 4.0
+  compatibility - the next release can be 2.0.1 again.
+  [elro]
 
 - Add autoinclude entry point.
   [elro]

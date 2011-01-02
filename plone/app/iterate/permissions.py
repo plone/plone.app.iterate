@@ -20,11 +20,21 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
+import pkg_resources
+
 from Products.CMFEditions import Permissions
 from Products.CMFCore.permissions import setDefaultRoles
 
 CheckinPermission  = "iterate : Check in content"
 CheckoutPermission = "iterate : Check out content"
 
-setDefaultRoles(CheckinPermission, ('Manager', 'Owner', 'Site Administrator', 'Editor'))
-setDefaultRoles(CheckoutPermission, ('Manager', 'Owner', 'Site Administrator', 'Editor'))
+# Add Site Administrators group on Plone 4.1+ only.
+try:
+    pkg_resources.get_distribution('Products.CMFPlone>=4.1a1')
+except (pkg_resources.VersionConflict, pkg_resources.DistributionNotFound):
+    DEFAULT_ROLES = ('Manager', 'Owner', 'Editor')
+else:
+    DEFAULT_ROLES = ('Manager', 'Owner', 'Site Administrator', 'Editor')
+
+setDefaultRoles(CheckinPermission, DEFAULT_ROLES)
+setDefaultRoles(CheckoutPermission, DEFAULT_ROLES)
