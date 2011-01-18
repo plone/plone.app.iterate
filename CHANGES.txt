@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.1 - unreleased
+2.1a1 - 2011-01-18
 ------------------
 
 - Test Products.CMFPlone version to set default permission, keeping 4.0
