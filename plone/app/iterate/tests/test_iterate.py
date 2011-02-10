@@ -23,11 +23,6 @@
 $Id: test_iterate.py 1595 2006-08-24 00:15:21Z hazmat $
 """
 
-import os, sys
-
-from zope.component import getMultiAdapter
-
-from Acquisition import aq_base
 from AccessControl import getSecurityManager
 
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
