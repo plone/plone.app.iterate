@@ -147,6 +147,11 @@ class TestIterations(PloneTestCase.PloneTestCase):
 
         doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
 
+        # TODO: This fails in Plone 4.1. The new optimized catalog lookups
+        # in the reference catalog no longer filter out non-existing reference
+        # objects. In both Plone 4.0 and 4.1 there's two references, one of
+        # them is a stale catalog entry in the reference catalog. The real fix
+        # is to figure out how the stale catalog entry gets in there
         self.assertEqual( len(doc.getReferences()), 1 )
         self.assertEqual( len(doc.getBackReferences()), 1 )
 
