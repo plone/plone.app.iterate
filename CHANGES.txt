@@ -4,6 +4,9 @@ Changelog
 2.1a2 - Unreleased
 ------------------
 
+- Fixed minor test failure for ``_doAddUser``.
+  [maurits]
+
 2.1a1 - 2011-01-18
 ------------------
 

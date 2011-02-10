@@ -85,6 +85,7 @@ published pages:
   True
 
   >>> portal.acl_users._doAddUser('editor' , 'secret', ['Editor'], [])
+  <PloneUser 'editor'>
   >>> portal.portal_membership.memberareaCreationFlag = 1
   >>> portal.portal_membership.createMemberArea('editor')
   >>> browser = Browser()
