@@ -139,10 +139,8 @@ class ContentCopier( object ):
         new_refs = len(new_baseline.getRefs())
         new_back_refs = len(new_baseline.getBRefs())
         if original_refs != new_refs:
-            print 'Removing duplicate refs'
             self._removeDuplicateReferences(new_baseline, backrefs=False)
         if original_back_refs != new_back_refs:
-            print 'Removing duplicate back refs'
             self._removeDuplicateReferences(new_baseline, backrefs=True)
 
         # reattach the source's history id, to get the previous version ancestry
@@ -163,25 +161,11 @@ class ContentCopier( object ):
             # Plone 4.1 or later
             brains = ref_func(item, objects=False)
         except TypeError:
-            # Plone 4.0 or earlier
-            #brains = ref_func(item)
-            # Hm, this won't give back brains then... so we should just return.
+            # Plone 4.0 or earlier.  Nothing to fix here
             return
-        items = []
         for brain in brains:
             if brain.getObject() is None:
-                print 'Got a None object'
                 reference_tool.uncatalog_object(brain.getPath())
-            """
-            # Keep the order: source, target, relationship.
-            info = (brain.sourceUID, brain.targetUID, brain.relationship)
-            if info in items:
-                # This works, but it may remove a correct reference
-                # and keep a None reference.
-                reference_tool.deleteReference(*info)
-            else:
-                items.append(info)
-            """
 
     def _deleteWorkingCopyRelation( self ):
         # delete the wc reference keeping a reference to it for its annotations
