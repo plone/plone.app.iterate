@@ -130,8 +130,20 @@ class ContentCopier( object ):
                 continue
             wf.updateRoleMappingsFor( new_baseline )
 
-        # reattach the source's uid, this will update wc refs to point back to the new baseline
+        # Reattach the source's uid, this will update wc refs to point
+        # back to the new baseline.  This may introduce duplicate
+        # references, so we check that and fix them.
+        original_refs = len(new_baseline.getRefs())
+        original_back_refs = len(new_baseline.getBRefs())
         new_baseline._setUID( baseline.UID() )
+        new_refs = len(new_baseline.getRefs())
+        new_back_refs = len(new_baseline.getBRefs())
+        if original_refs != new_refs:
+            print 'Removing duplicate refs'
+            self._removeDuplicateReferences(new_baseline, backrefs=False)
+        if original_back_refs != new_back_refs:
+            print 'Removing duplicate back refs'
+            self._removeDuplicateReferences(new_baseline, backrefs=True)
 
         # reattach the source's history id, to get the previous version ancestry
         histid_handler = getToolByName( self.context, 'portal_historyidhandler')
@@ -139,6 +151,37 @@ class ContentCopier( object ):
         histid_handler.setUid( new_baseline, huid, check_uniqueness=False )
 
         return new_baseline
+
+    def _removeDuplicateReferences(self, item, backrefs=False):
+        # Remove duplicate (back) references from this item.
+        reference_tool = getToolByName(self.context, 'reference_catalog')
+        if backrefs:
+            ref_func = reference_tool.getBackReferences
+        else:
+            ref_func = reference_tool.getReferences
+        try:
+            # Plone 4.1 or later
+            brains = ref_func(item, objects=False)
+        except TypeError:
+            # Plone 4.0 or earlier
+            #brains = ref_func(item)
+            # Hm, this won't give back brains then... so we should just return.
+            return
+        items = []
+        for brain in brains:
+            if brain.getObject() is None:
+                print 'Got a None object'
+                reference_tool.uncatalog_object(brain.getPath())
+            """
+            # Keep the order: source, target, relationship.
+            info = (brain.sourceUID, brain.targetUID, brain.relationship)
+            if info in items:
+                # This works, but it may remove a correct reference
+                # and keep a None reference.
+                reference_tool.deleteReference(*info)
+            else:
+                items.append(info)
+            """
 
     def _deleteWorkingCopyRelation( self ):
         # delete the wc reference keeping a reference to it for its annotations

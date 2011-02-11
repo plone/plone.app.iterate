@@ -4,6 +4,10 @@ Changelog
 2.1a2 - Unreleased
 ------------------
 
+- Fixed stale catalog entries appearing for references of merged
+  content.
+  [maurits]
+
 - Fixed minor test failure for ``_doAddUser``.
   [maurits]
 
