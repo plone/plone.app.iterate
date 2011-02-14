@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1a2 - Unreleased
+2.1a2 - 2011-02-14
 ------------------
 
 - Fixed stale catalog entries appearing for references of merged
