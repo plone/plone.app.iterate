@@ -4,6 +4,11 @@ Changelog
 2.1.1 - Unreleased
 ------------------
 
+- Viewing a working copy or an original of a checkout does not raise
+  AttributeError anymore. Anyway, we log a warning because a Manager should do
+  something about this. Fixes http://dev.plone.org/plone/ticket/8723
+  [glenfant]
+
 2.1 - 2011-02-25
 ----------------
 
@@ -138,14 +143,14 @@ Changelog
   https://dev.plone.org/plone/ticket/8035.
   [dunlapm]
 
-* Added i18n of status messages. This fixes part of 
+* Added i18n of status messages. This fixes part of
   http://dev.plone.org/plone/ticket/8022.
   [naro]
 
 1.1.0 - 2008-04-20
 ------------------
 
-* Fixed dodgy test in test_iterate.py that was dependent on semantics of 
+* Fixed dodgy test in test_iterate.py that was dependent on semantics of
   default workflow.
   [optilude]
 

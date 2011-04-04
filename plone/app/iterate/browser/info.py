@@ -15,28 +15,29 @@ from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 
 from plone.app.iterate.util import get_storage
-from plone.app.iterate.interfaces import keys
+from plone.app.iterate.interfaces import keys, IBaseline
 
 from plone.app.iterate.relation import WorkingCopyRelation
 
 from plone.memoize.instance import memoize
+from Products.CMFPlone.log import logger
 
 class BaseInfoViewlet( BrowserView ):
-    
+
     implements( IViewlet )
-    
+
     def __init__( self, context, request, view, manager ):
         super( BaseInfoViewlet, self ).__init__( context, request )
         self.__parent__ = view
         self.view = view
         self.manager = manager
-        
+
     def update( self ):
         pass
-    
+
     def render( self ):
         raise NotImplementedError
-        
+
     @memoize
     def created( self ):
         time = self.properties.get( keys.checkout_time, DateTime() )
@@ -50,17 +51,30 @@ class BaseInfoViewlet( BrowserView ):
         if not user_id:
             return membership.getAuthenticatedMember()
         return membership.getMemberById( user_id )
-        
+
     @memoize
     def creator_url( self ):
         creator = self.creator()
-        portal_url = getToolByName(self.context, 'portal_url')
-        return "%s/author/%s" % ( portal_url(), creator.getId() )
-        
+        if creator is not None:
+            portal_url = getToolByName(self.context, 'portal_url')
+            return "%s/author/%s" % ( portal_url(), creator.getId() )
+
+
     @memoize
     def creator_name( self ):
         creator = self.creator()
-        return creator.getProperty('fullname') or creator.getId()
+        if creator is not None:
+            return creator.getProperty('fullname') or creator.getId()
+        # User is not known by PAS. This may be due to LDAP issues, so we keep
+        # the user and log this.
+        name = self.properties.get(keys.checkout_user)
+        if IBaseline.providedBy(self.context):
+            warning_tpl = "%s is a baseline of a plone.app.iterate checkout by an unknown user id '%s'"
+        else:
+            # IWorkingCopy.providedBy(self.context)
+            warning_tpl = "%s is a working copy of a plone.app.iterate checkout by an unknown user id '%s'"
+        logger.warning(warning_tpl, self.context, name)
+        return name
 
     @property
     @memoize
@@ -73,9 +87,9 @@ class BaseInfoViewlet( BrowserView ):
 
     def _getReference( self ):
         raise NotImplemented
-        
+
 class BaselineInfoViewlet( BaseInfoViewlet ):
-    
+
     template = ViewPageTemplateFile('info_baseline.pt')
 
     def render(self):
@@ -99,18 +113,18 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
             return refs[0]
         else:
             return None
-        
+
 class CheckoutInfoViewlet( BaseInfoViewlet ):
-    
+
     template = ViewPageTemplateFile('info_checkout.pt')
-    
+
     def render(self):
         if self.baseline() is not None and \
             getSecurityManager().checkPermission(ModifyPortalContent, self.context):
             return self.template()
         else:
             return ""
-    
+
     @memoize
     def baseline( self ):
         refs = self.context.getReferences( WorkingCopyRelation.relationship )
@@ -118,11 +132,11 @@ class CheckoutInfoViewlet( BaseInfoViewlet ):
             return refs[0]
         else:
             return None
-    
+
     def _getReference( self ):
         refs = self.context.getReferenceImpl( WorkingCopyRelation.relationship )
         if len( refs ) > 0:
             return refs[0]
         else:
             return None
-        
+
