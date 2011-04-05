@@ -1,6 +1,7 @@
 Changelog
 =========
 
+
 2.1.1 - Unreleased
 ------------------
 
@@ -9,10 +10,12 @@ Changelog
   something about this. Fixes http://dev.plone.org/plone/ticket/8723
   [glenfant]
 
+
 2.1 - 2011-02-25
 ----------------
 
 - No changes.
+
 
 2.1a2 - 2011-02-14
 ------------------
@@ -23,6 +26,7 @@ Changelog
 
 - Fixed minor test failure for ``_doAddUser``.
   [maurits]
+
 
 2.1a1 - 2011-01-18
 ------------------
@@ -36,6 +40,7 @@ Changelog
 
 - Update permission defaults for Plone 4.1's Site Administrator role.
   [elro]
+
 
 2.0 - 2010-07-18
 ----------------
@@ -52,6 +57,7 @@ Changelog
   harder.
   [do3cc]
 
+
 2.0b2 - 2010-06-03
 ------------------
 
@@ -61,6 +67,7 @@ Changelog
 - Set action icons via icon_expr on the actions, to avoid deprecation warnings
   in Plone 4.
   [davisagli]
+
 
 2.0b1 - 2010-02-17
 ------------------
@@ -72,51 +79,56 @@ Changelog
   References #9981
   [spliter]
 
+
 1.2.5 - 2010-01-03
 ------------------
 
-* Fixed an undefined ``current_page_url`` variable in diff.pt. This closes
+- Fixed an undefined ``current_page_url`` variable in diff.pt. This closes
   http://dev.plone.org/plone/ticket/9819.
   [hannosch]
+
 
 1.2.4 - 2008-12-21
 ------------------
 
-* Added profiles/default/metadata.xml (version 120: lets leave plenty room in
+- Added profiles/default/metadata.xml (version 120: lets leave plenty room in
   case any profile changes are needed on the 1.1 branch).
   [maurits]
 
-* Avoid a test dependency on quick installer.
+- Avoid a test dependency on quick installer.
   [hannosch]
 
-* Use our own PloneMessageFactory. We don't depend on CMFPlone anymore.
+- Use our own PloneMessageFactory. We don't depend on CMFPlone anymore.
   [hannosch]
 
-* Specified package dependencies.
+- Specified package dependencies.
   [hannosch]
 
-* Made the tests independent of default content.
+- Made the tests independent of default content.
   [hannosch]
+
 
 1.2.3 - 2008-11-14
 ------------------
 
-* Fix assumption in control view: not every context object is
+- Fix assumption in control view: not every context object is
   IReferenceable. This fixes http://dev.plone.org/plone/ticket/8737
   [nouri]
+
 
 1.2.2 - 2008-11-13
 ------------------
 
-* Fix action conditions for the nth time; this time it's an
+- Fix action conditions for the nth time; this time it's an
   over-ambitious "Cancel check-out" permission.  This fixes
   http://dev.plone.org/plone/ticket/8735
   [nouri]
 
+
 1.2.1 - 2008-11-11
 ------------------
 
-* Refine permissions fix from 1.2.0 and make tests pass again:
+- Refine permissions fix from 1.2.0 and make tests pass again:
 
   Don't require Modify Portal Content (MPC) permission on the
   original to check out, which was omitted in the fix for 1.2.0.
@@ -125,50 +137,54 @@ Changelog
   require it on the working copy.
   [nouri]
 
-* Fix missing internationalization (#8608 thanks to Vincent Fretin)
+- Fix missing internationalization (#8608 thanks to Vincent Fretin)
   [encolpe]
+
 
 1.2.0 - 2008-10-24
 ------------------
 
-* Allow users without modify content permissions (but with the iterate
+- Allow users without modify content permissions (but with the iterate
   check out permission) to check out items, and only allow them to
   check in back again only when they have modify content permissions.
   [nouri]
 
+
 1.1.5 - 2008-08-18
 ------------------
 
-* Fixed typo in subscribers/workflow.py. This fixes
+- Fixed typo in subscribers/workflow.py. This fixes
   https://dev.plone.org/plone/ticket/8035.
   [dunlapm]
 
-* Added i18n of status messages. This fixes part of
+- Added i18n of status messages. This fixes part of
   http://dev.plone.org/plone/ticket/8022.
   [naro]
+
 
 1.1.0 - 2008-04-20
 ------------------
 
-* Fixed dodgy test in test_iterate.py that was dependent on semantics of
+- Fixed dodgy test in test_iterate.py that was dependent on semantics of
   default workflow.
   [optilude]
 
-* Fixed i18n markup and updated some messages. This closes
+- Fixed i18n markup and updated some messages. This closes
   http://dev.plone.org/plone/ticket/7958.
   [hannosch]
 
-* Updated i18n:domain in templates to the plone domain. There's no need for a
+- Updated i18n:domain in templates to the plone domain. There's no need for a
   iterate domain.
   [hannosch]
 
-* Use README.txt and HISTORY.txt for the package's long description.
+- Use README.txt and HISTORY.txt for the package's long description.
   [wichert]
 
-* Remove unneeded initialize method from __init__
+- Remove unneeded initialize method from __init__
   [wichert]
+
 
 1.0
 ---
 
-* First release
+- First release
