@@ -5,6 +5,9 @@ Changelog
 2.1.1 - Unreleased
 ------------------
 
+- Add MANIFEST.in.
+  [WouterVH]
+
 - Viewing a working copy or an original of a checkout does not raise
   AttributeError anymore. Anyway, we log a warning because a Manager should do
   something about this. Fixes http://dev.plone.org/plone/ticket/8723
