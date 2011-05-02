@@ -5,6 +5,10 @@ Changelog
 2.1.1 - Unreleased
 ------------------
 
+- Fixed an issue where our subscriber always expected a coci_created attribute 
+  to be available at the policy.
+  [erico_andrei]
+
 - Add MANIFEST.in.
   [WouterVH]
 

@@ -63,7 +63,7 @@ def handleCheckin( event ):
     storage = get_storage( event.relation )
     previous_policy = storage.get( policy_storage )
     if previous_policy is None:
-        if policy and not policy.coci_created:  # only reset workflows we know.. could use are own storage
+        if policy and not getattr(policy,'coci_created',False):  # only reset workflows we know.. could use are own storage
             return
         elif policy is None:
             return
