@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.1 - Unreleased
+2.1.1 - 2011-05-13
 ------------------
 
 - Fixed an issue where our subscriber always expected a coci_created attribute 
