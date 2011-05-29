@@ -1,17 +1,18 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope" 
+    xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="plone">
-    
+
     <include package="zope.annotation" />
-    
+    <include package="Products.CMFCore" />
+
     <include package=".subscribers"/>
     <include package=".browser"/>
 
     <!-- Set up as a Zope product and register an extension profile -->
     <five:registerPackage package="." />
-    
+
     <genericsetup:registerProfile
       name="plone.app.iterate"
       title="Working Copy Support (Iterate)"
@@ -19,7 +20,7 @@
       description="Adds working copy support (aka. in-place staging) to Plone."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-    
+
     <genericsetup:upgradeStep
         source="*"
         destination="121"
@@ -33,24 +34,24 @@
     <class class="Products.Archetypes.BaseObject.BaseObject">
         <implements interface=".interfaces.IIterateAware" />
     </class>
-    
+
     <adapter factory=".policy.CheckinCheckoutPolicyAdapter" />
     <adapter factory=".relation.CheckinCheckoutReferenceAdapter"/>
     <adapter factory=".archiver.ContentArchiver" />
     <adapter factory=".copier.ContentCopier" />
-    
+
     <!-- Checkout folder locators -->
     <adapter
         factory=".containers.HomeFolderLocator"
         name="plone.app.iterate.home"
         />
-        
+
     <adapter
         factory=".containers.ParentFolderLocator"
         name="plone.app.iterate.parent"
         />
 
-    <!-- Handle deletions of working copies -->    
+    <!-- Handle deletions of working copies -->
     <subscriber
        for=".interfaces.IWorkingCopyRelation
             zope.app.container.interfaces.IObjectRemovedEvent"

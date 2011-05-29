@@ -1,11 +1,13 @@
 Changelog
 =========
 
+- Include Products.CMFCore for Plone 4.1 compatibility.
+  [thomasdesvenain]
 
 2.1.1 - 2011-05-13
 ------------------
 
-- Fixed an issue where our subscriber always expected a coci_created attribute 
+- Fixed an issue where our subscriber always expected a coci_created attribute
   to be available at the policy.
   [erico_andrei]
 
