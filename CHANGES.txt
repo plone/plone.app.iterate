@@ -2,7 +2,7 @@ Changelog
 =========
 
 - Include Products.CMFCore for Plone 4.1 compatibility.
-  [thomasdesvenain]
+  [thomasdesvenain, WouterVH]
 
 2.1.1 - 2011-05-13
 ------------------
