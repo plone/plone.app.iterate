@@ -1,6 +1,9 @@
 Changelog
 =========
 
+2.1.2 - Unreleased
+------------------
+
 - Include Products.CMFCore for Plone 4.1 compatibility.
   [thomasdesvenain, WouterVH]
 
