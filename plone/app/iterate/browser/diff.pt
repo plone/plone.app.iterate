@@ -5,11 +5,11 @@
     metal:use-macro="context/main_template/macros/master"
     i18n:domain="plone">
 
-<div metal:fill-slot="base">
+<tal:block metal:fill-slot="base">
     <base href=""
           tal:define="current_page_url context/@@plone_context_state/current_page_url"
           tal:attributes="href current_page_url" />
-</div>
+</tal:block>
 <tal:block metal:fill-slot="head_slot">
     <link rel="stylesheet" type="text/css" href="compare.css"
           tal:attributes="href string:${portal_url}/compare.css"/>
