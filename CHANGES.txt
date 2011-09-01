@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.3 - Unreleased
+2.1.3 (2011-08-31)
 ------------------
 
 - Remove rogue div tag from diff.pt. This fixes
