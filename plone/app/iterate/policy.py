@@ -83,6 +83,9 @@ class CheckinCheckoutPolicyAdapter( object ):
         notify( event.CheckinEvent( self.context, baseline, wc_ref, checkin_message ) )
 
         # merge the object back to the baseline with a copier
+        
+        # XXX by gotcha
+        # bug we should or use a getAdapter call or test if copier is None
         copier = component.queryAdapter( self.context, interfaces.IObjectCopier )
         new_baseline = copier.merge()
 
