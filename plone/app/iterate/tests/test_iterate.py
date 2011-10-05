@@ -25,6 +25,8 @@ $Id: test_iterate.py 1595 2006-08-24 00:15:21Z hazmat $
 
 from AccessControl import getSecurityManager
 
+from Products.CMFCore.utils import getToolByName
+
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 
 from Products.PloneTestCase import PloneTestCase
@@ -198,6 +200,32 @@ class TestIterations(PloneTestCase.PloneTestCase):
         wc.update(text='new document text')
         new_doc = ICheckinCheckoutPolicy(wc).checkin("updated")
         self.assertEqual(container.getObjectPosition(new_doc.getId()), 0)
+
+    def test_folderContents(self):
+        """When an folder is checked out, and item is added, and then
+        the folder is checked back in, the added item is in the new
+        version of the folder."""
+        container = self.portal.docs
+        folder = container[container.invokeFactory(
+            type_name='Folder', id='foo-folder')]
+        folder.invokeFactory(
+            type_name='Document', id='existing-folder-item')
+
+        self.repo.save(folder)
+        wc = ICheckinCheckoutPolicy(folder).checkout(container)
+        wc.invokeFactory(type_name='Document', id='new-folder-item',
+                         text='new folder item text')
+        new_folder = ICheckinCheckoutPolicy(wc).checkin("updated")
+
+        catalog = getToolByName(self.portal, 'portal_catalog')
+
+        self.assertTrue('existing-folder-item' in new_folder)
+        self.assertTrue('new-folder-item' in new_folder)
+        brains = catalog(path='/'.join(
+            new_folder['new-folder-item'].getPhysicalPath()))
+        self.assertTrue(brains)
+        self.assertTrue('new folder item text' in
+                         new_folder['new-folder-item'].getText())
 
 
 def test_suite():

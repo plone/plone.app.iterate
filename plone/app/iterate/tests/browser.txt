@@ -120,6 +120,71 @@ again and check in (and then possibly request for review):
   >>> "Checked in" in browser.contents
   True
 
+Folders
+-------
+
+Turn on versioning for folders.
+
+  >>> from Products.CMFCore.utils import getToolByName
+  >>> tool = getToolByName(portal, 'portal_repository')
+  >>> tool.addPolicyForContentType('Folder', u'at_edit_autoversion')
+  >>> tool.addPolicyForContentType('Folder', u'version_on_revert')
+  >>> versionable_types = tool.getVersionableContentTypes()
+  >>> versionable_types.append('Folder')
+  >>> tool.setVersionableContentTypes(versionable_types)
+
+Go to our folder and create a folder.
+
+  >>> browser = Browser()
+  >>> browser.handleErrors = False
+  >>> browser.addHeader('Authorization',
+  ...                   'Basic %s:%s' % ('portal_owner', user_password))
+  >>> browser.open(self.portal.absolute_url())
+  >>> browser.getLink('Folder').click()
+  >>> browser.getControl('Title').value = 'Foo Folder'
+  >>> browser.getControl('Save').click()
+  >>> 'Changes saved.' in browser.contents
+  True
+
+Add an item to the folder.
+
+  >>> browser.getLink('Foo Folder').click()
+  >>> browser.getLink('Page').click()
+  >>> browser.getControl('Title').value = 'Bar Page'
+  >>> browser.getControl('Save').click()
+  >>> 'Changes saved.' in browser.contents
+  True
+
+Check out the folder.
+
+  >>> browser.getLink('Foo Folder').click()
+  >>> browser.open(browser.url + '/@@content-checkout')
+  >>> 'This is a working copy' in browser.contents
+  True
+  >>> wc_url = browser.url
+  >>> wc_url
+  'http://nohost/plone/copy_of_foo-folder'
+
+Add another item to the checked out copy.
+
+  >>> browser.getLink('Page').click()
+  >>> browser.getControl('Title').value = 'Qux Page'
+  >>> browser.getControl('Save').click()
+  >>> 'Changes saved.' in browser.contents
+  True
+
+Now that we've added another item, check the working copy in.
+
+  >>> browser.open(wc_url)
+  >>> browser.open(browser.url + '/@@content-checkin')
+  >>> browser.getControl('Check in').click()
+  >>> 'Checked in' in browser.contents
+  True
+  >>> browser.url
+  'http://nohost/plone/foo-folder'
+  >>> browser.getLink('Qux Page')
+  <Link text='Qux Page' url='http://nohost/plone/foo-folder/qux-page'>
+
 Bugs
 ----
 

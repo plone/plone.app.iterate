@@ -26,6 +26,8 @@ $Id: copier.py 1824 2007-02-08 17:59:41Z hazmat $
 
 from zope import interface, component
 from zope.annotation.interfaces import IAnnotations
+from zope.event import notify
+from zope.lifecycleevent import ObjectMovedEvent
 
 from Acquisition import aq_base, aq_parent, aq_inner
 from ZODB.PersistentMapping import PersistentMapping
@@ -106,7 +108,8 @@ class ContentCopier( object ):
         self.context._v_cp_refs = 1
         self.context._v_is_cp = 0
 
-        wc_container.manage_delObjects( [self.context.getId()] )
+        wc_id = self.context.getId()
+        wc_container.manage_delObjects([wc_id])
 
         # move the working copy back to the baseline container
         working_copy = aq_base( self.context )
@@ -119,6 +122,9 @@ class ContentCopier( object ):
         # reregister our references with the reference machinery after moving
         Referenceable.manage_afterAdd( new_baseline, new_baseline,
                                        baseline_container)
+
+        notify(ObjectMovedEvent(new_baseline, wc_container,
+                                wc_id, baseline_container, baseline_id))
 
         return new_baseline
 

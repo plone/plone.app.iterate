@@ -4,6 +4,10 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
+- Fix a problem with items added to a checked out folder not being
+  visible after checkin.  Fixes #12257.
+  [rossp]
+
 - Preserve the folder order position from the item originally checked
   out when checking it back in.
   [rossp]

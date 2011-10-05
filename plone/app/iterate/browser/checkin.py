@@ -48,7 +48,6 @@ class Checkin(BrowserView):
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.checkin(message)
-            baseline.reindexObject()
             
             IStatusMessage(self.request).addStatusMessage(_("Checked in"), type='info')
             view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
