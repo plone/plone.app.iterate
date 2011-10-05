@@ -96,6 +96,7 @@ class ContentCopier( object ):
         # delete the baseline from the folder to make room for the
         # committed working copy
         baseline_container = aq_parent( aq_inner( baseline ) )
+        baseline_pos = baseline_container.getObjectPosition(baseline_id)
         baseline_container._delOb( baseline_id )
 
         # delete the working copy from the its container
@@ -111,6 +112,7 @@ class ContentCopier( object ):
         working_copy = aq_base( self.context )
         working_copy.setId( baseline_id )
         baseline_container._setOb( baseline_id, working_copy )
+        baseline_container.moveObjectToPosition(baseline_id, baseline_pos)
 
         new_baseline = baseline_container._getOb( baseline_id )
 

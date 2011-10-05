@@ -187,6 +187,18 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assert_( hasattr( ref, "custom_state") )
         self.assertEqual( ref.custom_state, "hello world")
 
+    def test_folderOrder(self):
+        """When an item is checked out and then back in, the original
+        folder order is preserved."""
+        container = self.portal.docs
+        doc = container.doc1
+        self.assertEqual(container.getObjectPosition(doc.getId()), 0)
+        self.repo.save(doc)
+        wc = ICheckinCheckoutPolicy(doc).checkout(container)
+        wc.update(text='new document text')
+        new_doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        self.assertEqual(container.getObjectPosition(new_doc.getId()), 0)
+
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -4,7 +4,9 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Preserve the folder order position from the item originally checked
+  out when checking it back in.
+  [rossp]
 
 
 2.1.3 (2011-08-31)
