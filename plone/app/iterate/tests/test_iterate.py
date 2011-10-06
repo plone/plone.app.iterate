@@ -37,7 +37,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
 
     def afterSetUp(self):
         self.setRoles(['Manager',])
-        
+
         # Since we depend on ZCML being loaded, we can't do this
         # until the layer is set up
 
@@ -66,33 +66,33 @@ class TestIterations(PloneTestCase.PloneTestCase):
         except:
             import sys, pdb, traceback
             ec, e, tb = sys.exc_info()
-            traceback.print_exc()            
+            traceback.print_exc()
             pdb.post_mortem( tb )
 
     def test_workflowState( self ):
         # ensure baseline workflow state is retained on checkin, including security
 
         doc = self.portal.docs.doc1
-        
+
         # sanity check that owner can edit visible docs
         self.setRoles(['Owner',])
         self.assertTrue( getSecurityManager().checkPermission( "Modify portal content",
                                                                self.portal.docs.doc1 ) )
 
-        self.setRoles(['Manager',])        
+        self.setRoles(['Manager',])
         self.wf.doActionFor( doc, 'publish')
         state = self.wf.getInfoFor( doc, 'review_state')
-        
+
         self.repo.save( doc )
         wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
         wc_state = self.wf.getInfoFor( wc, 'review_state')
-        
+
         self.assertNotEqual( state, wc_state )
 
         ICheckinCheckoutPolicy( wc ).checkin( "modified" )
         bstate = self.wf.getInfoFor( wc, 'review_state')
         self.assertEqual( state, bstate )
-        self.setRoles(['Owner',])       
+        self.setRoles(['Owner',])
 
     def test_baselineVersionCreated( self ):
         # if a baseline has no version ensure that one is created on checkout
@@ -115,17 +115,17 @@ class TestIterations(PloneTestCase.PloneTestCase):
 
         history = self.repo.getHistory( doc2 )
         self.assertEqual( len(history), 1 )
-    
+
     def test_wcNewForwardReferencesCopied( self ):
         # ensure that new wc references are copied back to the baseline on checkin
         doc = self.portal.docs.doc1
         doc.addReference( self.portal.docs )
         self.assertEqual( len(doc.getReferences("zebra")), 0)
         wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
-        wc.addReference( self.portal.docs.doc2, "zebra")        
+        wc.addReference( self.portal.docs.doc2, "zebra")
         doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
         self.assertEqual( len(doc.getReferences("zebra")), 1 )
-        
+
     def test_wcNewBackwardReferencesCopied( self ):
         # ensure that new wc back references are copied back to the baseline on checkin
 
@@ -133,7 +133,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assertEqual( len(doc.getBackReferences("zebra")), 0)
         wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
         self.portal.docs.doc2.addReference( wc, "zebra")
-        self.assertEqual( len( wc.getBackReferences("zebra")), 1 )        
+        self.assertEqual( len( wc.getBackReferences("zebra")), 1 )
         doc = ICheckinCheckoutPolicy( wc ).checkin( "updated")
         self.assertEqual( len( doc.getBackReferences("zebra")), 1 )
 
@@ -165,8 +165,8 @@ class TestIterations(PloneTestCase.PloneTestCase):
         from Products.Archetypes.interfaces import IBaseObject
         from plone.app.iterate import relation, interfaces
         from plone.app.iterate.tests.utils import CustomReference
-        
-        component.provideAdapter( 
+
+        component.provideAdapter(
             adapts = (IBaseObject,),
             provides = interfaces.ICheckinCheckoutReference,
             factory = relation.NoCopyReferenceAdapter,
@@ -194,12 +194,24 @@ class TestIterations(PloneTestCase.PloneTestCase):
         folder order is preserved."""
         container = self.portal.docs
         doc = container.doc1
-        self.assertEqual(container.getObjectPosition(doc.getId()), 0)
+        original_position = container.getObjectPosition(doc.getId())
+
+        # check that there is another document which could interact with
+        # position of document the test work on
+        doc2_position = container.getObjectPosition('doc2')
+        self.assertTrue(doc2_position > original_position)
+
         self.repo.save(doc)
         wc = ICheckinCheckoutPolicy(doc).checkout(container)
         wc.update(text='new document text')
+
+        # check that the copy is put after the second document
+        copy_position = container.getObjectPosition(wc.getId())
+        self.assertTrue(copy_position > doc2_position)
+
         new_doc = ICheckinCheckoutPolicy(wc).checkin("updated")
-        self.assertEqual(container.getObjectPosition(new_doc.getId()), 0)
+        new_position = container.getObjectPosition(new_doc.getId())
+        self.assertEquals(new_position, original_position)
 
     def test_folderContents(self):
         """When an folder is checked out, and item is added, and then
