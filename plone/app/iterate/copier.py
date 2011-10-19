@@ -34,6 +34,7 @@ from ZODB.PersistentMapping import PersistentMapping
 
 from Products.Archetypes.Referenceable import Referenceable
 from Products.CMFCore.utils import getToolByName
+from Products.CMFCore import interfaces as cmf_ifaces
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
 
 import interfaces
@@ -148,6 +149,17 @@ class ContentCopier( object ):
         # Reattach the source's uid, this will update wc refs to point
         # back to the new baseline.  This may introduce duplicate
         # references, so we check that and fix them.
+        self._recursivelyReattachUIDs(baseline, new_baseline)
+
+        # reattach the source's history id, to get the previous
+        # version ancestry
+        histid_handler = getToolByName(self.context, 'portal_historyidhandler')
+        huid = histid_handler.getUid( baseline )
+        histid_handler.setUid( new_baseline, huid, check_uniqueness=False )
+
+        return new_baseline
+
+    def _recursivelyReattachUIDs(self, baseline, new_baseline):
         original_refs = len(new_baseline.getRefs())
         original_back_refs = len(new_baseline.getBRefs())
         new_baseline._setUID( baseline.UID() )
@@ -158,13 +170,12 @@ class ContentCopier( object ):
         if original_back_refs != new_back_refs:
             self._removeDuplicateReferences(new_baseline, backrefs=True)
 
-        # reattach the source's history id, to get the previous
-        # version ancestry
-        histid_handler = getToolByName(self.context, 'portal_historyidhandler')
-        huid = histid_handler.getUid( baseline )
-        histid_handler.setUid( new_baseline, huid, check_uniqueness=False )
-
-        return new_baseline
+        if cmf_ifaces.IFolderish.providedBy(baseline):
+            new_ids = new_baseline.contentIds()
+            for child in baseline.contentValues():
+                if child.getId() in new_ids:
+                    self._recursivelyReattachUIDs(
+                        child, new_baseline[child.getId()])
 
     def _removeDuplicateReferences(self, item, backrefs=False):
         # Remove duplicate (back) references from this item.

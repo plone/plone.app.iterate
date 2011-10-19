@@ -216,23 +216,30 @@ class TestIterations(PloneTestCase.PloneTestCase):
     def test_folderContents(self):
         """When an folder is checked out, and item is added, and then
         the folder is checked back in, the added item is in the new
-        version of the folder."""
+        version of the folder.  UIDs of contained content are also
+        preserved."""
         container = self.portal.docs
         folder = container[container.invokeFactory(
             type_name='Folder', id='foo-folder')]
-        folder.invokeFactory(
-            type_name='Document', id='existing-folder-item')
+        existing_doc = folder[folder.invokeFactory(
+            type_name='Document', id='existing-folder-item')]
+        existing_doc_uid = existing_doc.UID()
 
         self.repo.save(folder)
         wc = ICheckinCheckoutPolicy(folder).checkout(container)
-        wc.invokeFactory(type_name='Document', id='new-folder-item',
-                         text='new folder item text')
+        new_doc = wc[wc.invokeFactory(type_name='Document',
+                                      id='new-folder-item',
+                                      text='new folder item text')]
+        new_doc_uid = new_doc.UID()
         new_folder = ICheckinCheckoutPolicy(wc).checkin("updated")
 
         catalog = getToolByName(self.portal, 'portal_catalog')
 
         self.assertTrue('existing-folder-item' in new_folder)
+        self.assertEqual(
+            new_folder['existing-folder-item'].UID(), existing_doc_uid)
         self.assertTrue('new-folder-item' in new_folder)
+        self.assertEqual(new_folder['new-folder-item'].UID(), new_doc_uid)
         brains = catalog(path='/'.join(
             new_folder['new-folder-item'].getPhysicalPath()))
         self.assertTrue(brains)

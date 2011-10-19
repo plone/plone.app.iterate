@@ -4,6 +4,10 @@ Changelog
 2.1.4 (unreleased)
 ------------------
 
+- Preserve content contents UIDs when checking a folder back in.  This
+  prevents breaking linking by UID in the editor.
+  [rossp]
+
 - Fix a problem with items added to a checked out folder not being
   visible after checkin.  Fixes #12257.
   [rossp]
