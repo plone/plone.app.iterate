@@ -93,8 +93,11 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
     template = ViewPageTemplateFile('info_baseline.pt')
 
     def render(self):
-        if self.working_copy() is not None and \
-            getSecurityManager().checkPermission(ModifyPortalContent, self.context):
+        sm = getSecurityManager()
+        working_copy = self.working_copy()
+        if working_copy is not None and (
+                sm.checkPermission(ModifyPortalContent, self.context) or
+                sm.checkPermission(ModifyPortalContent, working_copy)):
             return self.template()
         else:
             return ""

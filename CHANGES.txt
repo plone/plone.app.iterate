@@ -16,6 +16,11 @@ Changelog
   out when checking it back in.
   [rossp]
 
+- Allow user of check'd out content to also see the checkout info so
+  a contributor can see that he already has a page checked out
+  easily.
+  [vangheem]
+
 
 2.1.3 (2011-08-31)
 ------------------
