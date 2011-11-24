@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.4 (unreleased)
+2.1.4 (2011-11-24)
 ------------------
 
 - Preserve content contents UIDs when checking a folder back in.  This
