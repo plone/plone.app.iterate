@@ -29,12 +29,12 @@ from zope import schema
 from zope.component.interfaces import IObjectEvent
 from plone.locking.interfaces import LockType
 
-from Products.Archetypes.interfaces import IReferenceable, IReference
+from Products.Archetypes.interfaces import IReference
 
 #################################
 ## Marker interface
 
-class IIterateAware( IReferenceable ):
+class IIterateAware( Interface ):
     """An object that can be used for check-in/check-out operations.
     """
 

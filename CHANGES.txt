@@ -4,7 +4,10 @@ Changelog
 2.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Don't declare IIterateAware as an extension of Archetypes' IReferenceable,
+  because there are other implementations (such as the one for Dexterity)
+  that don't use Archetypes references.
+  [davisagli]
 
 
 2.1.4 (2011-11-24)
