@@ -57,6 +57,8 @@ def handleCheckout( event ):
 
     # we setattr because we want the effect on non containerish objects
     setattr( event.working_copy, WorkflowPolicyConfig_id, policy )
+    event.working_copy.notifyWorkflowCreated()
+    event.working_copy.reindexObjectSecurity()
 
 def handleCheckin( event ):
     policy = getattr( aq_base(event.object), WorkflowPolicyConfig_id, None )

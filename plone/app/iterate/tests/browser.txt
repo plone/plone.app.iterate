@@ -2,8 +2,12 @@
 Setup
 -----
 
+  >>> from Testing import ZopeTestCase as ztc
+  >>> ztc.installProduct('Products.CMFPlacefulWorkflow')
   >>> result = self.portal.portal_setup.runAllImportStepsFromProfile(
   ...   'profile-plone.app.iterate:plone.app.iterate')
+  >>> result = self.portal.portal_setup.runAllImportStepsFromProfile(
+  ...   'profile-plone.app.iterate:test')
 
   >>> from Products.Five.testbrowser import Browser
   >>> from Testing.ZopeTestCase import user_password
@@ -204,3 +208,58 @@ the condition for the "Cancel check-out" action on these items
   >>> if 'front-page' in portal:
   ...     portal.manage_delObjects(['front-page'])
   >>> browser.open(portal.absolute_url())
+
+Working copy workflows
+----------------------
+
+It's possible to assign a different workflow to working copies in combination with 
+Products.CMFPlacefulWorkflow.  This usually makes sense: you should be checking in a working copy
+rather than publishing it.
+
+We have a working copy workflow defined in our textfixture profile.  To enable you need to set a
+couple of site properties.
+
+  >>> browser.addHeader('Authorization',
+  ...                   'Basic %s:%s' % ('portal_owner', user_password))
+  >>> browser.open("http://nohost/plone/portal_properties/site_properties/manage_propertiesForm")
+  >>> browser.getControl(name="enable_checkout_workflow:boolean").value = [True]
+  >>> browser.getControl(name="checkout_workflow_policy:string").value = 'working-copy'
+  >>> browser.getControl(name="manage_editProperties:method").click()
+
+Create a new page to test workflows with
+
+  >>> browser.open(self.portal.absolute_url())
+  >>> browser.getLink('Add new').click()
+  >>> 'Add new item' in browser.contents
+  True
+  >>> browser.getControl('Page').click()
+  >>> browser.getControl('Add').click()
+  >>> browser.getControl('Title').value = 'My workflow test'
+  >>> browser.getControl('Body Text').value = 'My workflow test'
+  >>> browser.getControl('Save').click()
+  >>> 'Changes saved.' in browser.contents
+  True
+  >>> workflow_test_url = browser.url
+
+Checkout
+
+  >>> browser = Browser()
+  >>> browser.addHeader('Authorization', 'Basic editor:secret')
+  >>> browser.open(workflow_test_url)
+  >>> browser.getLink(id='iterate_checkout').click()
+  >>> browser.contents
+  '...This is a working copy of...My workflow test..., made by...editor... on...'
+  >>> browser.contents
+  '...state-draft-copy...'
+
+Check security permisions on workflow have been applied.  We remove copy or move permissions in our
+workflow so this should not appear in the action menu.
+http://code.google.com/p/dexterity/issues/detail?id=258
+
+  >>> browser.getLink(id='copy')
+  Traceback (most recent call last):
+  ...
+  LinkNotFoundError
+  >>> browser.getLink(id='delete')
+  <Link text='Delete' ...>
+  
