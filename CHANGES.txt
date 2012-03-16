@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.5 (unreleased)
+2.1.5 (2012-03-16)
 ------------------
 
 - Don't declare IIterateAware as an extension of Archetypes' IReferenceable,
@@ -9,8 +9,8 @@ Changelog
   that don't use Archetypes references.
   [davisagli]
   
-- Security permissions of working copy workflow don't get applied on checking 
-  out content http://dev.plone.org/ticket/12780
+- Make sure permissions of working copy workflow get applied when checking 
+  out content, fixes http://dev.plone.org/ticket/12780
   [anthonygerrard]
 
 
