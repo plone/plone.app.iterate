@@ -4,6 +4,8 @@ Changelog
 2.1.6 (unreleased)
 ------------------
 
+- Fix permissions check in parent folder working copy locator.
+  [mitchellrj]
 
 2.1.5 (2012-03-16)
 ------------------
