@@ -63,7 +63,7 @@
     <!-- Handle deletions of working copies -->
     <subscriber
        for=".interfaces.IWorkingCopyRelation
-            zope.app.container.interfaces.IObjectRemovedEvent"
+            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
        handler=".event.handleDeletion"
        />
 
