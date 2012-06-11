@@ -7,6 +7,9 @@ Changelog
 - Import events from zope.lifecycleevent.
   [hannosch]
 
+- Fix permissions check in parent folder working copy locator.
+  [mitchellrj]
+
 2.1.5 (2012-03-16)
 ------------------
 
