@@ -34,7 +34,7 @@ from plone.app.iterate.interfaces import CheckoutException
 
 class Cancel(BrowserView):
     
-    template = ViewPageTemplateFile('cancel.pt')
+    index = ViewPageTemplateFile('cancel.pt')
     
     def __call__(self):
         context = aq_inner(self.context)
@@ -55,5 +55,5 @@ class Cancel(BrowserView):
             view_url = context.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:
-            return self.template()
+            return self.index()
 

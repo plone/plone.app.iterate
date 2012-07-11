@@ -34,7 +34,7 @@ from plone.app.iterate.interfaces import CheckinException
 
 class Checkin(BrowserView):
     
-    template = ViewPageTemplateFile('checkin.pt')
+    index = ViewPageTemplateFile('checkin.pt')
     
     def __call__(self):
         context = aq_inner(self.context)
@@ -56,4 +56,4 @@ class Checkin(BrowserView):
             view_url = context.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:
-            return self.template()
+            return self.index()

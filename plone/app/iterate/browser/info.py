@@ -90,7 +90,7 @@ class BaseInfoViewlet( BrowserView ):
 
 class BaselineInfoViewlet( BaseInfoViewlet ):
 
-    template = ViewPageTemplateFile('info_baseline.pt')
+    index = ViewPageTemplateFile('info_baseline.pt')
 
     def render(self):
         sm = getSecurityManager()
@@ -98,7 +98,7 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
         if working_copy is not None and (
                 sm.checkPermission(ModifyPortalContent, self.context) or
                 sm.checkPermission(ModifyPortalContent, working_copy)):
-            return self.template()
+            return self.index()
         else:
             return ""
 
@@ -119,12 +119,12 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
 
 class CheckoutInfoViewlet( BaseInfoViewlet ):
 
-    template = ViewPageTemplateFile('info_checkout.pt')
+    index = ViewPageTemplateFile('info_checkout.pt')
 
     def render(self):
         if self.baseline() is not None and \
             getSecurityManager().checkPermission(ModifyPortalContent, self.context):
-            return self.template()
+            return self.index()
         else:
             return ""
 

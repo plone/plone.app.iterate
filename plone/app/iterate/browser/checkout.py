@@ -37,7 +37,7 @@ from plone.app.iterate.interfaces import IObjectArchiver
 
 class Checkout(BrowserView):
     
-    template = ViewPageTemplateFile('checkout.pt')
+    index = ViewPageTemplateFile('checkout.pt')
     
     def containers(self):
         """Get a list of potential containers
@@ -86,4 +86,4 @@ class Checkout(BrowserView):
             view_url = context.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:
-            return self.template()
+            return self.index()
