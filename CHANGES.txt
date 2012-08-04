@@ -1,18 +1,22 @@
 Changelog
 =========
 
-2.1.6 (unreleased)
+2.1.7 (unreleased)
 ------------------
 
 - Allow browser view templates to be defined and thus overridden in ZCML.
   [rpatterson]
 
+
+2.1.6 (2012-06-29)
+------------------
+
 - Import events from zope.lifecycleevent.
   [hannosch]
 
-
 - Fix permissions check in parent folder working copy locator.
   [mitchellrj]
+
 
 2.1.5 (2012-03-16)
 ------------------
