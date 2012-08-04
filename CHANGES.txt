@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.7 (unreleased)
+2.1.7 (2012-08-04)
 ------------------
 
 - Allow browser view templates to be defined and thus overridden in ZCML.
