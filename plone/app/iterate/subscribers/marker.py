@@ -32,6 +32,7 @@ def handleCheckout( event ):
 
 def handleCheckin( event ):
     marker.erase( event.object, interfaces.IWorkingCopy )
+    marker.erase( event.baseline, interfaces.IBaseline )
 
 def handleWCDeleted( event ):
     marker.erase( event.baseline, interfaces.IBaseline ) 
