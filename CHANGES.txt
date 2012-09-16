@@ -4,7 +4,9 @@ Changelog
 2.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Unmark both the baseline and the working copy on checkin so that dexterity
+  content is properly unmarked.
+  [cewing]
 
 
 2.1.7 (2012-08-04)
