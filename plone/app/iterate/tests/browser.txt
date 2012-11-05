@@ -246,7 +246,7 @@ Checkout
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic editor:secret')
   >>> browser.open(workflow_test_url)
-  >>> browser.getLink(id='iterate_checkout').click()
+  >>> browser.getLink(id='plone-contentmenu-actions-iterate_checkout').click()
   >>> browser.contents
   '...This is a working copy of...My workflow test..., made by...editor... on...'
   >>> browser.contents
@@ -256,10 +256,10 @@ Check security permisions on workflow have been applied.  We remove copy or move
 workflow so this should not appear in the action menu.
 http://code.google.com/p/dexterity/issues/detail?id=258
 
-  >>> browser.getLink(id='copy')
+  >>> browser.getLink(id='plone-contentmenu-actions-copy')
   Traceback (most recent call last):
   ...
   LinkNotFoundError
-  >>> browser.getLink(id='delete')
+  >>> browser.getLink(id='plone-contentmenu-actions-delete')
   <Link text='Delete' ...>
   
