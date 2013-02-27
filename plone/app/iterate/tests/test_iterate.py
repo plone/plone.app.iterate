@@ -246,6 +246,44 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assertTrue('new folder item text' in
                          new_folder['new-folder-item'].getText())
 
+    def test_checkinObjectLinkedInParentsRichTextField(self):
+        """Checnking-in an object that is linked in it's
+        parent's rich text field. See: https://dev.plone.org/ticket/13462
+        """
+        # register a folderish content type with a rich text field
+        from plone.app.folder.folder import ATFolder, ATFolderSchema
+        from Products.ATContentTypes.content.base import registerATCT
+        from Products.Archetypes import atapi
+
+        rich_text_folder_type = type('RichFolder', (ATFolder,), {})
+        rich_text_folder_type.schema = ATFolderSchema.copy() + atapi.Schema((
+            atapi.TextField('text',
+                default_output_type = 'text/x-html-safe',
+                widget = atapi.RichWidget(),
+                ),
+            ),
+        )
+        registerATCT(rich_text_folder_type, 'plone.app.iterate')
+
+        # create a folderish object with a rich text field
+        self.portal.invokeFactory('Folder', 'rich_text_folder')
+        rich_text_folder = self.portal.rich_text_folder
+
+        # create the subobject
+        rich_text_folder.invokeFactory('Document', 'subobject')
+        subobject = rich_text_folder.subobject
+        subobject_uid = subobject.UID()
+        
+        # link (by uid) the subobject in it's parent's rich text field
+        link_html = '<a class="internal-link" href="resolveuid/%s">Link to subobject</a>'
+        rich_text_folder.setText(link_html % subobject_uid)
+
+        # try to checkout and checkin the subobject
+        wc = ICheckinCheckoutPolicy(subobject).checkout(rich_text_folder)
+        ICheckinCheckoutPolicy(wc).checkin("updated")
+
+        # everything went right and the working copy is checked in
+        self.assertEqual(subobject_uid, wc.UID())
 
 def test_suite():
     from unittest import TestSuite, makeSuite

@@ -102,6 +102,10 @@ class ContentCopier( object ):
         baseline_pos = baseline_container.getObjectPosition(baseline_id)
         baseline_container._delOb( baseline_id )
 
+        # uninedxing the deleted baseline object from portal_catalog
+        portal_catalog = getToolByName(self.context, 'portal_catalog')
+        portal_catalog.unindexObject(baseline)
+
         # delete the working copy from the its container
         wc_container = aq_parent( aq_inner( self.context ) )
 

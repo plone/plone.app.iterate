@@ -4,7 +4,9 @@ Changelog
 2.1.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fixed error on checking in the working copy of an object linked in it's
+  parent rich text field, see: https://dev.plone.org/ticket/13462
+  [radekj]
 
 
 2.1.9 (2013-01-13)
