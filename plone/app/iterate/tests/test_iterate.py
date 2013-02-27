@@ -276,7 +276,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
         
         # link (by uid) the subobject in it's parent's rich text field
         link_html = '<a class="internal-link" href="resolveuid/%s">Link to subobject</a>'
-        rich_text_folder.setText(link_html % 'a' + subobject_uid)
+        rich_text_folder.setText(link_html % subobject_uid)
 
         # try to checkout and checkin the subobject
         wc = ICheckinCheckoutPolicy(subobject).checkout(rich_text_folder)
