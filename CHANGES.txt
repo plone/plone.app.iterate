@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.10 (unreleased)
+2.1.10 (2013-03-05)
 -------------------
 
 - Fixed error on checking in the working copy of an object linked in it's
