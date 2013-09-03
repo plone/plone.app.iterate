@@ -171,7 +171,7 @@ Check out the folder.
 
 Add another item to the checked out copy.
 
-  >>> browser.getLink('Page').click()
+  >>> browser.getLink(url='Document').click()
   >>> browser.getControl('Title').value = 'Qux Page'
   >>> browser.getControl('Save').click()
   >>> 'Changes saved.' in browser.contents
