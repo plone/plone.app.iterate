@@ -272,11 +272,15 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assertEqual(subobject_uid, wc.UID())
 
 
+class IterateFunctionalTestCase(PloneTestCase.FunctionalTestCase):
+    pass
+
+
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
     suite.addTest(makeSuite(TestIterations))
     suite.addTest(FunctionalDocFileSuite(
         'browser.txt',
-        test_class=PloneTestCase.FunctionalTestCase))
+        test_class=IterateFunctionalTestCase))
     return suite
