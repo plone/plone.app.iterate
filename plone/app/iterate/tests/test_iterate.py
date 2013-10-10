@@ -211,7 +211,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
 
         new_doc = ICheckinCheckoutPolicy(wc).checkin("updated")
         new_position = container.getObjectPosition(new_doc.getId())
-        self.assertEquals(new_position, original_position)
+        self.assertEqual(new_position, original_position)
 
     def test_folderContents(self):
         """When an folder is checked out, and item is added, and then
@@ -259,7 +259,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
         rich_text_folder.invokeFactory('Document', 'subobject')
         subobject = rich_text_folder.subobject
         subobject_uid = subobject.UID()
-        
+
         # link (by uid) the subobject in it's parent's rich text field
         link_html = '<a class="internal-link" href="resolveuid/%s">Link to subobject</a>'
         rich_text_folder.setText(link_html % subobject_uid)
