@@ -2,7 +2,7 @@
      tal:define="baseline view/baseline;"
      i18n:domain="plone">
 
-    <dt i18n:translate="">Locked</dt>
+    <dt i18n:translate="">Warning</dt>
     <dd>
     <tal:block i18n:translate="checkout_info">
 
