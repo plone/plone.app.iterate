@@ -2,7 +2,7 @@
      tal:define="working_copy view/working_copy;"
      i18n:domain="plone">
 
-    <dt i18n:translate="label_locked">Locked</dt>
+    <dt i18n:translate="">Warning</dt>
     <dd>
 
     <tal:block i18n:translate="working_copy_info">
