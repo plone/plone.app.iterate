@@ -4,7 +4,9 @@ Changelog
 2.1.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Information messages can be hidden from user who checked out content when 
+  using a placeful workflow, see: https://dev.plone.org/ticket/13852
+  [anthonygerrard]
 
 
 2.1.11 (2014-01-27)

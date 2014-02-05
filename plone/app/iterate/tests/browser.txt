@@ -79,8 +79,8 @@ Now that we've made our changes we'll check the working copy in:
 Permissions
 -----------
 
-For the community workflow, we expect Editors to be able to check out
-published pages:
+For the community workflow, we expect Editors and Contributors to be able to 
+check out published pages:
 
   >>> portal.portal_workflow.setDefaultChain('plone_workflow')
   >>> ignore = portal.portal_workflow.updateRoleMappings()
@@ -92,6 +92,11 @@ published pages:
   <PloneUser 'editor'>
   >>> portal.portal_membership.memberareaCreationFlag = 1
   >>> portal.portal_membership.createMemberArea('editor')
+  >>> portal.acl_users._doAddUser('contributor' , 'secret', ['Contributor'], 
+  ...     [])
+  <PloneUser 'contributor'>
+  >>> portal.portal_membership.memberareaCreationFlag = 1
+  >>> portal.portal_membership.createMemberArea('contributor')
   >>> browser = Browser()
   >>> browser.addHeader('Authorization', 'Basic editor:secret')
 
@@ -212,12 +217,12 @@ the condition for the "Cancel check-out" action on these items
 Working copy workflows
 ----------------------
 
-It's possible to assign a different workflow to working copies in combination with 
-Products.CMFPlacefulWorkflow.  This usually makes sense: you should be checking in a working copy
-rather than publishing it.
+It's possible to assign a different workflow to working copies in combination 
+with Products.CMFPlacefulWorkflow.  This usually makes sense: you should be 
+checking in a working copy rather than publishing it.
 
-We have a working copy workflow defined in our textfixture profile.  To enable you need to set a
-couple of site properties.
+We have a working copy workflow defined in our textfixture profile.  To enable 
+you need to set a couple of site properties.
 
   >>> browser.addHeader('Authorization',
   ...                   'Basic %s:%s' % ('portal_owner', user_password))
@@ -244,22 +249,57 @@ Create a new page to test workflows with
 Checkout
 
   >>> browser = Browser()
-  >>> browser.addHeader('Authorization', 'Basic editor:secret')
+  >>> browser.addHeader('Authorization', 'Basic contributor:secret')
   >>> browser.open(workflow_test_url)
   >>> browser.getLink(id='plone-contentmenu-actions-iterate_checkout').click()
   >>> browser.contents
-  '...This is a working copy of...My workflow test..., made by...editor... on...'
+  '...Check out...My workflow test...'
+  >>> checkout_form = browser.getForm(name='checkout')
+  >>> checkout_form.getControl('Parent folder').selected = True
+  >>> checkout_form.getControl('Check out').click()
+  >>> browser.contents
+  '...This is a working copy of...My workflow test..., made by...contributor...'
   >>> browser.contents
   '...state-draft-copy...'
+  >>> workflow_checkout_url = browser.url
 
-Check security permisions on workflow have been applied.  We remove copy or move permissions in our
-workflow so this should not appear in the action menu.
+Check get info message on original
+
+  >>> browser.open(workflow_test_url)
+  >>> browser.contents
+  '...This item is being edited by...contributor...a working copy...'
+
+We're going to manually give the contributor user the CheckoutPermission   
+to check it's used when displaying the info messages.  In our workflow
+once the checked out item is submitted the contributor no longer has 
+permission to modify it but we still want them to see the info messages.   
+
+  >>> from plone.app.iterate.permissions import CheckoutPermission
+  >>> self.portal.manage_permission(CheckoutPermission,
+  ...     ('Contributor',), False)
+  >>> browser.open(workflow_checkout_url)
+  >>> browser.getLink(id='workflow-transition-submit-copy-for-publication')\
+  ...     .click()
+  >>> browser.contents
+  '...state-pending-copy...'
+  >>> browser.contents
+  '...This is a working copy of...My workflow test..., made by...contributor...'
+  >>> browser.open(workflow_test_url)
+  >>> browser.contents
+  '...This item is being edited by...contributor...a working copy...'
+  
+Check security permisions on workflow have been applied.  We remove copy or 
+move permissions in our workflow so this should not appear in the action menu.
 http://code.google.com/p/dexterity/issues/detail?id=258
 
+  >>> browser = Browser()
+  >>> browser.addHeader('Authorization', 'Basic editor:secret')
+  >>> browser.open(workflow_checkout_url)
   >>> browser.getLink(id='plone-contentmenu-actions-copy')
   Traceback (most recent call last):
   ...
   LinkNotFoundError
   >>> browser.getLink(id='plone-contentmenu-actions-delete')
   <Link text='Delete' ...>
+  
   

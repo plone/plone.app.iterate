@@ -14,6 +14,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 
+from plone.app.iterate.permissions import CheckoutPermission
 from plone.app.iterate.util import get_storage
 from plone.app.iterate.interfaces import keys, IBaseline
 
@@ -97,6 +98,7 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
         working_copy = self.working_copy()
         if working_copy is not None and (
                 sm.checkPermission(ModifyPortalContent, self.context) or
+                sm.checkPermission(CheckoutPermission, self.context) or
                 sm.checkPermission(ModifyPortalContent, working_copy)):
             return self.index()
         else:
@@ -122,8 +124,11 @@ class CheckoutInfoViewlet( BaseInfoViewlet ):
     index = ViewPageTemplateFile('info_checkout.pt')
 
     def render(self):
-        if self.baseline() is not None and \
-            getSecurityManager().checkPermission(ModifyPortalContent, self.context):
+        sm = getSecurityManager()
+        baseline = self.baseline()
+        if baseline is not None and (
+                sm.checkPermission(ModifyPortalContent, self.context) or
+                sm.checkPermission(CheckoutPermission, baseline)):
             return self.index()
         else:
             return ""

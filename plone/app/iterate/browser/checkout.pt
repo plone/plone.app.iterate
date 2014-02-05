@@ -4,6 +4,7 @@
 
     <form action="#"
         method="post"
+        name="checkout"
         tal:attributes="action string:${context/absolute_url}/@@content-checkout">
 
     <h1 i18n:translate="title_checkout">
