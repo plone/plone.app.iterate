@@ -1,10 +1,8 @@
-<dl class="portalMessage info"
+<div class="portalMessage info"
      tal:define="working_copy view/working_copy;"
      i18n:domain="plone">
 
-    <dt i18n:translate="">Warning</dt>
-    <dd>
-
+    <strong i18n:translate="">Warning</strong>
     <tal:block i18n:translate="working_copy_info">
         This item is being edited by
         <a i18n:name="creator"
@@ -23,5 +21,4 @@
 
     (<a i18n:translate="label_view_changes"
          tal:attributes="href string:${context/absolute_url}/@@iterate_diff">View changes</a>)
-    </dd>
-</dl>
+</div>

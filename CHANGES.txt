@@ -4,7 +4,11 @@ Changelog
 2.1.12 (unreleased)
 -------------------
 
-- Information messages can be hidden from user who checked out content when 
+- Remove DL's from portal message in templates.
+  https://github.com/plone/Products.CMFPlone/issues/153
+  [khink]
+
+- Information messages can be hidden from user who checked out content when
   using a placeful workflow, see: https://dev.plone.org/ticket/13852
   [anthonygerrard]
 
@@ -62,7 +66,7 @@ Changelog
   that don't use Archetypes references.
   [davisagli]
 
-- Make sure permissions of working copy workflow get applied when checking 
+- Make sure permissions of working copy workflow get applied when checking
   out content, fixes http://dev.plone.org/ticket/12780
   [anthonygerrard]
 
