@@ -4,10 +4,12 @@ Changelog
 2.1.12 (unreleased)
 -------------------
 
-- Information messages can be hidden from user who checked out content when 
+- Information messages can be hidden from user who checked out content when
   using a placeful workflow, see: https://dev.plone.org/ticket/13852
   [anthonygerrard]
 
+- Replaced the "Locked" label with "Warning"
+  [rristow]
 
 2.1.11 (2014-01-27)
 -------------------
@@ -62,7 +64,7 @@ Changelog
   that don't use Archetypes references.
   [davisagli]
 
-- Make sure permissions of working copy workflow get applied when checking 
+- Make sure permissions of working copy workflow get applied when checking
   out content, fixes http://dev.plone.org/ticket/12780
   [anthonygerrard]
 
