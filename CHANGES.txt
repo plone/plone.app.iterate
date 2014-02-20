@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.12 (unreleased)
+2.1.12 (2014-02-19)
 -------------------
 
 - Information messages can be hidden from user who checked out content when
