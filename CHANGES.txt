@@ -4,8 +4,11 @@ Changelog
 2.1.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Apply the original content object's local roles when replacing it with
+  a checked-in working copy. Prevents users from obtaining owner rights
+  to content through the check out/check in process.
+  Closes https://dev.plone.org/ticket/13881
+  [esteele]
 
 2.1.12 (2014-02-19)
 -------------------
