@@ -96,6 +96,9 @@ class ContentCopier( object ):
         # new baseline
         baseline_id = baseline.getId()
 
+        # Get the list of locally assigned roles on the baseline item
+        baseline_local_roles = baseline.get_local_roles()
+
         # delete the baseline from the folder to make room for the
         # committed working copy
         baseline_container = aq_parent( aq_inner( baseline ) )
@@ -123,6 +126,16 @@ class ContentCopier( object ):
         baseline_container.moveObjectToPosition(baseline_id, baseline_pos)
 
         new_baseline = baseline_container._getOb( baseline_id )
+
+        # Apply the local roles from the original baseline to the new one.
+        # First remove any existing roles
+        roles_to_remove = new_baseline.get_local_roles()
+        for username, roles in roles_to_remove:
+            new_baseline.manage_delLocalRoles([username])
+        # Now apply the original ones.
+        for username, roles in baseline_local_roles:
+            new_baseline.manage_setLocalRoles(username, roles)
+
 
         # reregister our references with the reference machinery after moving
         Referenceable.manage_afterAdd( new_baseline, new_baseline,
