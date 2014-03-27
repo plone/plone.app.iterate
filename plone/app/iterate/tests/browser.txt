@@ -129,6 +129,13 @@ again and check in (and then possibly request for review):
   >>> "Checked in" in browser.contents
   True
 
+Ensure the editor has not gained owner rights to the content
+(See https://dev.plone.org/ticket/13881)
+
+  >>> portal['hello-world'].get_local_roles()
+  (('portal_owner', ('Owner',)),)
+
+
 Folders
 -------
 
