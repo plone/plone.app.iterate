@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.1.13 (unreleased)
+2.1.13 (2014-04-16)
 -------------------
 
 - Fix tests to work with auto csrf.
