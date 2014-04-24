@@ -27,23 +27,29 @@ from AccessControl import getSecurityManager
 
 from Products.CMFCore.utils import getToolByName
 
-from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
-
-from Products.PloneTestCase import PloneTestCase
 from Testing.ZopeTestCase import FunctionalDocFileSuite
-PloneTestCase.setupPloneSite()
 
+from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
+from plone.app.iterate.testing import PLONEAPPITERATE_INTEGRATION_TESTING
 
-class TestIterations(PloneTestCase.PloneTestCase):
+from plone.app.testing import login
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 
-    def afterSetUp(self):
-        self.setRoles(['Manager', ])
+import unittest2 as unittest
 
-        # Since we depend on ZCML being loaded, we can't do this
-        # until the layer is set up
+class TestIterations(unittest.TestCase):
 
-        self.portal.portal_setup.runAllImportStepsFromProfile(
-            'profile-plone.app.iterate:plone.app.iterate')
+    layer = PLONEAPPITERATE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+
+        self.wf = self.portal.portal_workflow
+        self.wf.setChainForPortalTypes(('Document',), 'plone_workflow')
 
         # add a folder with two documents in it
         self.portal.invokeFactory('Folder', 'docs')
@@ -54,7 +60,6 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.portal.invokeFactory('Folder', 'workarea')
 
         self.repo = self.portal.portal_repository
-        self.wf = self.portal.portal_workflow
 
     def beforeTearDown(self):
         self.repo = None
@@ -79,15 +84,11 @@ class TestIterations(PloneTestCase.PloneTestCase):
         doc = self.portal.docs.doc1
 
         # sanity check that owner can edit visible docs
-        self.setRoles(['Owner', ])
-        self.assertTrue(
-            getSecurityManager().checkPermission(
-                "Modify portal content",
-                self.portal.docs.doc1
-            )
-        )
+        setRoles(self.portal, TEST_USER_ID, ['Owner'])
+        self.assertTrue(getSecurityManager().checkPermission(
+            "Modify portal content", self.portal.docs.doc1))
 
-        self.setRoles(['Manager', ])
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.wf.doActionFor(doc, 'publish')
         state = self.wf.getInfoFor(doc, 'review_state')
 
@@ -100,7 +101,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
         ICheckinCheckoutPolicy(wc).checkin("modified")
         bstate = self.wf.getInfoFor(wc, 'review_state')
         self.assertEqual(state, bstate)
-        self.setRoles(['Owner', ])
+        setRoles(self.portal, TEST_USER_ID, ['Owner'])
 
     def test_baselineVersionCreated(self):
         # if a baseline has no version ensure that one is created on checkout
@@ -178,15 +179,13 @@ class TestIterations(PloneTestCase.PloneTestCase):
 
         component.provideAdapter(
             adapts=(IBaseObject,),
-            provides = interfaces.ICheckinCheckoutReference,
-            factory = relation.NoCopyReferenceAdapter,
+            provides=interfaces.ICheckinCheckoutReference,
+            factory=relation.NoCopyReferenceAdapter,
             name="zebra")
 
         doc = self.portal.docs.doc1
         ref = doc.addReference(
-            self.portal.docs,
-            "zebra",
-            referenceClass=CustomReference)
+            self.portal.docs, "zebra", referenceClass=CustomReference)
         ref.custom_state = "hello world"
 
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
@@ -286,15 +285,16 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assertEqual(subobject_uid, wc.UID())
 
 
-class IterateFunctionalTestCase(PloneTestCase.FunctionalTestCase):
+class IterateFunctionalTestCase(unittest.TestCase):
     pass
 
 
+"""
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(TestIterations))
     suite.addTest(FunctionalDocFileSuite(
         'browser.txt',
         test_class=IterateFunctionalTestCase))
     return suite
+"""
