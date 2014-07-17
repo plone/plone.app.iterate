@@ -32,7 +32,7 @@ setup(name='plone.app.iterate',
       ),
       install_requires=[
           'setuptools',
-          'plone.locking',
+          'plone.locking>=2.0.5',
           'plone.memoize',
           'zope.annotation',
           'zope.component',

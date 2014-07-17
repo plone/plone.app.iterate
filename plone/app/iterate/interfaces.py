@@ -28,10 +28,11 @@ from zope import schema
 
 from zope.component.interfaces import IObjectEvent
 from plone.locking.interfaces import LockType
+from plone.locking.interfaces import MAX_TIMEOUT
 
 from Products.Archetypes.interfaces import IReference
 
-#################################
+################################
 ## Marker interface
 
 class IIterateAware( Interface ):
@@ -41,7 +42,7 @@ class IIterateAware( Interface ):
 #################################
 ## Lock types
 
-ITERATE_LOCK = LockType( u'iterate.lock', stealable=False, user_unlockable=False )
+ITERATE_LOCK = LockType( u'iterate.lock', stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT)
 
 #################################
 ## Exceptions
@@ -81,7 +82,7 @@ class ICheckinEvent( IObjectEvent ):
     baseline = Attribute("The Working Copy's baseline")
     relation = Attribute("The Working Copy Archetypes Relation Object")
     checkin_message = Attribute("checkin message")
-    
+
 class IAfterCheckinEvent( IObjectEvent ):
     """ sent out after an object is checked in """
 
@@ -89,16 +90,16 @@ class IAfterCheckinEvent( IObjectEvent ):
 
 class IBeforeCheckoutEvent( IObjectEvent ):
     """ sent out before a working copy is created """
-    
+
 class ICheckoutEvent( IObjectEvent ):
     """ an object is being checked out, event.object is the baseline """
 
     working_copy = Attribute("The object's working copy")
     relation = Attribute("The Working Copy Archetypes Relation Object")
-    
+
 class ICancelCheckoutEvent( IObjectEvent ):
     """ a working copy is being cancelled """
-    
+
     baseline = Attribute("The working copy's baseline")
 
 class IWorkingCopyDeletedEvent( IObjectEvent ):
@@ -107,10 +108,10 @@ class IWorkingCopyDeletedEvent( IObjectEvent ):
     broadcast an event when the user deletes a working copy using the standard
     container paradigms.
     """
-    
+
     baseline = Attribute("The working copy baseline")
-    relation = Attribute("The Working Copy Archetypes Relation Object")    
-    
+    relation = Attribute("The Working Copy Archetypes Relation Object")
+
 #################################
 # Content Marker Interfaces
 
@@ -138,11 +139,11 @@ class IWCContainerLocator( Interface ):
     """A named adapter capable of discovering containers where working
     copies can be created.
     """
-    
+
     available = schema.Bool(title=u"Available", description=u"Whether location will be available.")
 
     title = schema.TextLine(title=u"Title", description=u"Title of this location")
-    
+
     def __call__():
         """Return a container object, or None if available() is False
         """
@@ -156,21 +157,21 @@ class ICheckinCheckoutTool( Interface ):
         """
         denotes whether a checkin operation can be performed on the content.
         """
-        
+
     def allowCheckout( content ):
         """
-        denotes whether a checkout operation can be performed on the content.        
+        denotes whether a checkout operation can be performed on the content.
         """
 
     def allowCancelCheckout( content ):
         """
-        denotes whether a cancel checkout operation can be performed on the content.        
-        """        
+        denotes whether a cancel checkout operation can be performed on the content.
+        """
 
     def checkin( content, checkin_messsage ):
         """
         check the working copy in, this will merge the working copy with the baseline
-       
+
         """
 
     def checkout( container, content ):
@@ -191,7 +192,7 @@ class IObjectCopier( Interface ):
         using the WorkingCopyRelation.relation name between the source and the copy.
         returns the copy.
         """
-        
+
     def merge( ):
         """ merge/replace the source with the copy, context is the copy.
         """
@@ -207,7 +208,7 @@ class IObjectArchiver( Interface ):
     def isVersioned( self ):
         """ is this content already versioned
         """
-        
+
     def isVersionable( self ):
         """ is versionable check.
         """
@@ -224,10 +225,10 @@ class ICheckinCheckoutPolicy( Interface ):
     def checkin( checkin_message ):
         """
         checkin the context, if the target has been deleted then raises a checkin exception.
-        
+
 #       if the object version has changed since the checkout begin (due to another checkin)
 #       raises a conflict error.
-#        
+#
         """
 
     def checkout( container ):

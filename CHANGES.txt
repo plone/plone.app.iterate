@@ -31,7 +31,8 @@ Changelog
 2.1.11 (2014-01-27)
 -------------------
 
-- Nothing changed yet.
+- setted lock timeout to MAX_TIMEOUT to avoid baseline unwanted unlock after 10 minutes
+  [parruc]
 
 
 2.1.10 (2013-03-05)
