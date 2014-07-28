@@ -94,6 +94,18 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assertEqual( state, bstate )
         self.setRoles(['Owner',])
 
+    def test_localroles(self):
+        doc = self.portal.docs.doc1
+        doc.manage_addLocalRoles('user1', ['Editor'])
+        self.assertEqual(doc.__ac_local_roles__,
+                         {'test_user_1_': ['Owner'], 'user1': ['Editor']})
+        self.repo.save(doc)
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        ICheckinCheckoutPolicy(wc).checkin( "modified" )
+        self.assertEqual(wc.__ac_local_roles__,
+                         {'test_user_1_': ['Owner'], 'user1': ['Editor']})
+
     def test_baselineVersionCreated( self ):
         # if a baseline has no version ensure that one is created on checkout
 

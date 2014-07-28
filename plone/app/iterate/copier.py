@@ -150,6 +150,9 @@ class ContentCopier( object ):
                 continue
             wf.updateRoleMappingsFor( new_baseline )
 
+        if hasattr(baseline, '__ac_local_roles__'):
+            new_baseline.__ac_local_roles__ = dict(baseline.__ac_local_roles__)
+
         # Reattach the source's uid, this will update wc refs to point
         # back to the new baseline.  This may introduce duplicate
         # references, so we check that and fix them.

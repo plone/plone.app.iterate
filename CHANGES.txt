@@ -4,7 +4,9 @@ Changelog
 2.1.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Handle local roles when checkout and checkin.
+  Credits goes to http://plone.org/products/iterate/issues/28
+  [jfroche]
 
 
 2.1.13 (2014-04-16)
