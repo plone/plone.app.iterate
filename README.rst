@@ -39,7 +39,7 @@ Iterate Lifecycle via the User Interface
 ========================================
 
 iterate integrates with the plone user interface mainly through the actions menu.
-it adds three conditional actions to the menu.. checkout, checkin, and cancel checkout. 
+it adds three conditional actions to the menu.. checkout, checkin, and cancel checkout.
 
 checkout form
 -------------
@@ -49,7 +49,7 @@ the current content, the vocabulary of checkouts is overridable via template
 customization and is currently the current folder, and the user's home
 folder. if the content is not yet versioned, versioning is applied and
 a new version is created before the checkout is performed. an adapter
-is utilized to perform the checkout mechanics and an object lifecycle 
+is utilized to perform the checkout mechanics and an object lifecycle
 event is generated with the baseline ( origin ) and checkout as
 attributes. the adapter is responsible for effecting a copy of the
 content to the checkout location and taking a lock on the origin content.
@@ -57,10 +57,10 @@ whether this form and action are active on a given piece of content
 depends on the iterate policy adapter found for this content.
 
 checkouts have some system additional properties, versioning and workflow.
-they can be versioned independently of the baseline, with only changes 
+they can be versioned independently of the baseline, with only changes
 from the latest version being merged into the baseline on
 checkin. they can undergoe separate workflows different from the
-baseline content. (this last feature requires some customization see 
+baseline content. (this last feature requires some customization see
 docs/workflow.rst ).
 
 checkout status form
@@ -70,7 +70,7 @@ visually checkouts are distinguished by an extra document icon (next
 to sendto, and rss links). clicking on this icon will lead to a
 checkout status page. which allows for looking at information
 regarding the checkout itself, such as when the checkout was
-performed and by whom. 
+performed and by whom.
 
 checkin form
 ------------
@@ -89,7 +89,7 @@ working copy is destroyed, and the baseline is unlocked.
 Credits
 =======
 
- Kapil Thangavelu <hazmat@objectrealms.net> 
+ Kapil Thangavelu <hazmat@objectrealms.net>
 
  Benjamin Saller <bcsaller@objectrealms.net>
 

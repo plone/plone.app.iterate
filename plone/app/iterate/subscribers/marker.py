@@ -28,15 +28,15 @@ from plone.app.iterate import interfaces
 
 def handleCheckout( event ):
     marker.mark( event.working_copy, interfaces.IWorkingCopy )
-    marker.mark( event.object, interfaces.IBaseline )        
+    marker.mark( event.object, interfaces.IBaseline )
 
 def handleCheckin( event ):
     marker.erase( event.object, interfaces.IWorkingCopy )
     marker.erase( event.baseline, interfaces.IBaseline )
 
 def handleWCDeleted( event ):
-    marker.erase( event.baseline, interfaces.IBaseline ) 
+    marker.erase( event.baseline, interfaces.IBaseline )
 
 def handleCancelCheckout( event ):
     marker.erase( event.baseline, interfaces.IBaseline )
-    
+

@@ -51,7 +51,7 @@ class CheckinCheckoutReferenceAdapter ( object ):
     default adapter for references.
 
     on checkout
-    
+
     forward refs on baseline are copied to wc
     backward refs on baseline are ignored on wc
 
@@ -62,21 +62,21 @@ class CheckinCheckoutReferenceAdapter ( object ):
 
     forward refs on baseline get removed
     backward refs on baseline are kept by virtue of UID transferance
-    
+
     """
 
     implements( ICheckinCheckoutReference )
     adapts( IIterateAware )
-    
+
     storage_key = "coci.references"
 
     def __init__(self, context ):
         self.context = context
-    
+
     def checkout( self, baseline, wc, refs, storage ):
         for ref in refs:
             wc.addReference( ref.targetUID, ref.relationship, referenceClass=ref.__class__ )
-            
+
     def checkin( self, *args ):
         pass
 
@@ -95,7 +95,7 @@ class NoCopyReferenceAdapter( object ):
 
     def __init__(self, context):
         self.context = context
-    
+
     def checkin( self, baseline, wc, refs, storage ):
         # move the references from the baseline to the wc
 
@@ -118,6 +118,6 @@ class NoCopyReferenceAdapter( object ):
 
     def checkout( self, *args ):
         pass
-        
+
     checkoutBackReferences = checkinBackReferences = checkout
-    
+

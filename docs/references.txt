@@ -7,20 +7,20 @@ baselines. By default references from the baseline (forward references) are copi
 the baseline during the checkout process. References are copied utilizing only their
 relation name, and target uids, References to the baseline (backward references) are
 not copied to the working copy. On checking in the working copy, forward and backward
-references on the working copy are kept, as are backward references to the baseline. 
+references on the working copy are kept, as are backward references to the baseline.
 
 Customizing reference handling
 ------------------------------
 
 Developers can define reference checkin/checkout adapters to customize handling,
-the adapters are looked up by relation name, and utilizing the content object as 
+the adapters are looked up by relation name, and utilizing the content object as
 a context.
 
 for example if you wanted to keep forward references with the relation name ( subscriptions )
 only on the baseline version, and not have it copied to the working copy you would register
 the following adapter, in your product zcml or in the instance's overrides.zcml::
 
-    <adapter 
+    <adapter
        for="Products.Archetypes.interfaces.IBaseObject"
        provides=".interfaces.ICheckinCheckoutReference"
        factory=".relation.NoCopyReferenceAdapter"

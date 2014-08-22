@@ -1,7 +1,7 @@
 <html metal:use-macro="here/@@standard_macros/page" i18n:domain="plone">
 
 <div id="content" metal:fill-slot="body">
-    
+
     <form action="#"
         method="post"
         tal:attributes="action string:${context/absolute_url}/@@content-cancel-checkout">
@@ -14,20 +14,20 @@
       <p i18n:translate="description_cancel">
         Canceling the check-out will delete this working copy, and any modifications
         made to it will be lost. The existing version of the content will become
-        unlocked. 
+        unlocked.
       </p>
-    
+
       <div class="formControls">
-    
-        <input 
+
+        <input
             class="destructive"
             type="submit"
             name="form.button.Cancel"
             value="Cancel checkout"
             i18n:attributes="value"
             />
-            
-        <input 
+
+        <input
             class="standalone"
             type="submit"
             name="form.button.Keep"

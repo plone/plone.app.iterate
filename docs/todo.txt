@@ -9,7 +9,7 @@ Short Term
    - better offer form option.
 
  - default event adapter for setting workflow on checked out content
-    
+
  - refactor policy, move all invariants to event subscribers
    [ locking, event marking, versioning ]
 

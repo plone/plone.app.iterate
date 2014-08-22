@@ -41,18 +41,18 @@ from relation import WorkingCopyRelation
 class CheckinCheckoutPolicyAdapter( object ):
     """
     Default Checkin Checkout Policy For Content
-    
+
     on checkout context is the baseline
-    
+
     on checkin context is the working copy
     """
-    
+
     implements( interfaces.ICheckinCheckoutPolicy )
     component.adapts( interfaces.IIterateAware )
 
     # used when creating baseline version for first time
     default_base_message = "Created Baseline"
-    
+
     def __init__( self, context ):
         self.context = context
 
@@ -66,8 +66,8 @@ class CheckinCheckoutPolicyAdapter( object ):
 
         # publish the event for any subscribers
         notify( event.CheckoutEvent( self.context, working_copy, relation ) )
-       
-        # finally return the working copy 
+
+        # finally return the working copy
         return working_copy
 
     def checkin( self, checkin_message ):
@@ -78,12 +78,12 @@ class CheckinCheckoutPolicyAdapter( object ):
 
         # get a hold of the relation object
         wc_ref = self.context.getReferenceImpl( WorkingCopyRelation.relationship )[ 0]
-        
+
         # publish the event for subscribers, early because contexts are about to be manipulated
         notify( event.CheckinEvent( self.context, baseline, wc_ref, checkin_message ) )
 
         # merge the object back to the baseline with a copier
-        
+
         # XXX by gotcha
         # bug we should or use a getAdapter call or test if copier is None
         copier = component.queryAdapter( self.context, interfaces.IObjectCopier )
@@ -91,19 +91,19 @@ class CheckinCheckoutPolicyAdapter( object ):
 
         # don't need to unlock the lock disappears with old baseline deletion
         notify( event.AfterCheckinEvent( new_baseline, checkin_message ) )
-        
+
         return new_baseline
 
     def cancelCheckout( self ):
         # see interface
-        
+
         # get the baseline
         baseline = self._getBaseline()
 
         # publish an event
         notify( event.CancelCheckoutEvent( self.context, baseline ) )
-        
-        # delete the working copy        
+
+        # delete the working copy
         wc_container =  aq_parent( aq_inner( self.context ) )
         wc_container.manage_delObjects( [ self.context.getId() ] )
 

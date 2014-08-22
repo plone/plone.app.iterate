@@ -38,35 +38,35 @@ class HomeFolderLocator(object):
     """
     implements(IWCContainerLocator)
     adapts(IDynamicType)
-    
+
     def __init__(self, context):
         self.context = context
-    
+
     title = _(u"Home folder")
-    
+
     @property
     def available(self):
         return self() is not None
-        
+
     def __call__(self):
         return getToolByName(self.context, 'portal_membership').getHomeFolder()
-        
+
 class ParentFolderLocator(object):
     """Locate the parent of the context, if the user has the
     Add portal content permission.
     """
     implements(IWCContainerLocator)
     adapts(IDynamicType)
-    
+
     def __init__(self, context):
         self.context = context
-    
+
     title = _(u"Parent folder")
-    
+
     @property
     def available(self):
         return bool(getSecurityManager().checkPermission(AddPortalContent, aq_parent(aq_inner(self.context))))
-        
+
     def __call__(self):
         if not self.available:
             return None

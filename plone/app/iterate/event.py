@@ -37,7 +37,7 @@ class CheckoutEvent( ObjectEvent ):
         ObjectEvent.__init__(self, baseline )
         self.working_copy = wc
         self.relation = relation
-        
+
 class CheckinEvent( ObjectEvent ):
 
     implements( interfaces.ICheckinEvent )
@@ -51,7 +51,7 @@ class CheckinEvent( ObjectEvent ):
 class AfterCheckinEvent( ObjectEvent ):
 
     implements( interfaces.IAfterCheckinEvent )
-    
+
     def __init__( self, new_baseline, checkin_message ):
         super( AfterCheckinEvent, self).__init__( new_baseline )
         self.message = checkin_message
@@ -76,11 +76,11 @@ class WorkingCopyDeletedEvent( ObjectEvent ):
 class BeforeCheckoutEvent( ObjectEvent ):
 
     implements( interfaces.IBeforeCheckoutEvent )
-    
+
 
 def handleDeletion( reference, event ):
     # a filtering/enriching event rebroadcaster for working copy deletions
     workingCopy = reference.getSourceObject()
     baseline = reference.getTargetObject()
     notify( WorkingCopyDeletedEvent( workingCopy, baseline, reference ) )
-    
+

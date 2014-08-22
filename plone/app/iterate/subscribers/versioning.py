@@ -24,7 +24,7 @@ $Id: versioning.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
 from zope import component
-from plone.app.iterate import interfaces  
+from plone.app.iterate import interfaces
 
 def handleBeforeCheckout( event ):
     archiver = interfaces.IObjectArchiver( event.object )

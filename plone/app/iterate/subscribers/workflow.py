@@ -44,14 +44,14 @@ def handleCheckout( event ):
         return
 
     policy_id = properties.site_properties.getProperty('checkout_workflow_policy')
-    
+
     existing_policy = getattr( aq_base( event.working_copy ), WorkflowPolicyConfig_id, None )
     storage = get_storage( event.relation )
-    
-    # set config for policy in and below 
+
+    # set config for policy in and below
     policy = WorkflowPolicyConfig( policy_id, policy_id)
     policy.coci_created = True
-    
+
     if existing_policy is not None:
         storage[ policy_storage ] = policy
 
@@ -73,7 +73,7 @@ def handleCheckin( event ):
             delattr( event.object, WorkflowPolicyConfig_id )
     else:
         setattr( event.object, WorkflowPolicyConfig_id, previous_policy)
-    
 
 
-    
+
+

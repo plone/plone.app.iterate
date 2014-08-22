@@ -80,7 +80,7 @@ Now that we've made our changes we'll check the working copy in:
 Permissions
 -----------
 
-For the community workflow, we expect Editors and Contributors to be able to 
+For the community workflow, we expect Editors and Contributors to be able to
 check out published pages:
 
   >>> portal.portal_workflow.setDefaultChain('plone_workflow')
@@ -93,7 +93,7 @@ check out published pages:
   <PloneUser 'editor'>
   >>> portal.portal_membership.memberareaCreationFlag = 1
   >>> portal.portal_membership.createMemberArea('editor')
-  >>> portal.acl_users._doAddUser('contributor' , 'secret', ['Contributor'], 
+  >>> portal.acl_users._doAddUser('contributor' , 'secret', ['Contributor'],
   ...     [])
   <PloneUser 'contributor'>
   >>> portal.portal_membership.memberareaCreationFlag = 1
@@ -218,11 +218,11 @@ the condition for the "Cancel check-out" action on these items
 Working copy workflows
 ----------------------
 
-It's possible to assign a different workflow to working copies in combination 
-with Products.CMFPlacefulWorkflow.  This usually makes sense: you should be 
+It's possible to assign a different workflow to working copies in combination
+with Products.CMFPlacefulWorkflow.  This usually makes sense: you should be
 checking in a working copy rather than publishing it.
 
-We have a working copy workflow defined in our textfixture profile.  To enable 
+We have a working copy workflow defined in our textfixture profile.  To enable
 you need to set a couple of site properties.
 
   >>> browser.addHeader('Authorization',
@@ -270,10 +270,10 @@ Check get info message on original
   >>> browser.contents
   '...This item is being edited by...contributor...a working copy...'
 
-We're going to manually give the contributor user the CheckoutPermission   
+We're going to manually give the contributor user the CheckoutPermission
 to check it's used when displaying the info messages.  In our workflow
-once the checked out item is submitted the contributor no longer has 
-permission to modify it but we still want them to see the info messages.   
+once the checked out item is submitted the contributor no longer has
+permission to modify it but we still want them to see the info messages.
 
   >>> from plone.app.iterate.permissions import CheckoutPermission
   >>> self.portal.manage_permission(CheckoutPermission,
@@ -288,8 +288,8 @@ permission to modify it but we still want them to see the info messages.
   >>> browser.open(workflow_test_url)
   >>> browser.contents
   '...This item is being edited by...contributor...a working copy...'
-  
-Check security permisions on workflow have been applied.  We remove copy or 
+
+Check security permisions on workflow have been applied.  We remove copy or
 move permissions in our workflow so this should not appear in the action menu.
 http://code.google.com/p/dexterity/issues/detail?id=258
 
@@ -302,5 +302,5 @@ http://code.google.com/p/dexterity/issues/detail?id=258
   LinkNotFoundError
   >>> browser.getLink(id='plone-contentmenu-actions-delete')
   <Link text='Delete' ...>
-  
-  
+
+

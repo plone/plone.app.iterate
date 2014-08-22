@@ -3,7 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser">
 
     <!-- Control view (public) -->
-    
+
     <browser:page
         for="*"
         name="iterate_control"
@@ -13,7 +13,7 @@
         />
 
     <!-- Forms -->
-    
+
     <browser:page
         for="..interfaces.IIterateAware"
         name="content-checkout"
@@ -21,7 +21,7 @@
         template="checkout.pt"
         permission="zope2.View"
         />
-        
+
     <browser:page
         for="..interfaces.IIterateAware"
         name="content-checkin"
@@ -29,7 +29,7 @@
         template="checkin.pt"
         permission="cmf.ModifyPortalContent"
         />
-        
+
     <browser:page
         for="..interfaces.IIterateAware"
         name="content-cancel-checkout"
@@ -47,40 +47,40 @@
        template="diff.pt"
        permission="zope2.View"
        />
-       
+
     <browser:viewlet
         name="plone.app.iterate.baseline_info"
         manager="plone.app.layout.viewlets.interfaces.IAboveContent"
         class=".info.BaselineInfoViewlet"
-        permission="zope2.View" 
+        permission="zope2.View"
         for="..interfaces.IBaseline"
         view="plone.app.layout.globals.interfaces.IViewView"
         />
-    
+
     <browser:viewlet
         name="plone.app.iterate.checkout_info"
         manager="plone.app.layout.viewlets.interfaces.IAboveContent"
         class=".info.CheckoutInfoViewlet"
-        permission="zope2.View" 
+        permission="zope2.View"
         for="..interfaces.IWorkingCopy"
         view="plone.app.layout.globals.interfaces.IViewView"
         />
-               
+
     <!-- Resources -->
-    
+
     <browser:resource
         name="checkin.png"
         image="checkin.png"
         />
-    
+
     <browser:resource
         name="checkout.png"
         image="checkout.png"
         />
-        
+
     <browser:resource
         name="cancel-checkout.png"
         image="cancel.png"
         />
-    
+
 </configure>

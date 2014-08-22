@@ -8,7 +8,7 @@
        for="..interfaces.ICheckoutEvent"
        handler=".locking.handleCheckout"
        />
-       
+
     <subscriber
        for="..interfaces.ICheckinEvent"
        handler=".locking.handleCheckin"

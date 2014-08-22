@@ -28,7 +28,7 @@
         description="Extension profile to configure a test fixture"
         for="Products.CMFPlone.interfaces.ITestCasePloneSiteRoot"
         provides="Products.GenericSetup.interfaces.EXTENSION"
-        />       
+        />
 
     <genericsetup:upgradeStep
         source="*"
