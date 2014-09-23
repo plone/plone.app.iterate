@@ -1,22 +1,40 @@
 Changelog
 =========
 
-2.1.12 (unreleased)
+2.1.14 (unreleased)
 -------------------
 
 - Remove DL's from portal message in templates.
   https://github.com/plone/Products.CMFPlone/issues/153
   [khink]
 
+
+2.1.13 (2014-04-16)
+-------------------
+
+- Fix tests to work with auto csrf.
+  [vangheem]
+
+- Fix tests for latest plone.protect.
+  [vangheem]
+
+
+2.1.12 (2014-02-19)
+-------------------
+
 - Information messages can be hidden from user who checked out content when
   using a placeful workflow, see: https://dev.plone.org/ticket/13852
   [anthonygerrard]
+
+- Replaced the "Locked" label with "Warning"
+  [rristow]
 
 
 2.1.11 (2014-01-27)
 -------------------
 
-- Nothing changed yet.
+- setted lock timeout to MAX_TIMEOUT to avoid baseline unwanted unlock after 10 minutes
+  [parruc]
 
 
 2.1.10 (2013-03-05)

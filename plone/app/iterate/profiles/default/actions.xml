@@ -2,7 +2,7 @@
 <object name="portal_actions" meta_type="Plone Actions Tool"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
  <object name="object_buttons" meta_type="CMF Action Category">
-     
+
   <object name="iterate_checkin" meta_type="CMF Action" i18n:domain="plone">
    <property name="title" i18n:translate="">Check in</property>
    <property name="description" i18n:translate=""></property>
@@ -14,7 +14,7 @@
    </property>
    <property name="visible">True</property>
   </object>
-  
+
   <object name="iterate_checkout" meta_type="CMF Action" i18n:domain="plone">
    <property name="title" i18n:translate="">Check out</property>
    <property name="description" i18n:translate=""></property>
@@ -26,7 +26,7 @@
    </property>
    <property name="visible">True</property>
   </object>
-  
+
   <object name="iterate_checkout_cancel" meta_type="CMF Action" i18n:domain="plone">
    <property name="title" i18n:translate="">Cancel check-out</property>
    <property name="description" i18n:translate=""></property>
@@ -38,6 +38,6 @@
    </property>
    <property name="visible">True</property>
   </object>
-  
+
  </object>
 </object>

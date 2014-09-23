@@ -24,15 +24,15 @@
         Changes to
         <span tal:replace="context/title_or_id" />
     </h1>
-    
+
     <div id="content-core">
         <em tal:condition="diffs/same">
             No significant changes found.
         </em>
-    
+
         <div tal:condition="not:diffs/same">
             <div metal:use-macro="context/diff_legend/macros/diff_legend" />
-    
+
             <form id="diffs"
                   action="#"
                   tal:repeat="d diffs/getDiffs">
@@ -44,7 +44,7 @@
                                ndiff exists:d/ndiff;
                                inline python: inline and not request.get('no_inline', 0);
                                html python: html and not request.get('show_unified', 0)">
-            
+
                 <tal:html condition="inline">
                     <br />
                     <a href="#"

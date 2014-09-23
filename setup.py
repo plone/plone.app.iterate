@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 
-version = '2.1.12.dev0'
+version = '2.1.14.dev0'
 
 setup(name='plone.app.iterate',
       version=version,
       description="check-out/check-in staging for Plone",
       long_description=\
-          open("README.txt").read() + "\n" + \
-          open("CHANGES.txt").read(),
+          open("README.rst").read() + "\n" + \
+          open("CHANGES.rst").read(),
       classifiers=[
           "Environment :: Web Environment",
           "Framework :: Plone",

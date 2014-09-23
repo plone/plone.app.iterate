@@ -16,9 +16,9 @@
         container, and the original will be locked to prevent other users from
         editing it.
     </p>
-    
+
     <fieldset>
-        
+
         <legend i18n:translate="legend_details">Details</legend>
 
             <div class="field">
@@ -29,25 +29,25 @@
             <div class="formHelp" i18n:translate="help_checkout_folder">
                 Select the folder to checkout to.
             </div>
-         
+
             <div tal:repeat="item view/containers">
-                
-                <input 
-                    type="radio" 
-                    name="checkout_location" 
+
+                <input
+                    type="radio"
+                    name="checkout_location"
                     tal:attributes="id string:checkout_location_${item/name};
                                     value item/name"
                     />
-                    
+
                 <label
                     tal:attributes="for string:checkout_location_${item/name}"
                     tal:content="item/locator/title"
                     />
-           
+
            </div>
 
             </div>
-            
+
         </fieldset>
 
         <div class="formControls">
@@ -67,7 +67,7 @@
                 value="Cancel"
                 i18n:attributes="value label_cancel"
                 />
-                
+
         </div>
 
     </form>

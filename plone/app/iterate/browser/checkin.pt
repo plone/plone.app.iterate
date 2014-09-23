@@ -15,7 +15,7 @@
         Checking in this working copy will replace the existing item
         with the working copy.
     </p>
-    
+
     <fieldset>
 
             <div class="field">
@@ -27,7 +27,7 @@
                   Enter a message to be saved alongside the check-in. This
                   should explain what was changed, for audit purposes.
               </div>
-              
+
               <textarea cols="60"
                         rows="3"
                         id="checkin_message"
@@ -42,7 +42,7 @@
                     value="Check in"
                     i18n:attributes="value"
                     />
-                
+
                 <input
                     class="standalone"
                     type="submit"

@@ -36,9 +36,9 @@ from plone.app.iterate.interfaces import IWCContainerLocator
 from plone.app.iterate.interfaces import IObjectArchiver
 
 class Checkout(BrowserView):
-    
+
     index = ViewPageTemplateFile('checkout.pt')
-    
+
     def containers(self):
         """Get a list of potential containers
         """
@@ -46,7 +46,7 @@ class Checkout(BrowserView):
         for name, locator in getAdapters((context,), IWCContainerLocator):
             if locator.available:
                 yield dict(name=name, locator=locator)
-    
+
     def __call__(self):
         context = aq_inner(self.context)
 
@@ -75,10 +75,10 @@ class Checkout(BrowserView):
 
             policy = ICheckinCheckoutPolicy(context)
             wc = policy.checkout(locator())
-            
+
             # we do this for metadata update side affects which will update lock info
             context.reindexObject('review_state')
-            
+
             IStatusMessage(self.request).addStatusMessage(_("Check-out created"), type='info')
             view_url = wc.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)

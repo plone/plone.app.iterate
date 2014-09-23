@@ -28,8 +28,8 @@ class DiffView( BrowserView ):
                                      self.working_copy,
                                      id1="Baseline",
                                      id2="Working Copy" )
-    
-        
-    
 
-    
+
+
+
+

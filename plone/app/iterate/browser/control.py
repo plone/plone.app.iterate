@@ -34,10 +34,10 @@ from plone.app.iterate import permissions
 
 class Control(BrowserView):
     """Information about whether iterate can operate.
-    
+
     This is a public view, referenced in action condition expressions.
     """
-    
+
     def get_original(self, context):
         if IReferenceable.providedBy(context):
             refs = context.getRefs(WorkingCopyRelation.relationship)
@@ -49,10 +49,10 @@ class Control(BrowserView):
         """
         context = aq_inner(self.context)
         checkPermission = getSecurityManager().checkPermission
-        
+
         if not interfaces.IIterateAware.providedBy(context):
             return False
-    
+
         archiver = interfaces.IObjectArchiver(context)
         if not archiver.isVersionable():
             return False
@@ -64,17 +64,17 @@ class Control(BrowserView):
         if not checkPermission(
             Products.CMFCore.permissions.ModifyPortalContent, original):
             return False
-        
+
         return True
-        
+
     def checkout_allowed(self):
         """Check if a checkout is allowed.
         """
         context = aq_inner(self.context)
-        
+
         if not interfaces.IIterateAware.providedBy(context):
             return False
-        
+
         if not IReferenceable.providedBy(context):
             return False
 
@@ -85,13 +85,13 @@ class Control(BrowserView):
         # check if there is an existing checkout
         if len(context.getBRefs(WorkingCopyRelation.relationship)) > 0:
             return False
-        
+
         # check if its is a checkout
         if len(context.getRefs(WorkingCopyRelation.relationship)) > 0:
             return False
-        
+
         return True
-        
+
     @memoize
     def cancel_allowed(self):
         """Check to see if the user can cancel the checkout on the

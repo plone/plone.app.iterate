@@ -33,12 +33,12 @@ from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckinException
 
 class Checkin(BrowserView):
-    
+
     index = ViewPageTemplateFile('checkin.pt')
-    
+
     def __call__(self):
         context = aq_inner(self.context)
-        
+
         if self.request.form.has_key('form.button.Checkin'):
             control = getMultiAdapter((context, self.request), name=u"iterate_control")
             if not control.checkin_allowed():
@@ -48,7 +48,7 @@ class Checkin(BrowserView):
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.checkin(message)
-            
+
             IStatusMessage(self.request).addStatusMessage(_("Checked in"), type='info')
             view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
