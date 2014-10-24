@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.1.14 (unreleased)
--------------------
+3.0.0 (2014-10-23)
+------------------
 
 - Remove DL's from portal message in templates.
   https://github.com/plone/Products.CMFPlone/issues/153
