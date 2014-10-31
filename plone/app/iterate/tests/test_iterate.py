@@ -27,15 +27,15 @@ from AccessControl import getSecurityManager
 
 from Products.CMFCore.utils import getToolByName
 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATE_INTEGRATION_TESTING
+from plone.app.iterate.testing import PLONEAPPITERATE_FUNCTIONAL_TESTING
 
-from plone.app.testing import login
-from plone.app.testing import setRoles
+from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import login
+from plone.app.testing import setRoles
 
 import unittest2 as unittest
 
@@ -60,10 +60,6 @@ class TestIterations(unittest.TestCase):
         self.portal.invokeFactory('Folder', 'workarea')
 
         self.repo = self.portal.portal_repository
-
-    def beforeTearDown(self):
-        self.repo = None
-        self.wf = None
 
     def shim_test(self, test_method):
 
@@ -286,15 +282,12 @@ class TestIterations(unittest.TestCase):
 
 
 class IterateFunctionalTestCase(unittest.TestCase):
-    pass
 
+    layer = PLONEAPPITERATE_FUNCTIONAL_TESTING
 
-"""
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(FunctionalDocFileSuite(
-        'browser.txt',
-        test_class=IterateFunctionalTestCase))
-    return suite
-"""
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.app = self.layer['app']
+
+    def loginAsPortalOwner(self):
+        login(self.portal, SITE_OWNER_NAME)

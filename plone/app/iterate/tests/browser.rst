@@ -1,20 +1,19 @@
-
 Setup
 -----
 
     >>> from Testing import ZopeTestCase as ztc
-    >>> ztc.installProduct('Products.CMFPlacefulWorkflow')
-    >>> result = self.portal.portal_setup.runAllImportStepsFromProfile(
-    ...   'profile-plone.app.iterate:plone.app.iterate')
-    >>> result = self.portal.portal_setup.runAllImportStepsFromProfile(
-    ...   'profile-plone.app.iterate:test')
+    >>> from plone.testing import z2
+    >>> from plone.testing.z2 import Browser
+    >>> from plone.app.testing import login
+    >>> from plone.app.testing.interfaces import SITE_OWNER_NAME
+    >>> from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
 
-    >>> from Products.Five.testbrowser import Browser
-    >>> from Testing.ZopeTestCase import user_password
-    >>> browser = Browser()
+    >>> portal_url = portal.absolute_url()
+
+    >>> browser = Browser(app)
     >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization',
-    ...                   'Basic %s:%s' % ('portal_owner', user_password))
+    ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
 
 Create a document
 -----------------
@@ -89,16 +88,7 @@ check out published pages::
     >>> "Item state changed" in browser.contents
     True
 
-    >>> portal.acl_users._doAddUser('editor' , 'secret', ['Editor'], [])
-    <PloneUser 'editor'>
-    >>> portal.portal_membership.memberareaCreationFlag = 1
-    >>> portal.portal_membership.createMemberArea('editor')
-    >>> portal.acl_users._doAddUser('contributor' , 'secret', ['Contributor'],
-    ...     [])
-    <PloneUser 'contributor'>
-    >>> portal.portal_membership.memberareaCreationFlag = 1
-    >>> portal.portal_membership.createMemberArea('contributor')
-    >>> browser = Browser()
+    >>> browser = Browser(app)
     >>> browser.addHeader('Authorization', 'Basic editor:secret')
 
     >>> browser.open(portal.absolute_url() + '/hello-world')
@@ -120,6 +110,8 @@ therefore our Editor lacks permissions to modify the original::
 The Editor could, however, retract the original to gain permissions
 again and check in (and then possibly request for review)::
 
+    >>> browser = Browser(app)
+    >>> browser.addHeader('Authorization', 'Basic editor:secret')
     >>> browser.open(portal.absolute_url() + '/hello-world')
     >>> browser.getLink("Published").click()
     >>> browser.getControl("Retract").click()
@@ -145,10 +137,10 @@ Turn on versioning for folders::
 
 Go to our folder and create a folder::
 
-    >>> browser = Browser()
+    >>> browser = Browser(app)
     >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization',
-    ...                   'Basic %s:%s' % ('portal_owner', user_password))
+    ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
     >>> browser.open(self.portal.absolute_url())
     >>> browser.getLink('Folder').click()
     >>> browser.getControl('Title').value = 'Foo Folder'
@@ -226,7 +218,7 @@ We have a working copy workflow defined in our textfixture profile.  To enable
 you need to set a couple of site properties::
 
     >>> browser.addHeader('Authorization',
-    ...                   'Basic %s:%s' % ('portal_owner', user_password))
+    ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
     >>> browser.open("http://nohost/plone/portal_properties/site_properties/manage_propertiesForm")
     >>> browser.getControl(name="enable_checkout_workflow:boolean").value = [True]
     >>> browser.getControl(name="checkout_workflow_policy:string").value = 'working-copy'
@@ -249,7 +241,7 @@ Create a new page to test workflows with::
 
 Checkout::
 
-    >>> browser = Browser()
+    >>> browser = Browser(app)
     >>> browser.addHeader('Authorization', 'Basic contributor:secret')
     >>> browser.open(workflow_test_url)
     >>> browser.getLink(id='plone-contentmenu-actions-iterate_checkout').click()
@@ -275,9 +267,17 @@ to check it's used when displaying the info messages.  In our workflow
 once the checked out item is submitted the contributor no longer has
 permission to modify it but we still want them to see the info messages::
 
+    >>> browser = Browser(app)
+    >>> browser.addHeader('Authorization',
+    ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
+
     >>> from plone.app.iterate.permissions import CheckoutPermission
-    >>> self.portal.manage_permission(CheckoutPermission,
-    ...     ('Contributor',), False)
+    >>> browser.open('{0}/manage_permissionForm?permission_to_manage={1}'.format(portal.absolute_url(), CheckoutPermission)) 
+    >>> browser.getControl(name='roles:list').value = browser.getControl(name='roles:list').value + ['Contributor']
+    >>> browser.getControl('Save Changes').click()
+
+    >>> browser = Browser(app)
+    >>> browser.addHeader('Authorization', 'Basic contributor:secret')
     >>> browser.open(workflow_checkout_url)
     >>> browser.getLink(id='workflow-transition-submit-copy-for-publication')\
     ...     .click()
@@ -293,7 +293,7 @@ Check security permisions on workflow have been applied.  We remove copy or
 move permissions in our workflow so this should not appear in the action menu.
 http://code.google.com/p/dexterity/issues/detail?id=258 ::
 
-    >>> browser = Browser()
+    >>> browser = Browser(app)
     >>> browser.addHeader('Authorization', 'Basic editor:secret')
     >>> browser.open(workflow_checkout_url)
     >>> browser.getLink(id='plone-contentmenu-actions-copy')
