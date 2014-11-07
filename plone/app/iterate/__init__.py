@@ -20,10 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 """
-$Id: __init__.py 1395 2006-06-23 22:06:22Z hazmat $
 """
-
-import permissions
 
 from zope.i18nmessageid import MessageFactory
 PloneMessageFactory = MessageFactory('plone')

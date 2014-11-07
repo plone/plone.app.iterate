@@ -30,7 +30,7 @@ import Products.CMFCore.permissions
 
 from plone.app.iterate import interfaces
 from plone.app.iterate.relation import WorkingCopyRelation
-from plone.app.iterate import permissions
+
 
 class Control(BrowserView):
     """Information about whether iterate can operate.

@@ -1,13 +1,15 @@
+# -*- coding: utf-8 -*-
 from plone.app.folder.folder import ATFolder, ATFolderSchema
 from Products.ATContentTypes.content.base import registerATCT
 from Products.Archetypes import atapi
 
 RichFolderSchema = ATFolderSchema.copy() + atapi.Schema((
     atapi.TextField('text',
-        default_output_type = 'text/x-html-safe',
-        widget = atapi.RichWidget(),
-    ),
+                    default_output_type='text/x-html-safe',
+                    widget=atapi.RichWidget(),
+                    ),
 ))
+
 
 class RichFolder(ATFolder):
     """ sample content type for testing purposes """
@@ -16,6 +18,7 @@ class RichFolder(ATFolder):
     portal_type = 'RichFolder'
 
 registerATCT(RichFolder, 'plone.app.iterate')
+
 
 def addRichFolder(container, id, **kwargs):
     """ at-constructor copied from ClassGen.py """

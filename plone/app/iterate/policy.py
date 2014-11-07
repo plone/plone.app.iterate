@@ -22,13 +22,11 @@
 """
 A Default Checkin Checkout Policy For Content
 
-$Id: policy.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
 from zope import component
 from zope.event import notify
 from zope.interface import implements
-from zope.annotation.interfaces import IAnnotations
 
 from Acquisition import Implicit, aq_base, aq_inner, aq_parent
 

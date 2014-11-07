@@ -25,7 +25,6 @@ from zope.component import getMultiAdapter, getAdapters
 from Acquisition import aq_inner
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from ZODB.POSException import ConflictError
 
 from Products.statusmessages.interfaces import IStatusMessage
 
@@ -33,7 +32,7 @@ from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckoutException
 from plone.app.iterate.interfaces import IWCContainerLocator
-from plone.app.iterate.interfaces import IObjectArchiver
+
 
 class Checkout(BrowserView):
 

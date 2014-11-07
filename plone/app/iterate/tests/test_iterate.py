@@ -28,21 +28,28 @@ from AccessControl import getSecurityManager
 from Products.CMFCore.utils import getToolByName
 
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
+from plone.app.iterate.testing import PLONEAPPITERATE_INTEGRATION_TESTING
+from plone.app.iterate.testing import PLONEAPPITERATE_FUNCTIONAL_TESTING
 
-from Products.PloneTestCase import PloneTestCase
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-PloneTestCase.setupPloneSite()
+from plone.app.testing import SITE_OWNER_NAME
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import login
+from plone.app.testing import setRoles
 
-class TestIterations(PloneTestCase.PloneTestCase):
+import unittest2 as unittest
 
-    def afterSetUp(self):
-        self.setRoles(['Manager',])
+class TestIterations(unittest.TestCase):
 
-        # Since we depend on ZCML being loaded, we can't do this
-        # until the layer is set up
+    layer = PLONEAPPITERATE_INTEGRATION_TESTING
 
-        self.portal.portal_setup.runAllImportStepsFromProfile(
-            'profile-plone.app.iterate:plone.app.iterate')
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+
+        self.wf = self.portal.portal_workflow
+        self.wf.setChainForPortalTypes(('Document',), 'plone_workflow')
 
         # add a folder with two documents in it
         self.portal.invokeFactory('Folder', 'docs')
@@ -53,111 +60,111 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.portal.invokeFactory('Folder', 'workarea')
 
         self.repo = self.portal.portal_repository
-        self.wf   = self.portal.portal_workflow
 
-    def beforeTearDown(self):
-        self.repo = None
-        self.wf   = None
-
-    def shim_test( self, test_method):
+    def shim_test(self, test_method):
 
         try:
             test_method()
         except:
-            import sys, pdb, traceback
+            import sys
+            import pdb
+            import traceback
             ec, e, tb = sys.exc_info()
             traceback.print_exc()
-            pdb.post_mortem( tb )
+            pdb.post_mortem(tb)
 
-    def test_workflowState( self ):
-        # ensure baseline workflow state is retained on checkin, including security
+    def test_workflowState(self):
+        # ensure baseline workflow state is retained on checkin, including
+        # security
 
         doc = self.portal.docs.doc1
 
         # sanity check that owner can edit visible docs
-        self.setRoles(['Owner',])
-        self.assertTrue( getSecurityManager().checkPermission( "Modify portal content",
-                                                               self.portal.docs.doc1 ) )
+        setRoles(self.portal, TEST_USER_ID, ['Owner'])
+        self.assertTrue(getSecurityManager().checkPermission(
+            "Modify portal content", self.portal.docs.doc1))
 
-        self.setRoles(['Manager',])
-        self.wf.doActionFor( doc, 'publish')
-        state = self.wf.getInfoFor( doc, 'review_state')
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.wf.doActionFor(doc, 'publish')
+        state = self.wf.getInfoFor(doc, 'review_state')
 
-        self.repo.save( doc )
-        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
-        wc_state = self.wf.getInfoFor( wc, 'review_state')
+        self.repo.save(doc)
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        wc_state = self.wf.getInfoFor(wc, 'review_state')
 
-        self.assertNotEqual( state, wc_state )
+        self.assertNotEqual(state, wc_state)
 
-        ICheckinCheckoutPolicy( wc ).checkin( "modified" )
-        bstate = self.wf.getInfoFor( wc, 'review_state')
-        self.assertEqual( state, bstate )
-        self.setRoles(['Owner',])
+        ICheckinCheckoutPolicy(wc).checkin("modified")
+        bstate = self.wf.getInfoFor(wc, 'review_state')
+        self.assertEqual(state, bstate)
+        setRoles(self.portal, TEST_USER_ID, ['Owner'])
 
-    def test_baselineVersionCreated( self ):
+    def test_baselineVersionCreated(self):
         # if a baseline has no version ensure that one is created on checkout
 
         doc = self.portal.docs.doc1
-        self.assertTrue( self.repo.isVersionable( doc ) )
+        self.assertTrue(self.repo.isVersionable(doc))
 
-        history = self.repo.getHistory( doc )
-        self.assertEqual( len(history), 0 )
+        history = self.repo.getHistory(doc)
+        self.assertEqual(len(history), 0)
 
-        ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
+        ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
-        history = self.repo.getHistory( doc )
-        self.assertEqual( len(history), 1 )
+        history = self.repo.getHistory(doc)
+        self.assertEqual(len(history), 1)
 
         doc2 = self.portal.docs.doc2
-        self.repo.save( doc2 )
+        self.repo.save(doc2)
 
-        ICheckinCheckoutPolicy( doc2 ).checkout( self.portal.workarea )
+        ICheckinCheckoutPolicy(doc2).checkout(self.portal.workarea)
 
-        history = self.repo.getHistory( doc2 )
-        self.assertEqual( len(history), 1 )
+        history = self.repo.getHistory(doc2)
+        self.assertEqual(len(history), 1)
 
-    def test_wcNewForwardReferencesCopied( self ):
-        # ensure that new wc references are copied back to the baseline on checkin
+    def test_wcNewForwardReferencesCopied(self):
+        # ensure that new wc references are copied back to the baseline on
+        # checkin
         doc = self.portal.docs.doc1
-        doc.addReference( self.portal.docs )
-        self.assertEqual( len(doc.getReferences("zebra")), 0)
-        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
-        wc.addReference( self.portal.docs.doc2, "zebra")
-        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
-        self.assertEqual( len(doc.getReferences("zebra")), 1 )
+        doc.addReference(self.portal.docs)
+        self.assertEqual(len(doc.getReferences("zebra")), 0)
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        wc.addReference(self.portal.docs.doc2, "zebra")
+        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        self.assertEqual(len(doc.getReferences("zebra")), 1)
 
-    def test_wcNewBackwardReferencesCopied( self ):
-        # ensure that new wc back references are copied back to the baseline on checkin
-
-        doc = self.portal.docs.doc1
-        self.assertEqual( len(doc.getBackReferences("zebra")), 0)
-        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
-        self.portal.docs.doc2.addReference( wc, "zebra")
-        self.assertEqual( len( wc.getBackReferences("zebra")), 1 )
-        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated")
-        self.assertEqual( len( doc.getBackReferences("zebra")), 1 )
-
-    def test_baselineReferencesMaintained( self ):
-        # ensure that baseline references are maintained when the object is checked in
-        # copies forward, bkw are not copied, but are maintained.
+    def test_wcNewBackwardReferencesCopied(self):
+        # ensure that new wc back references are copied back to the baseline on
+        # checkin
 
         doc = self.portal.docs.doc1
-        doc.addReference( self.portal.docs, "elephant" )
-        self.portal.docs.doc2.addReference( doc )
+        self.assertEqual(len(doc.getBackReferences("zebra")), 0)
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        self.portal.docs.doc2.addReference(wc, "zebra")
+        self.assertEqual(len(wc.getBackReferences("zebra")), 1)
+        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        self.assertEqual(len(doc.getBackReferences("zebra")), 1)
 
-        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
+    def test_baselineReferencesMaintained(self):
+        # ensure that baseline references are maintained when the object is
+        # checked in copies forward, bkw are not copied, but are maintained.
 
-        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
+        doc = self.portal.docs.doc1
+        doc.addReference(self.portal.docs, "elephant")
+        self.portal.docs.doc2.addReference(doc)
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+
+        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
 
         # TODO: This fails in Plone 4.1. The new optimized catalog lookups
         # in the reference catalog no longer filter out non-existing reference
         # objects. In both Plone 4.0 and 4.1 there's two references, one of
         # them is a stale catalog entry in the reference catalog. The real fix
         # is to figure out how the stale catalog entry gets in there
-        self.assertEqual( len(doc.getReferences()), 1 )
-        self.assertEqual( len(doc.getBackReferences()), 1 )
+        self.assertEqual(len(doc.getReferences()), 1)
+        self.assertEqual(len(doc.getBackReferences()), 1)
 
-    def test_baselineNoCopyReferences( self ):
+    def test_baselineNoCopyReferences(self):
         # ensure that custom state is maintained with the no copy adapter
 
         # setup the named ref adapter
@@ -167,27 +174,28 @@ class TestIterations(PloneTestCase.PloneTestCase):
         from plone.app.iterate.tests.utils import CustomReference
 
         component.provideAdapter(
-            adapts = (IBaseObject,),
-            provides = interfaces.ICheckinCheckoutReference,
-            factory = relation.NoCopyReferenceAdapter,
+            adapts=(IBaseObject,),
+            provides=interfaces.ICheckinCheckoutReference,
+            factory=relation.NoCopyReferenceAdapter,
             name="zebra")
 
         doc = self.portal.docs.doc1
-        ref = doc.addReference( self.portal.docs, "zebra", referenceClass=CustomReference )
+        ref = doc.addReference(
+            self.portal.docs, "zebra", referenceClass=CustomReference)
         ref.custom_state = "hello world"
 
-        wc = ICheckinCheckoutPolicy( doc ).checkout( self.portal.workarea )
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
-        self.assertEqual( len(wc.getReferences("zebra")), 0)
+        self.assertEqual(len(wc.getReferences("zebra")), 0)
 
-        doc = ICheckinCheckoutPolicy( wc ).checkin( "updated" )
+        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
 
-        self.assertEqual( len(doc.getReferences("zebra")), 1)
+        self.assertEqual(len(doc.getReferences("zebra")), 1)
 
         ref = doc.getReferenceImpl("zebra")[0]
 
-        self.assert_( hasattr( ref, "custom_state") )
-        self.assertEqual( ref.custom_state, "hello world")
+        self.assert_(hasattr(ref, "custom_state"))
+        self.assertEqual(ref.custom_state, "hello world")
 
     def test_folderOrder(self):
         """When an item is checked out and then back in, the original
@@ -244,7 +252,7 @@ class TestIterations(PloneTestCase.PloneTestCase):
             new_folder['new-folder-item'].getPhysicalPath()))
         self.assertTrue(brains)
         self.assertTrue('new folder item text' in
-                         new_folder['new-folder-item'].getText())
+                        new_folder['new-folder-item'].getText())
 
     def test_checkinObjectLinkedInParentsRichTextField(self):
         """Checnking-in an object that is linked in it's
@@ -261,7 +269,8 @@ class TestIterations(PloneTestCase.PloneTestCase):
         subobject_uid = subobject.UID()
 
         # link (by uid) the subobject in it's parent's rich text field
-        link_html = '<a class="internal-link" href="resolveuid/%s">Link to subobject</a>'
+        link_html = '<a class="internal-link" href="resolveuid/%s">' \
+            'Link to subobject</a>'
         rich_text_folder.setText(link_html % subobject_uid)
 
         # try to checkout and checkin the subobject
@@ -272,15 +281,13 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assertEqual(subobject_uid, wc.UID())
 
 
-class IterateFunctionalTestCase(PloneTestCase.FunctionalTestCase):
-    pass
+class IterateFunctionalTestCase(unittest.TestCase):
 
+    layer = PLONEAPPITERATE_FUNCTIONAL_TESTING
 
-def test_suite():
-    from unittest import TestSuite, makeSuite
-    suite = TestSuite()
-    suite.addTest(makeSuite(TestIterations))
-    suite.addTest(FunctionalDocFileSuite(
-        'browser.txt',
-        test_class=IterateFunctionalTestCase))
-    return suite
+    def setUp(self):
+        self.portal = self.layer['portal']
+        self.app = self.layer['app']
+
+    def loginAsPortalOwner(self):
+        login(self.portal, SITE_OWNER_NAME)
