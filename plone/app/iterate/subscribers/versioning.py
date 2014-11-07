@@ -20,16 +20,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 """
-$Id: versioning.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from zope import component
 from plone.app.iterate import interfaces
+
 
 def handleBeforeCheckout( event ):
     archiver = interfaces.IObjectArchiver( event.object )
     if archiver.isModified() or not archiver.isVersioned():
         archiver.save("Baseline created")
+
 
 def handleAfterCheckin( event ):
     archiver = interfaces.IObjectArchiver( event.object )

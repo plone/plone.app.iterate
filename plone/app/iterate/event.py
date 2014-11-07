@@ -20,14 +20,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 """
-$Id: event.py 1811 2007-02-06 18:40:02Z hazmat $
 """
 from zope.interface import implements
 from zope.event import notify
 from zope.component.interfaces import ObjectEvent
 
 import interfaces
-import relation
 
 class CheckoutEvent( ObjectEvent ):
 
