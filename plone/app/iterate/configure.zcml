@@ -67,4 +67,14 @@
        handler=".event.handleDeletion"
        />
 
+    <permission
+      id="plone.app.iterate.CheckInContent"
+      title="iterate : Check in content"
+      />
+
+    <permission
+      id="plone.app.iterate.CheckOutContent"
+      title="iterate : Check out content"
+      />
+
 </configure>

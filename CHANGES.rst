@@ -4,6 +4,10 @@ Changelog
 3.0.1 (unreleased)
 ------------------
 
+- Add permission names zcml/z3 style and load permission settings explicit
+  when module is loaded, otherwise default roles where not set correctly.
+  [jensens]
+
 - Ported tests to plone.app.testing
   [bogdan, tomgross]
 

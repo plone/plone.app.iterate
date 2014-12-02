@@ -24,3 +24,5 @@
 
 from zope.i18nmessageid import MessageFactory
 PloneMessageFactory = MessageFactory('plone')
+
+from plone.app.iterate import permissions
