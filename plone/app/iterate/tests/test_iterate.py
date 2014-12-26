@@ -279,15 +279,3 @@ class TestIterations(unittest.TestCase):
 
         # everything went right and the working copy is checked in
         self.assertEqual(subobject_uid, wc.UID())
-
-
-class IterateFunctionalTestCase(unittest.TestCase):
-
-    layer = PLONEAPPITERATE_FUNCTIONAL_TESTING
-
-    def setUp(self):
-        self.portal = self.layer['portal']
-        self.app = self.layer['app']
-
-    def loginAsPortalOwner(self):
-        login(self.portal, SITE_OWNER_NAME)

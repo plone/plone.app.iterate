@@ -1,16 +1,15 @@
 Setup
 -----
 
-    >>> from Testing import ZopeTestCase as ztc
     >>> from plone.testing import z2
-    >>> from plone.testing.z2 import Browser
     >>> from plone.app.testing import login
-    >>> from plone.app.testing.interfaces import SITE_OWNER_NAME
-    >>> from plone.app.testing.interfaces import SITE_OWNER_PASSWORD
+    >>> from plone.app.testing import SITE_OWNER_NAME
+    >>> from plone.app.testing import SITE_OWNER_PASSWORD
 
+    >>> portal = layer['portal']
     >>> portal_url = portal.absolute_url()
 
-    >>> browser = Browser(app)
+    >>> browser = z2.Browser(layer['app'])
     >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization',
     ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
@@ -20,7 +19,7 @@ Create a document
 
 Go to our folder and create a document::
 
-    >>> browser.open(self.portal.absolute_url())
+    >>> browser.open(portal.absolute_url())
     >>> browser.getLink('Add new').click()
     >>> 'Add new item' in browser.contents
     True
@@ -141,7 +140,7 @@ Go to our folder and create a folder::
     >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization',
     ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
-    >>> browser.open(self.portal.absolute_url())
+    >>> browser.open(portal.absolute_url())
     >>> browser.getLink('Folder').click()
     >>> browser.getControl('Title').value = 'Foo Folder'
     >>> browser.getControl('Save').click()
@@ -202,7 +201,7 @@ Some items, like the Plone site root, don't do references.  This broke
 the condition for the "Cancel check-out" action on these items
 (#8737)::
 
-    >>> self.loginAsPortalOwner()
+    >>> z2.login(layer['app']['acl_users'], SITE_OWNER_NAME)
     >>> if 'front-page' in portal:
     ...     portal.manage_delObjects(['front-page'])
     >>> browser.open(portal.absolute_url())
@@ -226,7 +225,7 @@ you need to set a couple of site properties::
 
 Create a new page to test workflows with::
 
-    >>> browser.open(self.portal.absolute_url())
+    >>> browser.open(portal.absolute_url())
     >>> browser.getLink('Add new').click()
     >>> 'Add new item' in browser.contents
     True

@@ -2,20 +2,19 @@
 import doctest
 from unittest import TestSuite
 
-from Testing.ZopeTestCase import FunctionalDocFileSuite
-
-from plone.app.iterate.tests.test_iterate import IterateFunctionalTestCase
+from plone.app.iterate.testing import PLONEAPPITERATE_FUNCTIONAL_TESTING
+from plone.testing.z2 import layered
 
 
 def test_suite():
     suite = TestSuite()
     OPTIONFLAGS = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
-    suite.addTest(
-        FunctionalDocFileSuite(
+    suite.addTest(layered(
+        doctest.DocFileSuite(
             'browser.rst',
             optionflags=OPTIONFLAGS,
             package="plone.app.iterate.tests",
-            test_class=IterateFunctionalTestCase,
         ),
+        layer=PLONEAPPITERATE_FUNCTIONAL_TESTING)
     )
     return suite
