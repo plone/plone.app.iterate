@@ -3,7 +3,7 @@ import doctest
 from unittest import TestSuite
 
 from plone.app.iterate.testing import PLONEAPPITERATE_FUNCTIONAL_TESTING
-from plone.testing.z2 import layered
+from plone.testing import layered
 
 
 def test_suite():
