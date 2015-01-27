@@ -27,7 +27,7 @@ Go to our folder and create a document::
     >>> browser.getControl('Page').click()
     >>> browser.getControl('Add').click()
     >>> browser.getControl('Title').value = 'Hello, World!'
-    >>> browser.getControl('Body Text').value = 'Hello, World!'
+    >>> browser.getControl(name='text').value = 'Hello, World!'
     >>> browser.getControl('Save').click()
     >>> 'Changes saved.' in browser.contents
     True
@@ -233,7 +233,7 @@ Create a new page to test workflows with::
     >>> browser.getControl('Page').click()
     >>> browser.getControl('Add').click()
     >>> browser.getControl('Title').value = 'My workflow test'
-    >>> browser.getControl('Body Text').value = 'My workflow test'
+    >>> browser.getControl(name='text').value = 'My workflow test'
     >>> browser.getControl('Save').click()
     >>> 'Changes saved.' in browser.contents
     True
