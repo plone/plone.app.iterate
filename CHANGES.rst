@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.1 (unreleased)
+3.0.1 (2015-03-12)
 ------------------
 
 - Add permission names zcml/z3 style and load permission settings explicit
