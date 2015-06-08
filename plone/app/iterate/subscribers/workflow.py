@@ -26,7 +26,7 @@ Applies new checkout specific workflows to content that is checked out.
 
 """
 
-from Acquisition import aq_base
+from Acquisition import aq_base, aq_inner
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig
 from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
@@ -38,7 +38,7 @@ policy_storage = "previous_wf_policy"
 
 def handleCheckout( event ):
     # defer to setting
-    properties = getToolByName(aq_base(event.object), 'portal_properties')
+    properties = getToolByName(aq_inner(event.object), 'portal_properties')
     enabled = properties.site_properties.getProperty('enable_checkout_workflow')
     if not enabled:
         return
