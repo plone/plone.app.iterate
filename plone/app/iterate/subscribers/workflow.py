@@ -38,7 +38,7 @@ policy_storage = "previous_wf_policy"
 
 def handleCheckout( event ):
     # defer to setting
-    properties = getToolByName(aq_base(event.object), 'portal_properties')
+    properties = getToolByName(event.object, 'portal_properties')
     enabled = properties.site_properties.getProperty('enable_checkout_workflow')
     if not enabled:
         return

@@ -4,7 +4,8 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Don't remove aquisition on object for getToolByName call
+  [tomgross]
 
 
 3.0.1 (2015-03-12)
