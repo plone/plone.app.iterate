@@ -35,7 +35,7 @@ from interfaces import ICheckinCheckoutReference
 from interfaces import IIterateAware
 
 
-class WorkingCopyRelation( Reference ):
+class WorkingCopyRelation(Reference):
     """
     Source Object is Working Copy
 
@@ -43,10 +43,10 @@ class WorkingCopyRelation( Reference ):
     """
     relationship = "Working Copy Relation"
 
-    implements( IWorkingCopyRelation, IAttributeAnnotatable )
+    implements(IWorkingCopyRelation, IAttributeAnnotatable)
 
 
-class CheckinCheckoutReferenceAdapter ( object ):
+class CheckinCheckoutReferenceAdapter(object):
     """
     default adapter for references.
 
@@ -65,47 +65,46 @@ class CheckinCheckoutReferenceAdapter ( object ):
 
     """
 
-    implements( ICheckinCheckoutReference )
-    adapts( IIterateAware )
+    implements(ICheckinCheckoutReference)
+    adapts(IIterateAware)
 
     storage_key = "coci.references"
 
-    def __init__(self, context ):
+    def __init__(self, context):
         self.context = context
 
-    def checkout( self, baseline, wc, refs, storage ):
+    def checkout(self, baseline, wc, refs, storage):
         for ref in refs:
-            wc.addReference( ref.targetUID, ref.relationship, referenceClass=ref.__class__ )
+            wc.addReference(ref.targetUID, ref.relationship, referenceClass=ref.__class__)
 
-    def checkin( self, *args ):
+    def checkin(self, *args):
         pass
 
     checkoutBackReferences = checkinBackReferences = checkin
 
 
-
-class NoCopyReferenceAdapter( object ):
+class NoCopyReferenceAdapter(object):
     """
     an adapter for references that does not copy them to the wc on checkout.
 
     additionally custom reference state is kept when the wc is checked in.
     """
 
-    implements( ICheckinCheckoutReference )
+    implements(ICheckinCheckoutReference)
 
     def __init__(self, context):
         self.context = context
 
-    def checkin( self, baseline, wc, refs, storage ):
+    def checkin(self, baseline, wc, refs, storage):
         # move the references from the baseline to the wc
 
         # one note, on checkin the wc uid is not yet changed to match that of the baseline
         ref_ids = [r.getId() for r in refs]
 
-        baseline_ref_container = getattr( baseline, atconf.REFERENCE_ANNOTATION )
-        clipboard = baseline_ref_container.manage_cutObjects( ref_ids )
+        baseline_ref_container = getattr(baseline, atconf.REFERENCE_ANNOTATION)
+        clipboard = baseline_ref_container.manage_cutObjects(ref_ids)
 
-        wc_ref_container = getattr( wc, atconf.REFERENCE_ANNOTATION )
+        wc_ref_container = getattr(wc, atconf.REFERENCE_ANNOTATION)
 
         # references aren't globally addable w/ associated perm which default copysupport
         # wants to check, temporarily monkey around the issue.

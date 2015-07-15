@@ -1,10 +1,12 @@
 <div class="portalMessage info"
-     tal:define="working_copy view/working_copy;"
-     i18n:domain="plone">
+     tal:define="working_copy view/working_copy;
+                 isAnon context/@@plone_portal_state/anonymous;"
+     i18n:domain="plone"
+     tal:condition="python: not isAnon">
 
     <strong i18n:translate="">Warning</strong>
     <tal:block i18n:translate="working_copy_info">
-        This item is being edited by
+        This item is being edited beingy
         <a i18n:name="creator"
            tal:attributes="href view/creator_url"
            tal:omit-tag="not: view/creator_url"

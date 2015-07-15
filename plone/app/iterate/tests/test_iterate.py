@@ -29,9 +29,7 @@ from Products.CMFCore.utils import getToolByName
 
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATE_INTEGRATION_TESTING
-from plone.app.iterate.testing import PLONEAPPITERATE_FUNCTIONAL_TESTING
 
-from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login

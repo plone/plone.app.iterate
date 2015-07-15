@@ -1,13 +1,11 @@
 from setuptools import setup, find_packages
 
-version = '3.0.2.dev0'
+version = '3.1.0.dev0'
 
 setup(name='plone.app.iterate',
       version=version,
       description="check-out/check-in staging for Plone",
-      long_description=\
-          open("README.rst").read() + "\n" + \
-          open("CHANGES.rst").read(),
+      long_description=open("README.rst").read() + "\n" + open("CHANGES.rst").read(),
       classifiers=[
           "Environment :: Web Environment",
           "Framework :: Plone",
@@ -17,20 +15,21 @@ setup(name='plone.app.iterate',
           "Operating System :: OS Independent",
           "Programming Language :: Python",
           "Programming Language :: Python :: 2.7",
-        ],
+      ],
       keywords='',
       author='Plone Foundation',
       author_email='plone-developers@lists.sourceforge.net',
       url='http://pypi.python.org/pypi/plone.app.iterate',
       license='GPL version 2',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages = ['plone', 'plone.app'],
+      namespace_packages=['plone', 'plone.app'],
       include_package_data=True,
       zip_safe=False,
       extras_require=dict(
-        test=[
-            'plone.app.testing',
-        ]
+          test=[
+              'plone.app.testing',
+              'plone.app.contenttypes'
+          ]
       ),
       install_requires=[
           'setuptools',
@@ -55,7 +54,7 @@ setup(name='plone.app.iterate',
           'ZODB3',
           'Zope2',
       ],
-      entry_points = '''
+      entry_points='''
           [z3c.autoinclude.plugin]
           target = plone
       ''',
