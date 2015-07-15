@@ -2,18 +2,14 @@
 
 import unittest
 
-from zope.annotation.interfaces import IAnnotatable
-from zope.annotation.interfaces import IAnnotations
-
-from zope.component import getAdapters
-
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IWCContainerLocator
-
+from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-
-from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
+from zope.annotation.interfaces import IAnnotatable
+from zope.annotation.interfaces import IAnnotations
+from zope.component import getAdapters
 
 
 class AnnotationsTestCase(unittest.TestCase):

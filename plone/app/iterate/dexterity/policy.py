@@ -56,5 +56,8 @@ class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
     def getWorkingCopy(self):
         return get_working_copy(self.context)
 
-    def getProperties(self, obj):
-        return get_checkout_relation(obj).iterate_properties
+    def getProperties(self, obj, default=None):
+        try:
+            return get_checkout_relation(obj).iterate_properties
+        except AttributeError:
+            return default

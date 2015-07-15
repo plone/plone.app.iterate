@@ -80,7 +80,7 @@ class BaseInfoViewlet(BrowserView):
     def properties(self):
         ref = self._getReference()
         if ref:
-            return self.policy.getProperties(ref)
+            return self.policy.getProperties(ref, default={})
         else:
             return {}
 

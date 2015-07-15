@@ -112,11 +112,13 @@ PLONEAPPITERATE_FUNCTIONAL_TESTING = FunctionalTesting(
 
 class DexPloneAppIterateLayer(PloneAppContenttypes):
     def setUpZope(self, app, configurationContext):
+        super(DexPloneAppIterateLayer, self).setUpZope(app, configurationContext)
         import plone.app.iterate
         self.loadZCML(package=plone.app.iterate)
         z2.installProduct(app, 'plone.app.iterate')
 
     def setUpPloneSite(self, portal):
+        super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
         applyProfile(portal, 'plone.app.iterate:plone.app.iterate')
 
 

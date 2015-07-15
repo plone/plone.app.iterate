@@ -133,7 +133,10 @@ class CheckinCheckoutPolicyAdapter(object):
                 return refs[0]
 
     def getWorkingCopy(self):
-        return self.context.getBRefs(WorkingCopyRelation.relationship)
+        if IReferenceable.providedBy(self.context):
+            refs = self.context.getBRefs(WorkingCopyRelation.relationship)
+            if refs:
+                return refs[0]
 
-    def getProperties(self, obj):
-        return get_storage(self, obj)
+    def getProperties(self, obj, default=None):
+        return get_storage(obj, default=default)

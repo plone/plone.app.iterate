@@ -22,10 +22,8 @@ Aquisition wrapper you get a KeyError from zope.intid, originating from five.int
     >>> browser.open(portal_url + "/folder_factories")
     >>> browser.getControl("Folder").click()
     >>> browser.getControl("Add").click()
-    >>> import pdb; pdb.set_trace()
     >>> browser.getControl(name="form.widgets.IDublinCore.title").value = "My Folder"
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> import pdb; pdb.set_trace()
     >>> browser.url
     'http://nohost/plone/my-folder/view'
 
