@@ -1,6 +1,15 @@
-<html metal:use-macro="context/@@standard_macros/page" i18n:domain="plone">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="plone">
+<body>
 
-<div id="content" metal:fill-slot="body">
+<metal:content fill-slot="content">
+<metal:content define-macro="content">
+<article id="content">
 
     <form action="#"
         method="post"
@@ -55,7 +64,9 @@
     </fieldset>
 
     </form>
+</article>
+</metal:content>
+</metal:content>
 
-</div>
-
+</body>
 </html>

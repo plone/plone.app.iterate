@@ -1,0 +1,26 @@
+<configure
+        xmlns="http://namespaces.zope.org/zope"
+        xmlns:zcml="http://namespaces.zope.org/zcml"
+        xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+        xmlns:plone="http://namespaces.plone.org/plone">
+
+    <subscriber
+       for="plone.app.iterate.interfaces.IAfterCheckinEvent"
+       handler="plone.app.iterate.subscribers.locking.handleCheckin"
+       />
+
+    <adapter
+       for="plone.dexterity.interfaces.IDexterityContent"
+       factory=".copier.ContentCopier"
+       />
+
+    <adapter
+       for=".interfaces.IDexterityIterateAware"
+       factory=".policy.CheckinCheckoutPolicyAdapter"
+       />
+
+    <class class="plone.dexterity.content.DexterityContent">
+        <implements interface="plone.app.iterate.dexterity.interfaces.IDexterityIterateAware" />
+    </class>
+
+</configure>

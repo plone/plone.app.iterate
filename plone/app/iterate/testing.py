@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone.app.contenttypes.testing import PloneAppContenttypes
 from plone.app.testing import PLONE_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import applyProfile
@@ -107,3 +108,25 @@ PLONEAPPITERATE_INTEGRATION_TESTING = IntegrationTesting(
 PLONEAPPITERATE_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEAPPITERATE_FIXTURE,),
     name="PloneAppIterateLayer:Functional")
+
+
+class DexPloneAppIterateLayer(PloneAppContenttypes):
+    def setUpZope(self, app, configurationContext):
+        super(DexPloneAppIterateLayer, self).setUpZope(app, configurationContext)
+        import plone.app.iterate
+        self.loadZCML(package=plone.app.iterate)
+        z2.installProduct(app, 'plone.app.iterate')
+
+    def setUpPloneSite(self, portal):
+        super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
+        applyProfile(portal, 'plone.app.iterate:plone.app.iterate')
+
+
+PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()
+PLONEAPPITERATEDEX_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(PLONEAPPITERATEDEX_FIXTURE,),
+    name="DexPloneAppIterateLayer:Integration")
+
+PLONEAPPITERATEDEX_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(PLONEAPPITERATEDEX_FIXTURE,),
+    name="DexPloneAppIterateLayer:Functional")

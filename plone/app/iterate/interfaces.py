@@ -33,30 +33,30 @@ from plone.locking.interfaces import MAX_TIMEOUT
 from Products.Archetypes.interfaces import IReference
 
 ################################
-## Marker interface
+#  Marker interface
 
-class IIterateAware( Interface ):
+class IIterateAware(Interface):
     """An object that can be used for check-in/check-out operations.
     """
 
 #################################
-## Lock types
+#  Lock types
 
-ITERATE_LOCK = LockType( u'iterate.lock', stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT)
+ITERATE_LOCK = LockType(u'iterate.lock', stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT)  # noqa
 
 #################################
-## Exceptions
+#  Exceptions
 
-class CociException( Exception ):
+class CociException(Exception):
     pass
 
-class CheckinException( CociException ):
+class CheckinException(CociException):
     pass
 
-class CheckoutException( CociException ):
+class CheckoutException(CociException):
     pass
 
-class ConflictError( CheckinException ):
+class ConflictError(CheckinException):
     pass
 
 
@@ -64,17 +64,16 @@ class ConflictError( CheckinException ):
 # Annotation Key
 annotation_key = "ore.iterate"
 
-class keys( object ):
+class keys(object):
     # various common keys
     checkout_user = "checkout_user"
     checkout_time = "checkout_time"
 
 
-
 #################################
-## Event Interfaces
+#  Event Interfaces
 
-class ICheckinEvent( IObjectEvent ):
+class ICheckinEvent(IObjectEvent):
     """ a working copy is being checked in, event.object is the working copy, this
     message is sent before any mutation/merge has been done on the objects
     """
@@ -83,26 +82,26 @@ class ICheckinEvent( IObjectEvent ):
     relation = Attribute("The Working Copy Archetypes Relation Object")
     checkin_message = Attribute("checkin message")
 
-class IAfterCheckinEvent( IObjectEvent ):
+class IAfterCheckinEvent(IObjectEvent):
     """ sent out after an object is checked in """
 
     checkin_message = Attribute("checkin message")
 
-class IBeforeCheckoutEvent( IObjectEvent ):
+class IBeforeCheckoutEvent(IObjectEvent):
     """ sent out before a working copy is created """
 
-class ICheckoutEvent( IObjectEvent ):
+class ICheckoutEvent(IObjectEvent):
     """ an object is being checked out, event.object is the baseline """
 
     working_copy = Attribute("The object's working copy")
     relation = Attribute("The Working Copy Archetypes Relation Object")
 
-class ICancelCheckoutEvent( IObjectEvent ):
+class ICancelCheckoutEvent(IObjectEvent):
     """ a working copy is being cancelled """
 
     baseline = Attribute("The working copy's baseline")
 
-class IWorkingCopyDeletedEvent( IObjectEvent ):
+class IWorkingCopyDeletedEvent(IObjectEvent):
     """ a working copy is being deleted, this gets called multiple times at different
     states. so on cancel checkout and checkin operations, its mostly designed to
     broadcast an event when the user deletes a working copy using the standard
@@ -115,27 +114,27 @@ class IWorkingCopyDeletedEvent( IObjectEvent ):
 #################################
 # Content Marker Interfaces
 
-class IIterateManagedContent ( Interface ):
+class IIterateManagedContent(Interface):
     """Any content managed by iterate - normally a sub-interface is
     applied as a marker to an instance.
     """
 
-class IWorkingCopy( IIterateManagedContent ):
+class IWorkingCopy(IIterateManagedContent):
     """A working copy/check-out
     """
 
-class IBaseline( IIterateManagedContent ):
+class IBaseline(IIterateManagedContent):
     """A baseline
     """
 
-class IWorkingCopyRelation( IReference ):
+class IWorkingCopyRelation(IReference):
     """A relationship to a working copy
     """
 
 #################################
-## Working copy container locator
+#  Working copy container locator
 
-class IWCContainerLocator( Interface ):
+class IWCContainerLocator(Interface):
     """A named adapter capable of discovering containers where working
     copies can be created.
     """
@@ -149,80 +148,80 @@ class IWCContainerLocator( Interface ):
         """
 
 #################################
-## Interfaces
+#  Interfaces
 
-class ICheckinCheckoutTool( Interface ):
+class ICheckinCheckoutTool(Interface):
 
-    def allowCheckin( content ):
+    def allowCheckin(content):
         """
         denotes whether a checkin operation can be performed on the content.
         """
 
-    def allowCheckout( content ):
+    def allowCheckout(content):
         """
         denotes whether a checkout operation can be performed on the content.
         """
 
-    def allowCancelCheckout( content ):
+    def allowCancelCheckout(content):
         """
         denotes whether a cancel checkout operation can be performed on the content.
         """
 
-    def checkin( content, checkin_messsage ):
+    def checkin(content, checkin_messsage):
         """
         check the working copy in, this will merge the working copy with the baseline
 
         """
 
-    def checkout( container, content ):
+    def checkout(container, content):
         """
         """
 
-    def cancelCheckout( content ):
+    def cancelCheckout(content):
         """
         """
 
 
-class IObjectCopier( Interface ):
+class IObjectCopier(Interface):
     """ copies and merges the object state
     """
 
-    def copyTo( container ):
+    def copyTo(container):
         """ copy the context to the given container, must also create an AT relation
         using the WorkingCopyRelation.relation name between the source and the copy.
         returns the copy.
         """
 
-    def merge( ):
+    def merge():
         """ merge/replace the source with the copy, context is the copy.
         """
 
-class IObjectArchiver( Interface ):
+class IObjectArchiver(Interface):
     """ iterate needs minimal versioning support
     """
 
-    def save( checkin_message ):
+    def save(checkin_message):
         """ save a new version of the object
         """
 
-    def isVersioned( self ):
+    def isVersioned(self):
         """ is this content already versioned
         """
 
-    def isVersionable( self ):
+    def isVersionable(self):
         """ is versionable check.
         """
 
-    def isModified( self ):
+    def isModified(self):
         """ is the resource current state, different than its last saved state.
         """
 
-class ICheckinCheckoutPolicy( Interface ):
+class ICheckinCheckoutPolicy(Interface):
     """
     Checkin / Checkout Policy
     """
 
-    def checkin( checkin_message ):
+    def checkin(checkin_message):
         """
         checkin the context, if the target has been deleted then raises a checkin exception.
 
@@ -231,7 +230,7 @@ class ICheckinCheckoutPolicy( Interface ):
 #
         """
 
-    def checkout( container ):
+    def checkout(container):
         """
         checkout the content object into the container, iff another object with
         the same id exists the id is amended, the working copy object is returned.
@@ -241,44 +240,52 @@ class ICheckinCheckoutPolicy( Interface ):
         raises a CheckoutError if the object is already checked out.
         """
 
-    def cancelCheckout( ):
+    def cancelCheckout():
         """
         coxtent is a checkout (working copy), this method will go ahead and delete
         the working copy.
         """
 
-    def getWorkingCopies( ):
+    def getWorkingCopies():
         """
         """
 
-##     def merge( content ):
-##         """
-##         if there are known conflicts between the checkout and the checkedin version,
-##         using the merge method signals that conflicts have been resolved in the working
-##         copy.
-##         """
+    def getBaseline():
+        """
+        """
+
+    def getWorkingCopy():
+        """
+        """
+
+#     def merge( content ):
+#         """
+#         if there are known conflicts between the checkout and the checkedin version,
+#         using the merge method signals that conflicts have been resolved in the working
+#         copy.
+#         """
 
 
 #################################
 
-class ICheckinCheckoutReference( Interface ):
+class ICheckinCheckoutReference(Interface):
     # a reference processor
 
-    def checkout( baseline, wc, references, storage ):
+    def checkout(baseline, wc, references, storage):
         """
         handle processing of the given references from the baseline
         into the working copy, storage is an annotation for bookkeeping
         information.
         """
 
-    def checkoutBackReferences( baseline, wc, references, storage ):
+    def checkoutBackReferences(baseline, wc, references, storage):
         """
         """
 
-    def checkin( baseline, wc, references, storage ):
+    def checkin(baseline, wc, references, storage):
         """
         """
 
-    def checkinBackReferences( baseline, wc, references, storage ):
+    def checkinBackReferences(baseline, wc, references, storage):
         """
         """

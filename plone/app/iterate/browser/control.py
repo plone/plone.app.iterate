@@ -20,16 +20,14 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from plone.memoize.view import memoize
-
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
-from Products.Five.browser import BrowserView
-from Products.Archetypes.interfaces import IReferenceable
 import Products.CMFCore.permissions
-
+from Products.Five.browser import BrowserView
 from plone.app.iterate import interfaces
-from plone.app.iterate.relation import WorkingCopyRelation
+from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
+from plone.app.iterate.interfaces import IWorkingCopy
+from plone.memoize.view import memoize
 
 
 class Control(BrowserView):
@@ -37,12 +35,6 @@ class Control(BrowserView):
 
     This is a public view, referenced in action condition expressions.
     """
-
-    def get_original(self, context):
-        if IReferenceable.providedBy(context):
-            refs = context.getRefs(WorkingCopyRelation.relationship)
-            if refs:
-                return refs[0]
 
     def checkin_allowed(self):
         """Check if a checkin is allowed
@@ -57,12 +49,15 @@ class Control(BrowserView):
         if not archiver.isVersionable():
             return False
 
-        original = self.get_original(context)
+        if not IWorkingCopy.providedBy(context):
+            return False
+
+        policy = ICheckinCheckoutPolicy(context)
+        original = policy.getBaseline()
         if original is None:
             return False
 
-        if not checkPermission(
-            Products.CMFCore.permissions.ModifyPortalContent, original):
+        if not checkPermission(Products.CMFCore.permissions.ModifyPortalContent, original):
             return False
 
         return True
@@ -75,19 +70,17 @@ class Control(BrowserView):
         if not interfaces.IIterateAware.providedBy(context):
             return False
 
-        if not IReferenceable.providedBy(context):
-            return False
-
         archiver = interfaces.IObjectArchiver(context)
         if not archiver.isVersionable():
             return False
 
-        # check if there is an existing checkout
-        if len(context.getBRefs(WorkingCopyRelation.relationship)) > 0:
+        policy = ICheckinCheckoutPolicy(context)
+
+        if policy.getWorkingCopy() is not None:
             return False
 
         # check if its is a checkout
-        if len(context.getRefs(WorkingCopyRelation.relationship)) > 0:
+        if policy.getBaseline() is not None:
             return False
 
         return True
@@ -97,4 +90,6 @@ class Control(BrowserView):
         """Check to see if the user can cancel the checkout on the
         given working copy
         """
-        return self.get_original(aq_inner(self.context)) is not None
+        policy = ICheckinCheckoutPolicy(self.context)
+        original = policy.getBaseline()
+        return original is not None

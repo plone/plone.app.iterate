@@ -30,30 +30,30 @@ from Products.CMFCore.utils import getToolByName
 
 import interfaces
 
-class ContentArchiver( object ):
+class ContentArchiver(object):
 
-    implements( interfaces.IObjectArchiver )
-    adapts( interfaces.IIterateAware )
+    implements(interfaces.IObjectArchiver)
+    adapts(interfaces.IIterateAware)
 
-    def __init__( self, context ):
+    def __init__(self, context):
         self.context = context
         self.repository = getToolByName(context, 'portal_repository')
 
-    def save( self, checkin_message ):
-        self.repository.save( self.context, checkin_message )
+    def save(self, checkin_message):
+        self.repository.save(self.context, checkin_message)
 
-    def isVersionable( self ):
-        if not self.repository.isVersionable( self.context ):
+    def isVersionable(self):
+        if not self.repository.isVersionable(self.context):
             return False
         return True
 
-    def isVersioned( self ):
+    def isVersioned(self):
         archivist = getToolByName(self.context, 'portal_archivist')
-        version_count = len( archivist.queryHistory( self.context ) )
-        return bool( version_count )
+        version_count = len(archivist.queryHistory(self.context))
+        return bool(version_count)
 
-    def isModified( self ):
+    def isModified(self):
         try:
-            return not self.repository.isUpToDate( self.context )
+            return not self.repository.isUpToDate(self.context)
         except:
             return False
