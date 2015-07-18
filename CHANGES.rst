@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.0 (unreleased)
+3.1.0 (2015-07-18)
 ------------------
 
 - Merge plone.app.stagingbehavior into plone.app.iterate without the
