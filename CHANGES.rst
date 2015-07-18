@@ -4,11 +4,11 @@ Changelog
 3.1.0 (unreleased)
 ------------------
 
-- merge plone.app.stagingbehavior into plone.app.iterate without the
-  behavior implementation. This is for Plone 5 iterate support
+- Merge plone.app.stagingbehavior into plone.app.iterate without the
+  behavior implementation. This is for Plone 5 iterate support.
   [vangheem]
 
-- Don't remove aquisition on object for getToolByName call
+- Don't remove aquisition on object for getToolByName call.
   [tomgross]
 
 
