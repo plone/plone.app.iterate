@@ -4,7 +4,8 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Handle checking if object does not have iterate policy
+  [vangheem]
 
 
 3.1.0 (2015-07-18)

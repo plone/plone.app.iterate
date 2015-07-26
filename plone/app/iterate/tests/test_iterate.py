@@ -24,18 +24,16 @@ $Id: test_iterate.py 1595 2006-08-24 00:15:21Z hazmat $
 """
 
 from AccessControl import getSecurityManager
-
 from Products.CMFCore.utils import getToolByName
-
+from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATE_INTEGRATION_TESTING
-
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import setRoles
-
 import unittest2 as unittest
+
 
 class TestIterations(unittest.TestCase):
 
@@ -277,3 +275,15 @@ class TestIterations(unittest.TestCase):
 
         # everything went right and the working copy is checked in
         self.assertEqual(subobject_uid, wc.UID())
+
+    def test_control_checkin_allowed_with_no_policy(self):
+        control = Control(self.portal, self.layer['request'])
+        self.assertFalse(control.checkin_allowed())
+
+    def test_control_checkout_allowed_with_no_policy(self):
+        control = Control(self.portal, self.layer['request'])
+        self.assertFalse(control.checkout_allowed())
+
+    def test_control_cancel_allowed_with_no_policy(self):
+        control = Control(self.portal, self.layer['request'])
+        self.assertFalse(control.cancel_allowed())

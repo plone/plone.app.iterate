@@ -52,7 +52,10 @@ class Control(BrowserView):
         if not IWorkingCopy.providedBy(context):
             return False
 
-        policy = ICheckinCheckoutPolicy(context)
+        policy = ICheckinCheckoutPolicy(context, None)
+        if policy is None:
+            return False
+
         original = policy.getBaseline()
         if original is None:
             return False
@@ -74,7 +77,9 @@ class Control(BrowserView):
         if not archiver.isVersionable():
             return False
 
-        policy = ICheckinCheckoutPolicy(context)
+        policy = ICheckinCheckoutPolicy(context, None)
+        if policy is None:
+            return False
 
         if policy.getWorkingCopy() is not None:
             return False
@@ -90,6 +95,8 @@ class Control(BrowserView):
         """Check to see if the user can cancel the checkout on the
         given working copy
         """
-        policy = ICheckinCheckoutPolicy(self.context)
+        policy = ICheckinCheckoutPolicy(self.context, None)
+        if policy is None:
+            return False
         original = policy.getBaseline()
         return original is not None
