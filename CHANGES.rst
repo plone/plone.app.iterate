@@ -4,7 +4,8 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
-- Handle checking if object does not have iterate policy
+- Check if object does not have iterate policy. This fixes
+  iterate causing toolbar errors on portal root.
   [vangheem]
 
 
