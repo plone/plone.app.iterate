@@ -4,7 +4,9 @@ Changelog
 3.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Check if object does not have iterate policy. This fixes
+  iterate causing toolbar errors on portal root.
+  [vangheem]
 
 
 3.1.0 (2015-07-18)
