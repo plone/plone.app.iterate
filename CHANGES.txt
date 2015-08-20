@@ -1,10 +1,14 @@
 Changelog
 =========
 
-2.1.13 (unreleased)
+2.1.13 (2014-04-16)
 -------------------
 
-- Nothing changed yet.
+- Fix tests to work with auto csrf.
+  [vangheem]
+
+- Fix tests for latest plone.protect.
+  [vangheem]
 
 
 2.1.12 (2014-02-19)
@@ -16,6 +20,7 @@ Changelog
 
 - Replaced the "Locked" label with "Warning"
   [rristow]
+
 
 2.1.11 (2014-01-27)
 -------------------
