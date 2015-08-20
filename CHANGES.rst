@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.1 (unreleased)
+3.1.1 (2015-08-20)
 ------------------
 
 - Check if object does not have iterate policy. This fixes
