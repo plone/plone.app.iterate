@@ -291,7 +291,7 @@ class ICheckinCheckoutReference(Interface):
         """
 
 
-class IIterateSchema(Interface):
+class IIterateSettings(Interface):
 
     enable_checkout_workflow = schema.Bool(
         title=_(u'Enable checkout workflow'),
