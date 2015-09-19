@@ -220,14 +220,21 @@ with Products.CMFPlacefulWorkflow.  This usually makes sense: you should be
 checking in a working copy rather than publishing it.
 
 We have a working copy workflow defined in our textfixture profile.  To enable
-you need to set a couple of site properties::
+you need to set a couple of registry-entries::
 
     >>> browser.addHeader('Authorization',
     ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
-    >>> browser.open("http://nohost/plone/portal_properties/site_properties/manage_propertiesForm")
-    >>> browser.getControl(name="enable_checkout_workflow:boolean").value = [True]
-    >>> browser.getControl(name="checkout_workflow_policy:string").value = 'working-copy'
-    >>> browser.getControl(name="manage_editProperties:method").click()
+    >>> browser.open("http://nohost/plone/portal_registry/edit/plone.app.iterate.interfaces.IIterateSettings.checkout_workflow_policy")
+    >>> browser.getControl(name="form.widgets.value").value
+    'checkout_workflow_policy'
+    >>> browser.getControl(name="form.widgets.value").value = 'working-copy'
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.open("http://nohost/plone/portal_registry/edit/plone.app.iterate.interfaces.IIterateSettings.enable_checkout_workflow")
+    >>> browser.getControl(name="form.widgets.value:list").value
+    []
+    >>> browser.getControl(name="form.widgets.value:list").value = [True]
+    >>> browser.getControl(name="form.buttons.save").click()
+    >>> browser.open("http://nohost/plone/portal_registry/edit/plone.app.iterate.interfaces.IIterateSettings.checkout_workflow_policy")
 
 Create a new page to test workflows with::
 
@@ -277,7 +284,7 @@ permission to modify it but we still want them to see the info messages::
     ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
 
     >>> from plone.app.iterate.permissions import CheckoutPermission
-    >>> browser.open('{0}/manage_permissionForm?permission_to_manage={1}'.format(portal.absolute_url(), CheckoutPermission)) 
+    >>> browser.open('{0}/manage_permissionForm?permission_to_manage={1}'.format(portal.absolute_url(), CheckoutPermission))
     >>> browser.getControl(name='roles:list').value = browser.getControl(name='roles:list').value + ['Contributor']
     >>> browser.getControl('Save Changes').click()
 
