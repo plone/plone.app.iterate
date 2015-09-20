@@ -26,54 +26,56 @@ Applies new checkout specific workflows to content that is checked out.
 
 """
 
-from Acquisition import aq_base, aq_inner
-from Products.CMFCore.utils import getToolByName
-from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Acquisition import aq_base
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
+from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig  # noqa
+from plone.app.iterate.interfaces import IIterateSettings
 from plone.app.iterate.util import get_storage
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+
 
 USE_WORKFLOW = "checkout_workflow_policy"
 
 policy_storage = "previous_wf_policy"
 
-def handleCheckout( event ):
+
+def handleCheckout(event):
     # defer to setting
-    properties = getToolByName(aq_inner(event.object), 'portal_properties')
-    enabled = properties.site_properties.getProperty('enable_checkout_workflow')
-    if not enabled:
+    registry = getUtility(IRegistry)
+    settings = registry.forInterface(IIterateSettings)
+    if not settings.enable_checkout_workflow:
         return
+    policy_id = settings.checkout_workflow_policy
 
-    policy_id = properties.site_properties.getProperty('checkout_workflow_policy')
-
-    existing_policy = getattr( aq_base( event.working_copy ), WorkflowPolicyConfig_id, None )
-    storage = get_storage( event.relation )
+    existing_policy = getattr(
+        aq_base(event.working_copy), WorkflowPolicyConfig_id, None)
+    storage = get_storage(event.relation)
 
     # set config for policy in and below
-    policy = WorkflowPolicyConfig( policy_id, policy_id)
+    policy = WorkflowPolicyConfig(policy_id, policy_id)
     policy.coci_created = True
 
     if existing_policy is not None:
-        storage[ policy_storage ] = policy
+        storage[policy_storage] = policy
 
     # we setattr because we want the effect on non containerish objects
-    setattr( event.working_copy, WorkflowPolicyConfig_id, policy )
+    setattr(event.working_copy, WorkflowPolicyConfig_id, policy)
     event.working_copy.notifyWorkflowCreated()
     event.working_copy.reindexObjectSecurity()
 
-def handleCheckin( event ):
-    policy = getattr( aq_base(event.object), WorkflowPolicyConfig_id, None )
-    storage = get_storage( event.relation )
-    previous_policy = storage.get( policy_storage )
+
+def handleCheckin(event):
+    policy = getattr(aq_base(event.object), WorkflowPolicyConfig_id, None)
+    storage = get_storage(event.relation)
+    previous_policy = storage.get(policy_storage)
     if previous_policy is None:
-        if policy and not getattr(policy,'coci_created',False):  # only reset workflows we know.. could use are own storage
+        # only reset workflows we know.. could use are own storage
+        if policy and not getattr(policy, 'coci_created', False):
             return
         elif policy is None:
             return
         else:
-            delattr( event.object, WorkflowPolicyConfig_id )
+            delattr(event.object, WorkflowPolicyConfig_id)
     else:
-        setattr( event.object, WorkflowPolicyConfig_id, previous_policy)
-
-
-
-
+        setattr(event.object, WorkflowPolicyConfig_id, previous_policy)

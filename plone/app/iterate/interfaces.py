@@ -27,9 +27,9 @@ from zope.interface import Interface, Attribute
 from zope import schema
 
 from zope.component.interfaces import IObjectEvent
+from plone.app.iterate import PloneMessageFactory as _
 from plone.locking.interfaces import LockType
 from plone.locking.interfaces import MAX_TIMEOUT
-
 from Products.Archetypes.interfaces import IReference
 
 ################################
@@ -289,3 +289,20 @@ class ICheckinCheckoutReference(Interface):
     def checkinBackReferences(baseline, wc, references, storage):
         """
         """
+
+
+class IIterateSettings(Interface):
+
+    enable_checkout_workflow = schema.Bool(
+        title=_(u'Enable checkout workflow'),
+        description=u'',
+        default=False,
+        required=False
+    )
+
+    checkout_workflow_policy = schema.TextLine(
+        title=_(u'Checkout workflow policy'),
+        description=u'',
+        default=u'checkout_workflow_policy',
+        required=True
+    )
