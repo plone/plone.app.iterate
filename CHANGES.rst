@@ -4,7 +4,10 @@ Changelog
 3.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fixed test to pass with recent plone.app.content change
+  that requires the cmf.ModifyPortalContent permission for the
+  content_status_history page.
+  [maurits]
 
 
 3.1.1 (2015-08-20)

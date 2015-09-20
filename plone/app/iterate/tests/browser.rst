@@ -107,15 +107,20 @@ therefore our Editor lacks permissions to modify the original::
     ...
     LinkNotFoundError
 
-The Editor could, however, retract the original to gain permissions
-again and check in (and then possibly request for review)::
+The Editor could, however, ask someone to retract the original so he
+gains permissions again and check in (and then possibly request for
+review)::
 
     >>> browser = z2.Browser(app)
-    >>> browser.addHeader('Authorization', 'Basic editor:secret')
+    >>> browser.addHeader('Authorization',
+    ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
     >>> browser.open(portal.absolute_url() + '/hello-world')
     >>> browser.getLink("Published").click()
     >>> browser.getControl("Retract").click()
     >>> browser.getControl("Save").click()
+    >>> browser = z2.Browser(app)
+    >>> browser.addHeader('Authorization', 'Basic editor:secret')
+    >>> browser.open(portal.absolute_url() + '/hello-world')
     >>> browser.getLink("working copy").click()
     >>> browser.getLink("Check in").click()
     >>> browser.getControl("Check in").click()
