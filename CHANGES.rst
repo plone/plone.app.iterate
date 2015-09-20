@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1.2 (unreleased)
+3.1.2 (2015-09-20)
 ------------------
 
 - Fixed test to pass with recent plone.app.content change
