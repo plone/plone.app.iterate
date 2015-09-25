@@ -1,8 +1,9 @@
 from plone.app import iterate
 from plone.app.iterate.dexterity.utils import get_baseline
+from plone.app.iterate.dexterity.utils import get_checkout_relation
 from plone.app.iterate.dexterity.utils import get_relations
 from plone.app.iterate.dexterity.utils import get_working_copy
-from plone.app.iterate.dexterity.utils import get_checkout_relation
+from plone.app.iterate.util import get_storage
 from zope import component
 from zope.event import notify
 from zope.interface import implements
@@ -58,6 +59,6 @@ class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
 
     def getProperties(self, obj, default=None):
         try:
-            return get_checkout_relation(obj).iterate_properties
+            return get_storage(get_checkout_relation(obj), default=default)
         except AttributeError:
             return default

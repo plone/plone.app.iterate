@@ -4,7 +4,8 @@ Changelog
 3.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix metadata storage for dexterity checkouts
+  [vangheem]
 
 
 3.1.2 (2015-09-20)

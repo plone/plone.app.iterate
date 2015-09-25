@@ -28,10 +28,10 @@ from DateTime import DateTime
 from plone.app.iterate.util import get_storage
 from plone.app.iterate.interfaces import keys
 
-def handleCheckout( event ):
+
+def handleCheckout(event):
     # no cleanup since we annotate the relation and rely on its lifecycle.
-    storage = get_storage( event.relation )
+    storage = get_storage(event.relation)
     user = getSecurityManager().getUser()
     storage[keys.checkout_user] = user.getId()
     storage[keys.checkout_time] = DateTime()
-

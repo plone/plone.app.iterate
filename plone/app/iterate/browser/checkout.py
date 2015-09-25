@@ -57,7 +57,7 @@ class Checkout(BrowserView):
 
         # We want to redirect to a specific template, else we might
         # end up downloading a file
-        if self.request.form.has_key('form.button.Checkout'):
+        if 'form.button.Checkout' in self.request.form:
             control = getMultiAdapter((context, self.request), name=u"iterate_control")
             if not control.checkout_allowed():
                 raise CheckoutException(u"Not allowed")
@@ -67,7 +67,8 @@ class Checkout(BrowserView):
             try:
                 locator = [c['locator'] for c in self.containers() if c['name'] == location][0]
             except IndexError:
-                IStatusMessage(self.request).addStatusMessage(_("Cannot find checkout location"), type='stop')
+                IStatusMessage(self.request).addStatusMessage(_("Cannot find checkout location"),
+                                                              type='error')
                 view_url = context.restrictedTraverse("@@plone_context_state").view_url()
                 self.request.response.redirect(view_url)
                 return
@@ -81,7 +82,7 @@ class Checkout(BrowserView):
             IStatusMessage(self.request).addStatusMessage(_("Check-out created"), type='info')
             view_url = wc.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
-        elif self.request.form.has_key('form.button.Cancel'):
+        elif 'form.button.Cancel' in self.request.form:
             view_url = context.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:

@@ -4,8 +4,7 @@ from z3c.relationfield.interfaces import IRelationValue
 
 
 class IStagingRelationValue(IRelationValue):
-    iterate_properties = Attribute('Iterate information')
-
+    pass
 
 class IDexterityIterateAware(IIterateAware):
     pass

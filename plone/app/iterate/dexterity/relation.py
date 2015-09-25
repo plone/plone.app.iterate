@@ -1,13 +1,9 @@
-from Products.CMFCore.interfaces import ISiteRoot
-from Products.CMFCore.utils import getToolByName
-from persistent.dict import PersistentDict
 from plone.app.iterate.dexterity.interfaces import IStagingRelationValue
 from z3c.relationfield import relation
 from zc.relation.interfaces import ICatalog
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component import getUtility
 from zope.interface import implements
-
 
 try:
     from zope.intid.interfaces import IIntIds
@@ -31,11 +27,3 @@ class StagingRelationValue(relation.RelationValue):
             condition = lambda r: r.from_attribute == from_attribute and not r.is_broken()
             items = filter(condition, items)
         return items
-
-    def __init__(self, to_id):
-        super(StagingRelationValue, self).__init__(to_id)
-        self.iterate_properties = PersistentDict()
-        # remember the creator
-        portal = getUtility(ISiteRoot)
-        mstool = getToolByName(portal, 'portal_membership')
-        self.creator = mstool.getAuthenticatedMember().getId()
