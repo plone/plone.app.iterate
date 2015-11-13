@@ -4,7 +4,10 @@ Changelog
 2.1.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+Fixes:
+
+- Keep the default page setting when checking in a document.
+  [maurits]
 
 
 2.1.13 (2014-04-16)

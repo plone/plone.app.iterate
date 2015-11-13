@@ -99,6 +99,10 @@ class ContentCopier( object ):
         # delete the baseline from the folder to make room for the
         # committed working copy
         baseline_container = aq_parent( aq_inner( baseline ) )
+        # Check if we are a default_page, because this property of the
+        # container might get lost.
+        is_default_page = (
+            baseline_container.getProperty('default_page', '') == baseline_id)
         baseline_pos = baseline_container.getObjectPosition(baseline_id)
         baseline_container._delOb( baseline_id )
 
@@ -123,6 +127,13 @@ class ContentCopier( object ):
         baseline_container.moveObjectToPosition(baseline_id, baseline_pos)
 
         new_baseline = baseline_container._getOb( baseline_id )
+        if is_default_page:
+            # Restore default_page to container.  Note that the property might
+            # have been removed by an event handler in the mean time.
+            if baseline_container.hasProperty('default_page'):
+                baseline_container._updateProperty('default_page', baseline_id)
+            else:
+                baseline_container._setProperty('default_page', baseline_id)
 
         # reregister our references with the reference machinery after moving
         Referenceable.manage_afterAdd( new_baseline, new_baseline,
