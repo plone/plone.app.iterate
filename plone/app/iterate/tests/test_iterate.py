@@ -276,6 +276,24 @@ class TestIterations(unittest.TestCase):
         # everything went right and the working copy is checked in
         self.assertEqual(subobject_uid, wc.UID())
 
+    def test_default_page_is_kept_in_folder(self):
+        # Ensure that a default page that is checked out and back in is still
+        # the default page.
+        folder = self.portal.docs
+        doc = folder.doc1
+        from Products.CMFDynamicViewFTI.interfaces import \
+            ISelectableBrowserDefault
+        ISelectableBrowserDefault(folder).setDefaultPage('doc1')
+        self.assertEqual(folder.getProperty('default_page', ''), 'doc1')
+        self.assertEqual(folder.getDefaultPage(), 'doc1')
+        # Note: when checking out to self.portal.workarea it surprisingly works
+        # without changes.  But the default behavior in Plone is to check a
+        # document out in its original folder, so that is what we check here.
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        self.assertEqual(folder.getProperty('default_page', ''), 'doc1')
+        self.assertEqual(folder.getDefaultPage(), 'doc1')
+
     def test_control_checkin_allowed_with_no_policy(self):
         control = Control(self.portal, self.layer['request'])
         self.assertFalse(control.checkin_allowed())
