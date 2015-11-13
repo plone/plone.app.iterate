@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Keep the default page setting when checking in a document.
+  [maurits]
 
 
 3.1.3 (2015-09-27)
