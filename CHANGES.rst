@@ -4,10 +4,6 @@ Changelog
 3.1.4 (unreleased)
 ------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Keep the default page setting when checking in a document.
