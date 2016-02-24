@@ -14,7 +14,7 @@
   <includeDependencies package="." />
 
   <genericsetup:registerProfile
-    name="plone.app.iterate"
+    name="default"
     title="Working Copy Support (Iterate)"
     directory="profiles/default"
     description="Adds working copy support (aka. in-place staging) to Plone."

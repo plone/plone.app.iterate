@@ -62,7 +62,7 @@ class PloneAppIterateLayer(PloneSandboxLayer):
         # add default content
         applyProfile(portal, 'Products.ATContentTypes:content')
 
-        applyProfile(portal, 'plone.app.iterate:plone.app.iterate')
+        applyProfile(portal, 'plone.app.iterate:default')
         applyProfile(portal, 'plone.app.iterate:test')
 
         for user in USERS_TO_BE_ADDED:
@@ -127,7 +127,7 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
     def setUpPloneSite(self, portal):
         """Setup Plone Site with Addons."""
         super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
-        applyProfile(portal, 'plone.app.iterate:plone.app.iterate')
+        applyProfile(portal, 'plone.app.iterate:default')
 
 
 PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()

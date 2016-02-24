@@ -13,6 +13,8 @@ Fixes:
 
 - *add item here*
 
+- Fixed naming of default profile.
+
 - Moved plone.app.iterate from being a product to a profile.
   [iham]
 
