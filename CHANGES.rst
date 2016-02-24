@@ -15,7 +15,7 @@ Fixes:
 
 - Fixed naming of default profile.
 
-- Moved plone.app.iterate from being a product to a profile.
+- No need to register as Zope2 Product anymore.
   [iham]
 
 - Some minor pep8 cleanup.
