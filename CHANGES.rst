@@ -8,10 +8,16 @@ New:
 
 - *add item here*
 
+
 Fixes:
 
 - *add item here*
 
+- Moved plone.app.iterate from being a product to a profile.
+  [iham]
+
+- Some minor pep8 cleanup.
+  [iham]
 
 3.1.4 (2015-11-16)
 ------------------
