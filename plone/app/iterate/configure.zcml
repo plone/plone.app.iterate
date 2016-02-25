@@ -26,10 +26,16 @@
   <genericsetup:registerProfile
     name="plone.app.iterate"
     title="Working Copy Support (Iterate)"
-    directory="profiles/default"
+    directory="profiles/plone.app.iterate"
     description="Adds working copy support (aka. in-place staging) to Plone."
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
+
+  <genericsetup:importStep
+      name="deprecate_profile-plone.app.iterate"
+      title="plone.app.iterate deprecation warning"
+      description="Post install deprecation warning for profile plone.app.iterate"
+      handler=".setuphandlers.deprecate_profile" />
 
   <genericsetup:registerProfile
       name="test"

@@ -12,6 +12,9 @@ New:
   "plone.app.iterate" also exists to keep compatibility.
   [iham]
 
+- Added deprecation warning to GS profile "plone.app.iterate"
+  [iham]
+
 Fixes:
 
 - *add item here*
