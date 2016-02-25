@@ -21,6 +21,8 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
+  <!-- TODO: [iham] -->
+  <!-- remove, when all tests no more depend on this profile. -->
   <genericsetup:registerProfile
     name="plone.app.iterate"
     title="Working Copy Support (Iterate)"
