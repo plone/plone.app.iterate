@@ -22,6 +22,14 @@
     />
 
   <genericsetup:registerProfile
+    name="plone.app.iterate"
+    title="Working Copy Support (Iterate)"
+    directory="profiles/default"
+    description="Adds working copy support (aka. in-place staging) to Plone."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    />
+
+  <genericsetup:registerProfile
       name="test"
       title="plone.app.iterate: Test fixture"
       directory="profiles/test"

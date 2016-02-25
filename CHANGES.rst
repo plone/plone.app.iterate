@@ -8,12 +8,13 @@ New:
 
 - *add item here*
 
+- Added naming of default GenericSetup profile as "default".
+  "plone.app.iterate" also exists to keep compatibility.
+  [iham]
 
 Fixes:
 
 - *add item here*
-
-- Fixed naming of default profile.
 
 - No need to register as Zope2 Product anymore.
   [iham]
