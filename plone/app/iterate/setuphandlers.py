@@ -4,7 +4,9 @@
 import warnings
 
 
-def deprecate_profile(context):
+def deprecate_profile(tool):
     """Deprecation profile plone.app.iterate."""
-    if context.readDataFile('ploneappiterate_plone.app.iterate.txt'):
-        warnings.warn('Do no use this profile anymore, use the default profile')
+    warnings.warn(
+        'The profile with id "plone.app.iterate" was renamed to "default".',
+        DeprecationWarning
+        )

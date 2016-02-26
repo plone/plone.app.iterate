@@ -8,6 +8,10 @@ New:
 
 - *add item here*
 
+- plone.app.iterate depends on GenericSetup >= 1.8.2
+  for using a post_handler on registerProfile
+  [iham]
+
 - Added naming of default GenericSetup profile as "default".
   "plone.app.iterate" also exists to keep compatibility.
   [iham]

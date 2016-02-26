@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<metadata>
-  <dependencies>
-    <dependency>profile-plone.app.iterate:default</dependency>
-  </dependencies>
-</metadata>

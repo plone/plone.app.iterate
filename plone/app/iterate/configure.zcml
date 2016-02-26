@@ -21,21 +21,19 @@
     provides="Products.GenericSetup.interfaces.EXTENSION"
     />
 
-  <!-- TODO: [iham] -->
-  <!-- remove, when all tests no more depend on this profile. -->
+  <!--
+    Remove, when CMFPlone no more depends on this profile.
+    Products.CMFPlone/Products/CMFPlone/MigrationTool.py:99:
+    Addon(profile_id=u'plone.app.iterate:plone.app.iterate')
+  -->
   <genericsetup:registerProfile
     name="plone.app.iterate"
     title="Working Copy Support (Iterate)"
-    directory="profiles/plone.app.iterate"
+    directory="profiles/default"
     description="Adds working copy support (aka. in-place staging) to Plone."
     provides="Products.GenericSetup.interfaces.EXTENSION"
+    post_handler=".setuphandlers.deprecate_profile"
     />
-
-  <genericsetup:importStep
-      name="deprecate_profile-plone.app.iterate"
-      title="plone.app.iterate deprecation warning"
-      description="Post install deprecation warning for profile plone.app.iterate"
-      handler=".setuphandlers.deprecate_profile" />
 
   <genericsetup:registerProfile
       name="test"
@@ -55,7 +53,7 @@
       handler="plone.app.iterate.util.upgrade_by_reinstall"
       />
 
-  <!-- Policy and behaviour for basic objects -->
+  <!-- Policy and behavior for basic objects -->
   <class class="Products.Archetypes.BaseObject.BaseObject">
       <implements interface=".interfaces.IIterateAware" />
   </class>

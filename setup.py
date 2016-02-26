@@ -35,6 +35,7 @@ setup(
     zip_safe=False,
     install_requires=[
         'setuptools',
+        'Products.GenericSetup>=1.8.2',
         'plone.locking',
         'plone.memoize',
         'zope.annotation',

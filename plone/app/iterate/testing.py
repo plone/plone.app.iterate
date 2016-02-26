@@ -127,7 +127,7 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
     def setUpPloneSite(self, portal):
         """Setup Plone Site with Addons."""
         super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
-        applyProfile(portal, 'plone.app.iterate:default')
+        applyProfile(portal, 'plone.app.iterate:plone.app.iterate')
 
 
 PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()
