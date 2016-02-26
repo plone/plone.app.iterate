@@ -8,26 +8,10 @@ New:
 
 - *add item here*
 
-- plone.app.iterate depends on GenericSetup >= 1.8.2
-  for using a post_handler on registerProfile
-  [iham]
-
-- Added naming of default GenericSetup profile as "default".
-  "plone.app.iterate" also exists to keep compatibility.
-  [iham]
-
-- Added deprecation warning to GS profile "plone.app.iterate"
-  [iham]
-
 Fixes:
 
 - *add item here*
 
-- No need to register as Zope2 Product anymore.
-  [iham]
-
-- Some minor pep8 cleanup.
-  [iham]
 
 3.1.4 (2015-11-16)
 ------------------
