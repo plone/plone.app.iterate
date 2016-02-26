@@ -1,3 +1,4 @@
+"""Testing setup for integration and functional tests."""
 # -*- coding: utf-8 -*-
 from plone.app.contenttypes.testing import PloneAppContenttypes
 from plone.app.testing import PLONE_FIXTURE
@@ -8,37 +9,39 @@ from plone.app.testing.layers import IntegrationTesting
 from plone.testing import z2
 
 
-admin = {
+ADMIN = {
     'id': 'admin',
     'password': 'secret',
     'roles': ['Manager'],
 }
-editor = {
+EDITOR = {
     'id': 'editor',
     'password': 'secret',
     'roles': ['Editor'],
 }
-contributor = {
+CONTRIBUTOR = {
     'id': 'contributor',
     'password': 'secret',
     'roles': ['Contributor'],
 }
-users_to_be_added = (
-    admin,
-    editor,
-    contributor,
+USERS_TO_BE_ADDED = (
+    ADMIN,
+    EDITOR,
+    CONTRIBUTOR,
 )
-users_with_member_folder = (
-    editor,
-    contributor,
+USERS_WITH_MEMBER_FOLDER = (
+    EDITOR,
+    CONTRIBUTOR,
 )
 
 
 class PloneAppIterateLayer(PloneSandboxLayer):
+    """Plone Sandbox Layer for plone.app.iterate."""
 
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
+        """Setup Zope with Addons."""
         import Products.ATContentTypes
         self.loadZCML(package=Products.ATContentTypes)
         z2.installProduct(app, 'Products.ATContentTypes')
@@ -50,19 +53,19 @@ class PloneAppIterateLayer(PloneSandboxLayer):
 
         import plone.app.iterate
         self.loadZCML(package=plone.app.iterate)
-        z2.installProduct(app, 'plone.app.iterate')
 
     def setUpPloneSite(self, portal):
+        """Setup Plone Site with Addons."""
         # restore default workflow
         applyProfile(portal, 'Products.CMFPlone:testfixture')
 
         # add default content
         applyProfile(portal, 'Products.ATContentTypes:content')
 
-        applyProfile(portal, 'plone.app.iterate:plone.app.iterate')
+        applyProfile(portal, 'plone.app.iterate:default')
         applyProfile(portal, 'plone.app.iterate:test')
 
-        for user in users_to_be_added:
+        for user in USERS_TO_BE_ADDED:
             portal.portal_membership.addMember(
                 user['id'],
                 user['password'],
@@ -70,7 +73,7 @@ class PloneAppIterateLayer(PloneSandboxLayer):
                 [],
             )
 
-        for user in users_with_member_folder:
+        for user in USERS_WITH_MEMBER_FOLDER:
             mtool = portal.portal_membership
             if not mtool.getMemberareaCreationFlag():
                 mtool.setMemberareaCreationFlag()
@@ -111,15 +114,20 @@ PLONEAPPITERATE_FUNCTIONAL_TESTING = FunctionalTesting(
 
 
 class DexPloneAppIterateLayer(PloneAppContenttypes):
+    """Dexterity based Plone Sandbox Layer for plone.app.iterate."""
+
     def setUpZope(self, app, configurationContext):
-        super(DexPloneAppIterateLayer, self).setUpZope(app, configurationContext)
+        """Setup Zope with Addons."""
+        super(DexPloneAppIterateLayer,
+              self).setUpZope(app, configurationContext)
+
         import plone.app.iterate
         self.loadZCML(package=plone.app.iterate)
-        z2.installProduct(app, 'plone.app.iterate')
 
     def setUpPloneSite(self, portal):
+        """Setup Plone Site with Addons."""
         super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
-        applyProfile(portal, 'plone.app.iterate:plone.app.iterate')
+        applyProfile(portal, 'plone.app.iterate:default')
 
 
 PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()
