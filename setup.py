@@ -1,7 +1,7 @@
 """Setup plone.app.iterate."""
 from setuptools import setup, find_packages
 
-VERSION = '3.1.5.dev0'
+VERSION = '3.1.5'
 
 LONG_DESCRIPTION = (
     open('README.rst').read() +
