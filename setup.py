@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '2.1.15.dev0'
+version = '2.1.15'
 
 setup(name='plone.app.iterate',
       version=version,
