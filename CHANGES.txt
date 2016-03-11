@@ -4,10 +4,6 @@ Changelog
 2.1.15 (unreleased)
 -------------------
 
-New:
-
-- *add item here*
-
 Fixes:
 
 - Setted lock timeout to MAX_TIMEOUT to avoid baseline unwanted unlock after 10 minutes (closes `#1451`_).
