@@ -30,6 +30,7 @@ from Products.CMFCore.utils import getToolByName
 
 import interfaces
 
+
 class ContentArchiver(object):
 
     implements(interfaces.IObjectArchiver)

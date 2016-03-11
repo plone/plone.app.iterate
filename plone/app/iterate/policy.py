@@ -78,10 +78,13 @@ class CheckinCheckoutPolicyAdapter(object):
         baseline = self._getBaseline()
 
         # get a hold of the relation object
-        wc_ref = self.context.getReferenceImpl(WorkingCopyRelation.relationship)[0]
+        wc_ref = self.context.getReferenceImpl(
+            WorkingCopyRelation.relationship)[0]
 
-        # publish the event for subscribers, early because contexts are about to be manipulated
-        notify(event.CheckinEvent(self.context, baseline, wc_ref, checkin_message))
+        # publish the event for subscribers, early because contexts are about
+        # to be manipulated
+        notify(event.CheckinEvent(self.context,
+                                  baseline, wc_ref, checkin_message))
 
         # merge the object back to the baseline with a copier
 

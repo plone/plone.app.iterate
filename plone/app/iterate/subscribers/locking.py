@@ -26,28 +26,30 @@ $Id: locking.py 1824 2007-02-08 17:59:41Z hazmat $
 from plone.locking.interfaces import ILockable
 from plone.app.iterate import lock
 
-def handleWCDeleted( event ):
+
+def handleWCDeleted(event):
     # may be called multiple times, must be reentrant
-    lock.unlockContext( event.baseline )
+    lock.unlockContext(event.baseline)
     # we reindex to force a metadata update
-    event.baseline.reindexObject( idxs=['review_state'] )
+    event.baseline.reindexObject(idxs=['review_state'])
 
-def handleCheckout( event ):
-    lock.lockContext( event.object )
-    event.object.reindexObject( idxs=['review_state'] )
 
-def handleCheckin( event ):
-    lockable = ILockable( event.object )
+def handleCheckout(event):
+    lock.lockContext(event.object)
+    event.object.reindexObject(idxs=['review_state'])
+
+
+def handleCheckin(event):
+    lockable = ILockable(event.object)
     if lockable.locked():
         # unlock working copy if it was auto-locked, or this will fail
         lockable.clear_locks()
 
-def handleCancelCheckout( event ):
-    lockable = ILockable( event.object )
+
+def handleCancelCheckout(event):
+    lockable = ILockable(event.object)
     if lockable.locked():
         # unlock working copy if it was auto-locked, or this will fail
         lockable.clear_locks()
-    lock.unlockContext( event.baseline )
-    event.baseline.reindexObject( idxs=['review_state'] )
-
-
+    lock.unlockContext(event.baseline)
+    event.baseline.reindexObject(idxs=['review_state'])

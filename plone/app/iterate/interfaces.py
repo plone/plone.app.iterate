@@ -35,6 +35,7 @@ from Products.Archetypes.interfaces import IReference
 ################################
 #  Marker interface
 
+
 class IIterateAware(Interface):
     """An object that can be used for check-in/check-out operations.
     """
@@ -47,14 +48,18 @@ ITERATE_LOCK = LockType(u'iterate.lock', stealable=False, user_unlockable=False,
 #################################
 #  Exceptions
 
+
 class CociException(Exception):
     pass
+
 
 class CheckinException(CociException):
     pass
 
+
 class CheckoutException(CociException):
     pass
+
 
 class ConflictError(CheckinException):
     pass
@@ -63,6 +68,7 @@ class ConflictError(CheckinException):
 #################################
 # Annotation Key
 annotation_key = "ore.iterate"
+
 
 class keys(object):
     # various common keys
@@ -82,13 +88,16 @@ class ICheckinEvent(IObjectEvent):
     relation = Attribute("The Working Copy Archetypes Relation Object")
     checkin_message = Attribute("checkin message")
 
+
 class IAfterCheckinEvent(IObjectEvent):
     """ sent out after an object is checked in """
 
     checkin_message = Attribute("checkin message")
 
+
 class IBeforeCheckoutEvent(IObjectEvent):
     """ sent out before a working copy is created """
+
 
 class ICheckoutEvent(IObjectEvent):
     """ an object is being checked out, event.object is the baseline """
@@ -96,10 +105,12 @@ class ICheckoutEvent(IObjectEvent):
     working_copy = Attribute("The object's working copy")
     relation = Attribute("The Working Copy Archetypes Relation Object")
 
+
 class ICancelCheckoutEvent(IObjectEvent):
     """ a working copy is being cancelled """
 
     baseline = Attribute("The working copy's baseline")
+
 
 class IWorkingCopyDeletedEvent(IObjectEvent):
     """ a working copy is being deleted, this gets called multiple times at different
@@ -114,18 +125,22 @@ class IWorkingCopyDeletedEvent(IObjectEvent):
 #################################
 # Content Marker Interfaces
 
+
 class IIterateManagedContent(Interface):
     """Any content managed by iterate - normally a sub-interface is
     applied as a marker to an instance.
     """
 
+
 class IWorkingCopy(IIterateManagedContent):
     """A working copy/check-out
     """
 
+
 class IBaseline(IIterateManagedContent):
     """A baseline
     """
+
 
 class IWorkingCopyRelation(IReference):
     """A relationship to a working copy
@@ -134,14 +149,17 @@ class IWorkingCopyRelation(IReference):
 #################################
 #  Working copy container locator
 
+
 class IWCContainerLocator(Interface):
     """A named adapter capable of discovering containers where working
     copies can be created.
     """
 
-    available = schema.Bool(title=u"Available", description=u"Whether location will be available.")
+    available = schema.Bool(
+        title=u"Available", description=u"Whether location will be available.")
 
-    title = schema.TextLine(title=u"Title", description=u"Title of this location")
+    title = schema.TextLine(
+        title=u"Title", description=u"Title of this location")
 
     def __call__():
         """Return a container object, or None if available() is False
@@ -149,6 +167,7 @@ class IWCContainerLocator(Interface):
 
 #################################
 #  Interfaces
+
 
 class ICheckinCheckoutTool(Interface):
 
@@ -196,6 +215,7 @@ class IObjectCopier(Interface):
         """ merge/replace the source with the copy, context is the copy.
         """
 
+
 class IObjectArchiver(Interface):
     """ iterate needs minimal versioning support
     """
@@ -215,6 +235,7 @@ class IObjectArchiver(Interface):
     def isModified(self):
         """ is the resource current state, different than its last saved state.
         """
+
 
 class ICheckinCheckoutPolicy(Interface):
     """

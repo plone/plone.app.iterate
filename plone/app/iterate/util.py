@@ -25,6 +25,7 @@ from persistent.dict import PersistentDict
 from interfaces import annotation_key
 from Products.CMFCore.utils import getToolByName
 
+
 def get_storage(context, default=None):
     annotations = IAnnotations(context)
     if annotation_key not in annotations:

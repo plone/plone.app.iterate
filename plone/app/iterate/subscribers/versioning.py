@@ -25,12 +25,12 @@
 from plone.app.iterate import interfaces
 
 
-def handleBeforeCheckout( event ):
-    archiver = interfaces.IObjectArchiver( event.object )
+def handleBeforeCheckout(event):
+    archiver = interfaces.IObjectArchiver(event.object)
     if archiver.isModified() or not archiver.isVersioned():
         archiver.save("Baseline created")
 
 
-def handleAfterCheckin( event ):
-    archiver = interfaces.IObjectArchiver( event.object )
-    archiver.save( event.message )
+def handleAfterCheckin(event):
+    archiver = interfaces.IObjectArchiver(event.object)
+    archiver.save(event.message)

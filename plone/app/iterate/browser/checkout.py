@@ -58,32 +58,39 @@ class Checkout(BrowserView):
         # We want to redirect to a specific template, else we might
         # end up downloading a file
         if 'form.button.Checkout' in self.request.form:
-            control = getMultiAdapter((context, self.request), name=u"iterate_control")
+            control = getMultiAdapter(
+                (context, self.request), name=u"iterate_control")
             if not control.checkout_allowed():
                 raise CheckoutException(u"Not allowed")
 
             location = self.request.form.get('checkout_location', None)
             locator = None
             try:
-                locator = [c['locator'] for c in self.containers() if c['name'] == location][0]
+                locator = [c['locator']
+                           for c in self.containers() if c['name'] == location][0]
             except IndexError:
                 IStatusMessage(self.request).addStatusMessage(_("Cannot find checkout location"),
                                                               type='error')
-                view_url = context.restrictedTraverse("@@plone_context_state").view_url()
+                view_url = context.restrictedTraverse(
+                    "@@plone_context_state").view_url()
                 self.request.response.redirect(view_url)
                 return
 
             policy = ICheckinCheckoutPolicy(context)
             wc = policy.checkout(locator())
 
-            # we do this for metadata update side affects which will update lock info
+            # we do this for metadata update side affects which will update
+            # lock info
             context.reindexObject('review_state')
 
-            IStatusMessage(self.request).addStatusMessage(_("Check-out created"), type='info')
-            view_url = wc.restrictedTraverse("@@plone_context_state").view_url()
+            IStatusMessage(self.request).addStatusMessage(
+                _("Check-out created"), type='info')
+            view_url = wc.restrictedTraverse(
+                "@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         elif 'form.button.Cancel' in self.request.form:
-            view_url = context.restrictedTraverse("@@plone_context_state").view_url()
+            view_url = context.restrictedTraverse(
+                "@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:
             return self.index()

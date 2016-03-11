@@ -51,6 +51,7 @@ class HomeFolderLocator(object):
     def __call__(self):
         return getToolByName(self.context, 'portal_membership').getHomeFolder()
 
+
 class ParentFolderLocator(object):
     """Locate the parent of the context, if the user has the
     Add portal content permission.

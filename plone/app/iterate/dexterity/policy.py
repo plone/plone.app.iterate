@@ -20,17 +20,20 @@ class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
         relations = get_relations(self.context)
 
         if relations and not len(relations) == 1:
-            raise iterate.interfaces.CheckinException("Baseline count mismatch")
+            raise iterate.interfaces.CheckinException(
+                "Baseline count mismatch")
 
         if not relations or not relations[0]:
-            raise iterate.interfaces.CheckinException("Baseline has disappeared")
+            raise iterate.interfaces.CheckinException(
+                "Baseline has disappeared")
 
         return relations[0]
 
     def _getBaseline(self):
         baseline = get_baseline(self.context)
         if not baseline:
-            raise iterate.interfaces.CheckinException("Baseline has disappeared")
+            raise iterate.interfaces.CheckinException(
+                "Baseline has disappeared")
         return baseline
 
     def checkin(self, checkin_message):
@@ -38,7 +41,8 @@ class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
         baseline = self._getBaseline()
         # get a hold of the relation object
         relation = self._get_relation_to_baseline()
-        # publish the event for subscribers, early because contexts are about to be manipulated
+        # publish the event for subscribers, early because contexts are about
+        # to be manipulated
         notify(iterate.event.CheckinEvent(self.context,
                                           baseline,
                                           relation,
