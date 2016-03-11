@@ -10,7 +10,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- Setted lock timeout to MAX_TIMEOUT to avoid baseline unwanted unlock after 10 minutes (closes `#1451`_).
+  [parruc, rodfersou]
 
 
 2.1.14 (2015-11-16)
@@ -328,3 +329,5 @@ Fixes:
 ----------------
 
 - First release
+
+.. _`#1451`: https://github.com/plone/Products.CMFPlone/issues/1451

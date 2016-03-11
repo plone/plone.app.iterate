@@ -28,6 +28,7 @@ from zope import schema
 
 from zope.component.interfaces import IObjectEvent
 from plone.locking.interfaces import LockType
+from plone.locking.interfaces import MAX_TIMEOUT
 
 from Products.Archetypes.interfaces import IReference
 
@@ -41,7 +42,7 @@ class IIterateAware( Interface ):
 #################################
 ## Lock types
 
-ITERATE_LOCK = LockType( u'iterate.lock', stealable=False, user_unlockable=False )
+ITERATE_LOCK = LockType( u'iterate.lock', stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT)
 
 #################################
 ## Exceptions
