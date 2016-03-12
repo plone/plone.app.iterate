@@ -23,7 +23,8 @@ def get_relations(context):
     catalog = component.getUtility(ICatalog)
     relations = list(catalog.findRelations({'to_id': id}))
     relations += list(catalog.findRelations({'from_id': id}))
-    relations = filter(lambda r: r.from_attribute == ITERATE_RELATION_NAME, relations)
+    relations = filter(lambda r: r.from_attribute ==
+                       ITERATE_RELATION_NAME, relations)
     return relations
 
 

@@ -26,17 +26,20 @@ $Id: marker.py 1824 2007-02-08 17:59:41Z hazmat $
 from Products.Five.utilities import marker
 from plone.app.iterate import interfaces
 
-def handleCheckout( event ):
-    marker.mark( event.working_copy, interfaces.IWorkingCopy )
-    marker.mark( event.object, interfaces.IBaseline )
 
-def handleCheckin( event ):
-    marker.erase( event.object, interfaces.IWorkingCopy )
-    marker.erase( event.baseline, interfaces.IBaseline )
+def handleCheckout(event):
+    marker.mark(event.working_copy, interfaces.IWorkingCopy)
+    marker.mark(event.object, interfaces.IBaseline)
 
-def handleWCDeleted( event ):
-    marker.erase( event.baseline, interfaces.IBaseline )
 
-def handleCancelCheckout( event ):
-    marker.erase( event.baseline, interfaces.IBaseline )
+def handleCheckin(event):
+    marker.erase(event.object, interfaces.IWorkingCopy)
+    marker.erase(event.baseline, interfaces.IBaseline)
 
+
+def handleWCDeleted(event):
+    marker.erase(event.baseline, interfaces.IBaseline)
+
+
+def handleCancelCheckout(event):
+    marker.erase(event.baseline, interfaces.IBaseline)

@@ -31,17 +31,20 @@ from interfaces import ITERATE_LOCK
 
 __all__ = ['lockContext', 'unlockContext', 'isLocked']
 
-def lockContext( context ):
+
+def lockContext(context):
     lockable = ILockable(context)
     # Be quite forceful - we assume that we won't have gotten here unless
     # we had rights to do this.
     lockable.clear_locks()
     lockable.lock(ITERATE_LOCK, children=True)
 
-def unlockContext( context ):
+
+def unlockContext(context):
     lockable = ILockable(context)
     lockable.unlock(ITERATE_LOCK)
 
-def isLocked( context ):
+
+def isLocked(context):
     lockable = ILockable(context)
     lockable.locked()

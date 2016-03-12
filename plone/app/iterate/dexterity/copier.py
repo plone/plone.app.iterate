@@ -48,10 +48,12 @@ class ContentCopier(copier.ContentCopier):
         # reassemble references on the new baseline
         self._handleReferences(baseline, self.context, "checkin", wc_ref)
 
-        # move the working copy to the baseline container, deleting the baseline
+        # move the working copy to the baseline container, deleting the
+        # baseline
         new_baseline = self._replaceBaseline(baseline)
 
-        # patch the working copy with baseline info not preserved during checkout
+        # patch the working copy with baseline info not preserved during
+        # checkout
         self._reassembleWorkingCopy(new_baseline, baseline)
 
         return new_baseline
@@ -101,7 +103,8 @@ class ContentCopier(copier.ContentCopier):
     def _reassembleWorkingCopy(self, new_baseline, baseline):
         # reattach the source's workflow history, try avoid a dangling ref
         try:
-            new_baseline.workflow_history = PersistentMapping(baseline.workflow_history.items())
+            new_baseline.workflow_history = PersistentMapping(
+                baseline.workflow_history.items())
         except AttributeError:
             # No workflow apparently.  Oh well.
             pass
@@ -157,7 +160,8 @@ class ContentCopier(copier.ContentCopier):
         baseline = self._getBaseline()
         # get a hold of the relation object
         relation = self._get_relation_to_baseline()
-        # publish the event for subscribers, early because contexts are about to be manipulated
+        # publish the event for subscribers, early because contexts are about
+        # to be manipulated
         notify(event.CheckinEvent(self.context,
                                   baseline,
                                   relation,

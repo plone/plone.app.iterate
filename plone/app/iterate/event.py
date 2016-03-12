@@ -27,58 +27,63 @@ from zope.component.interfaces import ObjectEvent
 
 import interfaces
 
-class CheckoutEvent( ObjectEvent ):
 
-    implements( interfaces.ICheckoutEvent )
+class CheckoutEvent(ObjectEvent):
+
+    implements(interfaces.ICheckoutEvent)
 
     def __init__(self, baseline, wc, relation):
-        ObjectEvent.__init__(self, baseline )
+        ObjectEvent.__init__(self, baseline)
         self.working_copy = wc
         self.relation = relation
 
-class CheckinEvent( ObjectEvent ):
 
-    implements( interfaces.ICheckinEvent )
+class CheckinEvent(ObjectEvent):
+
+    implements(interfaces.ICheckinEvent)
 
     def __init__(self, wc, baseline, relation, message):
-        ObjectEvent.__init__( self, wc )
+        ObjectEvent.__init__(self, wc)
         self.baseline = baseline
         self.relation = relation
         self.message = message
 
-class AfterCheckinEvent( ObjectEvent ):
 
-    implements( interfaces.IAfterCheckinEvent )
+class AfterCheckinEvent(ObjectEvent):
 
-    def __init__( self, new_baseline, checkin_message ):
-        super( AfterCheckinEvent, self).__init__( new_baseline )
+    implements(interfaces.IAfterCheckinEvent)
+
+    def __init__(self, new_baseline, checkin_message):
+        super(AfterCheckinEvent, self).__init__(new_baseline)
         self.message = checkin_message
 
-class CancelCheckoutEvent( ObjectEvent ):
 
-    implements( interfaces.ICancelCheckoutEvent )
+class CancelCheckoutEvent(ObjectEvent):
 
-    def __init__( self, wc, baseline):
-        ObjectEvent.__init__(self, wc )
+    implements(interfaces.ICancelCheckoutEvent)
+
+    def __init__(self, wc, baseline):
+        ObjectEvent.__init__(self, wc)
         self.baseline = baseline
 
-class WorkingCopyDeletedEvent( ObjectEvent ):
 
-    implements( interfaces.IWorkingCopyDeletedEvent )
+class WorkingCopyDeletedEvent(ObjectEvent):
 
-    def __init__( self, wc, baseline, relation ):
-        ObjectEvent.__init__( self, wc )
+    implements(interfaces.IWorkingCopyDeletedEvent)
+
+    def __init__(self, wc, baseline, relation):
+        ObjectEvent.__init__(self, wc)
         self.baseline = baseline
         self.relation = relation
 
-class BeforeCheckoutEvent( ObjectEvent ):
 
-    implements( interfaces.IBeforeCheckoutEvent )
+class BeforeCheckoutEvent(ObjectEvent):
+
+    implements(interfaces.IBeforeCheckoutEvent)
 
 
-def handleDeletion( reference, event ):
+def handleDeletion(reference, event):
     # a filtering/enriching event rebroadcaster for working copy deletions
     workingCopy = reference.getSourceObject()
     baseline = reference.getTargetObject()
-    notify( WorkingCopyDeletedEvent( workingCopy, baseline, reference ) )
-
+    notify(WorkingCopyDeletedEvent(workingCopy, baseline, reference))

@@ -75,7 +75,8 @@ class CheckinCheckoutReferenceAdapter(object):
 
     def checkout(self, baseline, wc, refs, storage):
         for ref in refs:
-            wc.addReference(ref.targetUID, ref.relationship, referenceClass=ref.__class__)
+            wc.addReference(ref.targetUID, ref.relationship,
+                            referenceClass=ref.__class__)
 
     def checkin(self, *args):
         pass
@@ -98,7 +99,8 @@ class NoCopyReferenceAdapter(object):
     def checkin(self, baseline, wc, refs, storage):
         # move the references from the baseline to the wc
 
-        # one note, on checkin the wc uid is not yet changed to match that of the baseline
+        # one note, on checkin the wc uid is not yet changed to match that of
+        # the baseline
         ref_ids = [r.getId() for r in refs]
 
         baseline_ref_container = getattr(baseline, atconf.REFERENCE_ANNOTATION)
@@ -108,15 +110,14 @@ class NoCopyReferenceAdapter(object):
 
         # references aren't globally addable w/ associated perm which default copysupport
         # wants to check, temporarily monkey around the issue.
-        def _verifyObjectPaste( *args, **kw ): pass
+        def _verifyObjectPaste(*args, **kw): pass
         wc_ref_container._verifyObjectPaste = _verifyObjectPaste
         try:
-            wc_ref_container.manage_pasteObjects( clipboard )
+            wc_ref_container.manage_pasteObjects(clipboard)
         finally:
             del wc_ref_container._verifyObjectPaste
 
-    def checkout( self, *args ):
+    def checkout(self, *args):
         pass
 
     checkoutBackReferences = checkinBackReferences = checkout
-

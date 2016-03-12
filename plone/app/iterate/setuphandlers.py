@@ -9,4 +9,4 @@ def deprecate_profile(tool):
     warnings.warn(
         'The profile with id "plone.app.iterate" was renamed to "default".',
         DeprecationWarning
-        )
+    )

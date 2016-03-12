@@ -32,6 +32,7 @@ from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import CheckoutException
 
+
 class Cancel(BrowserView):
 
     index = ViewPageTemplateFile('cancel.pt')
@@ -40,7 +41,8 @@ class Cancel(BrowserView):
         context = aq_inner(self.context)
 
         if self.request.form.has_key('form.button.Cancel'):
-            control = getMultiAdapter((context, self.request), name=u"iterate_control")
+            control = getMultiAdapter(
+                (context, self.request), name=u"iterate_control")
             if not control.cancel_allowed():
                 raise CheckoutException(u"Not a checkout")
 
@@ -48,12 +50,14 @@ class Cancel(BrowserView):
             baseline = policy.cancelCheckout()
             baseline.reindexObject()
 
-            IStatusMessage(self.request).addStatusMessage(_(u"Checkout cancelled"), type='info')
-            view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
+            IStatusMessage(self.request).addStatusMessage(
+                _(u"Checkout cancelled"), type='info')
+            view_url = baseline.restrictedTraverse(
+                "@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         elif self.request.form.has_key('form.button.Keep'):
-            view_url = context.restrictedTraverse("@@plone_context_state").view_url()
+            view_url = context.restrictedTraverse(
+                "@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:
             return self.index()
-
