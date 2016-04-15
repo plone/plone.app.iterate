@@ -50,12 +50,6 @@ class Checkout(BrowserView):
     def __call__(self):
         context = aq_inner(self.context)
 
-        containers = list(self.containers())
-        if len(containers) == 1:
-            # Special case for when there's only when folder to select
-            self.request.form['form.button.Checkout'] = 1
-            self.request.form['checkout_location'] = containers[0]['name']
-
         # We want to redirect to a specific template, else we might
         # end up downloading a file
         if self.request.form.has_key('form.button.Checkout'):
