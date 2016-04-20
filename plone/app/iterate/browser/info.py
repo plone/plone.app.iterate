@@ -22,6 +22,7 @@ from plone.app.iterate.relation import WorkingCopyRelation
 
 from plone.memoize.instance import memoize
 from Products.CMFPlone.log import logger
+from Products.Archetypes.interfaces import IReferenceable
 
 class BaseInfoViewlet( BrowserView ):
 
@@ -105,9 +106,12 @@ class BaselineInfoViewlet( BaseInfoViewlet ):
             return ""
 
     @memoize
-    def working_copy( self ):
-        refs = self.context.getBRefs( WorkingCopyRelation.relationship )
-        if len( refs ) > 0:
+    def working_copy(self):
+        adapted = IReferenceable(self.context, None)
+        if adapted is None:
+            return None
+        refs = adapted.getBRefs(WorkingCopyRelation.relationship)
+        if len(refs) > 0:
             return refs[0]
         else:
             return None

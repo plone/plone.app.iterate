@@ -22,6 +22,9 @@ Bug fixes:
 
 Fixes:
 
+- Fix exception when Dexterity-based content types get a working copy (closes `#1541`_).
+  [rodfersou]
+
 - no special case that enables checkout via GET
   [gotcha]
 
@@ -352,3 +355,4 @@ Fixes:
 - First release
 
 .. _`#1451`: https://github.com/plone/Products.CMFPlone/issues/1451
+.. _`#1541`: https://github.com/plone/Products.CMFPlone/issues/1541
