@@ -14,7 +14,8 @@ New:
 
 Fixes:
 
-- *add item here*
+- no special case that enables checkout via GET
+  [gotcha]
 
 
 2.1.15 (2016-03-11)
