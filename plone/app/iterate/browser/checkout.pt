@@ -7,7 +7,8 @@
     i18n:domain="plone">
 <body>
 
-<div id="content" metal:fill-slot="body">
+<div id="content" metal:fill-slot="body" 
+     tal:define="containers python:list(view.containers())">
 
     <form action="#"
         method="post"
@@ -24,8 +25,18 @@
         editing it.
     </p>
 
-    <fieldset>
+    <tal:one_container tal:condition="python:len(containers)==1">
+    <input 
+        type="hidden" 
+        name="checkout_location"
+        tal:define = "item python:containers[0]"
+        tal:attributes="id string:checkout_location_${item/name};
+                        value item/name"
+        />
+    </tal:one_container>
 
+    <fieldset tal:condition="python:len(containers)!=1">
+        
         <legend i18n:translate="legend_details">Details</legend>
 
             <div class="field">

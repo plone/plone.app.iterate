@@ -39,6 +39,9 @@ Let's check out the document.  For this, we'll go to the *Check out*
 form directly.  From there, we'll check out to the parent folder::
 
     >>> browser.getLink('Check out').click()
+    >>> 'form.button.Checkout' in browser.contents
+    True
+    >>> browser.getControl(name='form.button.Checkout').click()
     >>> 'This is a working copy' in browser.contents
     True
     >>> browser.url
@@ -93,6 +96,9 @@ check out published pages::
 
     >>> browser.open(portal.absolute_url() + '/hello-world')
     >>> browser.getLink("Check out").click()
+    >>> 'form.button.Checkout' in browser.contents
+    True
+    >>> browser.getControl(name='form.button.Checkout').click()
     >>> "Check-out created" in browser.contents
     True
 
@@ -166,6 +172,9 @@ Check out the folder::
 
     >>> browser.getLink('Foo Folder').click()
     >>> browser.getLink('Check out').click()
+    >>> 'form.button.Checkout' in browser.contents
+    True
+    >>> browser.getControl(name='form.button.Checkout').click()
     >>> 'This is a working copy' in browser.contents
     True
     >>> wc_url = browser.url
