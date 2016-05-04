@@ -4,14 +4,6 @@ Changelog
 2.1.16 (unreleased)
 -------------------
 
-Incompatibilities:
-
-- *add item here*
-
-New:
-
-- *add item here*
-
 Fixes:
 
 - no special case that enables checkout via GET
