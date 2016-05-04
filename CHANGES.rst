@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- no special case that enables checkout via GET
+  [gotcha]
 
 
 3.1.6 (2016-04-26)
@@ -419,3 +420,5 @@ Fixes:
 ----------------
 
 - First release
+
+.. _`#1451`: https://github.com/plone/Products.CMFPlone/issues/1451
