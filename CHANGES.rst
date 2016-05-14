@@ -4,14 +4,6 @@ Changelog
 3.1.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - no special case that enables checkout via GET
