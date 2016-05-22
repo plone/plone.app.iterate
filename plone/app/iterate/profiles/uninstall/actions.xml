@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <object name="object_buttons" meta_type="CMF Action Category">
+    <object name="iterate_checkin" remove="true" />
+    <object name="iterate_checkout" remove="true" />
+    <object name="iterate_checkout_cancel" remove="true" />
+  </object>
+</object>

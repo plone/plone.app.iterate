@@ -10,7 +10,7 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added uninstall profile.  [maurits]
 
 Bug fixes:
 
