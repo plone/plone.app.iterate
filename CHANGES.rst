@@ -10,11 +10,11 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added uninstall profile.  [maurits]
 
 Bug fixes:
 
-- *add item here*
+- Removed deprecated ``actionicons.xml``.  [maurits]
 
 
 3.1.7 (2016-05-15)
