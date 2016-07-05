@@ -13,7 +13,7 @@ from zc.relation.interfaces import ICatalog
 from zope import component
 from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
-from zope.interface import implements
+from zope.interface import implementer
 from zope.schema import getFieldsInOrder
 
 
@@ -23,8 +23,8 @@ except:
     from zope.app.intid.interfaces import IIntIds
 
 
+@implementer(interfaces.IObjectCopier)
 class ContentCopier(copier.ContentCopier):
-    implements(interfaces.IObjectCopier)
 
     def copyTo(self, container):
         context = aq_inner(self.context)

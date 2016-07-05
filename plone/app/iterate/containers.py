@@ -20,7 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import adapts
 
 from Acquisition import aq_inner, aq_parent
@@ -33,10 +33,10 @@ from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.interfaces import IWCContainerLocator
 
 
+@implementer(IWCContainerLocator)
 class HomeFolderLocator(object):
     """Locate the current user's home folder, if possible.
     """
-    implements(IWCContainerLocator)
     adapts(IDynamicType)
 
     def __init__(self, context):
@@ -52,11 +52,11 @@ class HomeFolderLocator(object):
         return getToolByName(self.context, 'portal_membership').getHomeFolder()
 
 
+@implementer(IWCContainerLocator)
 class ParentFolderLocator(object):
     """Locate the parent of the context, if the user has the
     Add portal content permission.
     """
-    implements(IWCContainerLocator)
     adapts(IDynamicType)
 
     def __init__(self, context):
