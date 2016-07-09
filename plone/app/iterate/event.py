@@ -21,16 +21,15 @@
 ##################################################################
 """
 """
-from zope.interface import implements
+from zope.interface import implementer
 from zope.event import notify
 from zope.component.interfaces import ObjectEvent
 
 import interfaces
 
 
+@implementer(interfaces.ICheckoutEvent)
 class CheckoutEvent(ObjectEvent):
-
-    implements(interfaces.ICheckoutEvent)
 
     def __init__(self, baseline, wc, relation):
         ObjectEvent.__init__(self, baseline)
@@ -38,9 +37,8 @@ class CheckoutEvent(ObjectEvent):
         self.relation = relation
 
 
+@implementer(interfaces.ICheckinEvent)
 class CheckinEvent(ObjectEvent):
-
-    implements(interfaces.ICheckinEvent)
 
     def __init__(self, wc, baseline, relation, message):
         ObjectEvent.__init__(self, wc)
@@ -49,27 +47,24 @@ class CheckinEvent(ObjectEvent):
         self.message = message
 
 
+@implementer(interfaces.IAfterCheckinEvent)
 class AfterCheckinEvent(ObjectEvent):
-
-    implements(interfaces.IAfterCheckinEvent)
 
     def __init__(self, new_baseline, checkin_message):
         super(AfterCheckinEvent, self).__init__(new_baseline)
         self.message = checkin_message
 
 
+@implementer(interfaces.ICancelCheckoutEvent)
 class CancelCheckoutEvent(ObjectEvent):
-
-    implements(interfaces.ICancelCheckoutEvent)
 
     def __init__(self, wc, baseline):
         ObjectEvent.__init__(self, wc)
         self.baseline = baseline
 
 
+@implementer(interfaces.IWorkingCopyDeletedEvent)
 class WorkingCopyDeletedEvent(ObjectEvent):
-
-    implements(interfaces.IWorkingCopyDeletedEvent)
 
     def __init__(self, wc, baseline, relation):
         ObjectEvent.__init__(self, wc)
@@ -77,9 +72,10 @@ class WorkingCopyDeletedEvent(ObjectEvent):
         self.relation = relation
 
 
+@implementer(interfaces.IBeforeCheckoutEvent)
 class BeforeCheckoutEvent(ObjectEvent):
 
-    implements(interfaces.IBeforeCheckoutEvent)
+    pass
 
 
 def handleDeletion(reference, event):

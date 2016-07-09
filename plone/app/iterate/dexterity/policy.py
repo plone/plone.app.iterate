@@ -6,14 +6,14 @@ from plone.app.iterate.dexterity.utils import get_working_copy
 from plone.app.iterate.util import get_storage
 from zope import component
 from zope.event import notify
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(iterate.interfaces.ICheckinCheckoutPolicy)
 class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
     """
     Dexterity Checkin Checkout Policy
     """
-    implements(iterate.interfaces.ICheckinCheckoutPolicy)
 
     def _get_relation_to_baseline(self):
         # do we have a baseline in our relations?

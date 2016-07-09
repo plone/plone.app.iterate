@@ -23,7 +23,7 @@
 $Id: relation.py 1392 2006-06-20 01:02:17Z hazmat $
 """
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import adapts
 from zope.annotation.interfaces import IAttributeAnnotatable
 
@@ -35,6 +35,7 @@ from interfaces import ICheckinCheckoutReference
 from interfaces import IIterateAware
 
 
+@implementer(IWorkingCopyRelation, IAttributeAnnotatable)
 class WorkingCopyRelation(Reference):
     """
     Source Object is Working Copy
@@ -43,9 +44,8 @@ class WorkingCopyRelation(Reference):
     """
     relationship = "Working Copy Relation"
 
-    implements(IWorkingCopyRelation, IAttributeAnnotatable)
 
-
+@implementer(ICheckinCheckoutReference)
 class CheckinCheckoutReferenceAdapter(object):
     """
     default adapter for references.
@@ -64,8 +64,6 @@ class CheckinCheckoutReferenceAdapter(object):
     backward refs on baseline are kept by virtue of UID transferance
 
     """
-
-    implements(ICheckinCheckoutReference)
     adapts(IIterateAware)
 
     storage_key = "coci.references"
@@ -84,14 +82,13 @@ class CheckinCheckoutReferenceAdapter(object):
     checkoutBackReferences = checkinBackReferences = checkin
 
 
+@implementer(ICheckinCheckoutReference)
 class NoCopyReferenceAdapter(object):
     """
     an adapter for references that does not copy them to the wc on checkout.
 
     additionally custom reference state is kept when the wc is checked in.
     """
-
-    implements(ICheckinCheckoutReference)
 
     def __init__(self, context):
         self.context = context

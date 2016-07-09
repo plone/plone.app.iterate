@@ -32,9 +32,10 @@ from plone.app.iterate.util import get_storage
 from relation import WorkingCopyRelation
 from zope import component
 from zope.event import notify
-from zope.interface import implements
+from zope.interface import implementer
 
 
+@implementer(interfaces.ICheckinCheckoutPolicy)
 class CheckinCheckoutPolicyAdapter(object):
     """
     Default Checkin Checkout Policy For Content
@@ -47,8 +48,6 @@ class CheckinCheckoutPolicyAdapter(object):
 
     dexterity folder has dexterity compatible one
     """
-
-    implements(interfaces.ICheckinCheckoutPolicy)
     component.adapts(interfaces.IIterateAware)
 
     # used when creating baseline version for first time

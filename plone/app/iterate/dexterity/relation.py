@@ -3,7 +3,7 @@ from z3c.relationfield import relation
 from zc.relation.interfaces import ICatalog
 from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component import getUtility
-from zope.interface import implements
+from zope.interface import implementer
 
 try:
     from zope.intid.interfaces import IIntIds
@@ -11,8 +11,8 @@ except ImportError:
     from zope.app.intid.interfaces import IIntIds
 
 
+@implementer(IStagingRelationValue, IAttributeAnnotatable)
 class StagingRelationValue(relation.RelationValue):
-    implements(IStagingRelationValue, IAttributeAnnotatable)
 
     @classmethod
     def get_relations_of(cls, obj, from_attribute=None):

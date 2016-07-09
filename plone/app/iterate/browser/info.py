@@ -13,13 +13,12 @@ from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import keys, IBaseline
 from plone.app.iterate.permissions import CheckoutPermission
 from plone.memoize.instance import memoize
-from zope.interface import implements
+from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 
 
+@implementer(IViewlet)
 class BaseInfoViewlet(BrowserView):
-
-    implements(IViewlet)
 
     def __init__(self, context, request, view, manager):
         super(BaseInfoViewlet, self).__init__(context, request)

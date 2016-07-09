@@ -23,7 +23,7 @@
 $Id: archiver.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import adapts
 
 from Products.CMFCore.utils import getToolByName
@@ -31,9 +31,8 @@ from Products.CMFCore.utils import getToolByName
 import interfaces
 
 
+@implementer(interfaces.IObjectArchiver)
 class ContentArchiver(object):
-
-    implements(interfaces.IObjectArchiver)
     adapts(interfaces.IIterateAware)
 
     def __init__(self, context):

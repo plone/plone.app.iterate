@@ -42,9 +42,8 @@ from relation import WorkingCopyRelation
 from interfaces import CheckinException
 
 
+@interface.implementer(interfaces.IObjectCopier)
 class ContentCopier(object):
-
-    interface.implements(interfaces.IObjectCopier)
     component.adapts(interfaces.IIterateAware)
 
     def __init__(self, context):
