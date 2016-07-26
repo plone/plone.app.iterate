@@ -6,3 +6,5 @@ lib/
 parts/
 var/
 *.egg-info
+*.pyc
+*.pyo
