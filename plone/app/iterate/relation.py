@@ -28,11 +28,17 @@ from zope.component import adapts
 from zope.annotation.interfaces import IAttributeAnnotatable
 
 from Products.Archetypes import config as atconf
+from Products.Archetypes.exceptions import ReferenceException
 from Products.Archetypes.ReferenceEngine import Reference
 
 from interfaces import IWorkingCopyRelation
 from interfaces import ICheckinCheckoutReference
 from interfaces import IIterateAware
+
+import logging
+
+
+logger = logging.getLogger('plone.app.iterate')
 
 
 @implementer(IWorkingCopyRelation, IAttributeAnnotatable)
@@ -73,8 +79,15 @@ class CheckinCheckoutReferenceAdapter(object):
 
     def checkout(self, baseline, wc, refs, storage):
         for ref in refs:
-            wc.addReference(ref.targetUID, ref.relationship,
-                            referenceClass=ref.__class__)
+            try:
+                wc.addReference(ref.targetUID, ref.relationship,
+                                referenceClass=ref.__class__)
+            except ReferenceException:
+                logger.warn(
+                    'Reference exception when adding relation %r '
+                    'from new working copy %s to uid %s. Ignoring relation.',
+                    ref.relationship, '/'.join(wc.getPhysicalPath()),
+                    ref.targetUID)
 
     def checkin(self, *args):
         pass
