@@ -28,11 +28,17 @@ from zope.component import adapts
 from zope.annotation.interfaces import IAttributeAnnotatable
 
 from Products.Archetypes import config as atconf
+from Products.Archetypes.exceptions import ReferenceException
 from Products.Archetypes.ReferenceEngine import Reference
 
 from interfaces import IWorkingCopyRelation
 from interfaces import ICheckinCheckoutReference
 from interfaces import IIterateAware
+
+import logging
+
+
+logger = logging.getLogger('plone.app.iterate')
 
 
 class WorkingCopyRelation( Reference ):
@@ -51,7 +57,7 @@ class CheckinCheckoutReferenceAdapter ( object ):
     default adapter for references.
 
     on checkout
-    
+
     forward refs on baseline are copied to wc
     backward refs on baseline are ignored on wc
 
@@ -62,21 +68,29 @@ class CheckinCheckoutReferenceAdapter ( object ):
 
     forward refs on baseline get removed
     backward refs on baseline are kept by virtue of UID transferance
-    
+
     """
 
     implements( ICheckinCheckoutReference )
     adapts( IIterateAware )
-    
+
     storage_key = "coci.references"
 
     def __init__(self, context ):
         self.context = context
-    
-    def checkout( self, baseline, wc, refs, storage ):
+
+    def checkout(self, baseline, wc, refs, storage):
         for ref in refs:
-            wc.addReference( ref.targetUID, ref.relationship, referenceClass=ref.__class__ )
-            
+            try:
+                wc.addReference(ref.targetUID, ref.relationship,
+                                referenceClass=ref.__class__)
+            except ReferenceException:
+                logger.warn(
+                    'Reference exception when adding relation %r '
+                    'from new working copy %s to uid %s. Ignoring relation.',
+                    ref.relationship, '/'.join(wc.getPhysicalPath()),
+                    ref.targetUID)
+
     def checkin( self, *args ):
         pass
 
@@ -95,7 +109,7 @@ class NoCopyReferenceAdapter( object ):
 
     def __init__(self, context):
         self.context = context
-    
+
     def checkin( self, baseline, wc, refs, storage ):
         # move the references from the baseline to the wc
 
@@ -118,6 +132,5 @@ class NoCopyReferenceAdapter( object ):
 
     def checkout( self, *args ):
         pass
-        
+
     checkoutBackReferences = checkinBackReferences = checkout
-    

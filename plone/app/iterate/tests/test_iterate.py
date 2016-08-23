@@ -157,6 +157,26 @@ class TestIterations(PloneTestCase.PloneTestCase):
         self.assertEqual( len(doc.getReferences()), 1 )
         self.assertEqual( len(doc.getBackReferences()), 1 )
 
+    def test_baselineBrokenReferencesRemoved(self):
+        # When the baseline has a reference to a deleted object, a
+        # checkout should not fail with a ReferenceException.
+
+        doc = self.portal.docs.doc1
+        doc.addReference(self.portal.docs.doc2, "pony")
+        self.portal.docs._delOb('doc2')
+        # _delOb is low level enough that the reference does not get cleaned
+        # up.
+        self.assertEqual(len(doc.getReferences()), 1)
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        # The working copy has one reference: its original.
+        self.assertEqual(len(wc.getReferences()), 1)
+        self.assertEqual(wc.getReferences()[0].id, 'doc1')
+
+        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        # The checkin removes the broken reference.
+        self.assertEqual(len(doc.getReferences()), 0)
+
     def test_baselineNoCopyReferences( self ):
         # ensure that custom state is maintained with the no copy adapter
 
