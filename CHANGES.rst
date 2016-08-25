@@ -14,7 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Remove broken references when making checkout.
+  Fixes issue `30 <https://github.com/plone/plone.app.iterate/issues/30>`_.
+  [maurits]
 
 
 3.2.1 (2016-08-17)
