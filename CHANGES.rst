@@ -4,14 +4,6 @@ Changelog
 2.1.18 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Remove broken references when making checkout.
