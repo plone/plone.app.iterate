@@ -9,7 +9,7 @@ LONG_DESCRIPTION = (
 
 setup(
     name='plone.app.iterate',
-    version='2.1.18',
+    version='2.1.19.dev0',
     description="check-out/check-in staging for Plone",
     long_description=LONG_DESCRIPTION,
     classifiers=[
