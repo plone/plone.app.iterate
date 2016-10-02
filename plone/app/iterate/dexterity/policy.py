@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app import iterate
 from plone.app.iterate.dexterity.utils import get_baseline
 from plone.app.iterate.dexterity.utils import get_checkout_relation

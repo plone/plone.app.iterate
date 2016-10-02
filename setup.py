@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """Setup plone.app.iterate."""
 from setuptools import setup, find_packages
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.iterate.interfaces import IBaseline
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IIterateAware

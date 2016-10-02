@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.iterate.dexterity.interfaces import IStagingRelationValue
 from z3c.relationfield import relation
 from zc.relation.interfaces import ICatalog

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from plone.app.iterate.interfaces import IIterateAware
 from zope.interface import Attribute
 from z3c.relationfield.interfaces import IRelationValue
