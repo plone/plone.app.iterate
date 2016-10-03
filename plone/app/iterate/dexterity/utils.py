@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from Acquisition import aq_inner, aq_base
 from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from zc.relation.interfaces import ICatalog
