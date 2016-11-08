@@ -17,6 +17,9 @@ Bug fixes:
 - Add coding header on python files.
   [gforcada]
 
+- Hide uninstall profile from being shown on the Plone install (advanced) form.
+  [gforcada]
+
 3.2.2 (2016-09-14)
 ------------------
 
