@@ -60,7 +60,12 @@
       handler="plone.app.iterate.util.upgrade_by_reinstall"
       />
 
-  <!-- Policy and behavior for basic objects -->
+  <utility
+      name="plone.app.iterate"
+      factory=".profiles.HiddenProfiles"
+      />
+
+    <!-- Policy and behavior for basic objects -->
   <class class="Products.Archetypes.BaseObject.BaseObject">
       <implements interface=".interfaces.IIterateAware" />
   </class>
