@@ -13,4 +13,5 @@ class HiddenProfiles(object):
         """
         return [
             u'plone.app.iterate:uninstall',
+            u'plone.app.iterate:plone.app.iterate',
         ]
