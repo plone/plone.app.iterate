@@ -24,8 +24,8 @@
 $Id: locking.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from plone.locking.interfaces import ILockable
 from plone.app.iterate import lock
+from plone.locking.interfaces import ILockable
 
 
 def handleWCDeleted(event):

@@ -24,10 +24,9 @@
 $Id: archiver.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from zope.interface import implementer
-from zope.component import adapts
-
 from Products.CMFCore.utils import getToolByName
+from zope.component import adapts
+from zope.interface import implementer
 
 import interfaces
 

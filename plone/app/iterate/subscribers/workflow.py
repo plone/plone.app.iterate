@@ -28,11 +28,11 @@ Applies new checkout specific workflows to content that is checked out.
 """
 
 from Acquisition import aq_base
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
-from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig  # noqa
 from plone.app.iterate.interfaces import IIterateSettings
 from plone.app.iterate.util import get_storage
 from plone.registry.interfaces import IRegistry
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
+from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig  # noqa
 from zope.component import getUtility
 
 

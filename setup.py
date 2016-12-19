@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Setup plone.app.iterate."""
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
+
 
 LONG_DESCRIPTION = (
     open('README.rst').read() +
@@ -11,18 +13,18 @@ LONG_DESCRIPTION = (
 setup(
     name='plone.app.iterate',
     version='3.2.4.dev0',
-    description="check-out/check-in staging for Plone",
+    description='check-out/check-in staging for Plone',
     long_description=LONG_DESCRIPTION,
     classifiers=[
-        "Environment :: Web Environment",
-        "Framework :: Plone",
-        "Framework :: Plone :: 5.0",
-        "Framework :: Plone :: 5.1",
-        "Framework :: Zope2",
-        "License :: OSI Approved :: GNU General Public License (GPL)",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
+        'Environment :: Web Environment',
+        'Framework :: Plone',
+        'Framework :: Plone :: 5.0',
+        'Framework :: Plone :: 5.1',
+        'Framework :: Zope2',
+        'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
     ],
     keywords='check-out check-in staging',
     author='Plone Foundation',
@@ -34,10 +36,19 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'setuptools',
-        'Products.GenericSetup>=1.8.2',
+        'Acquisition',
+        'DateTime',
         'plone.locking',
         'plone.memoize',
+        'Products.Archetypes',
+        'Products.CMFCore',
+        'Products.CMFEditions',
+        'Products.CMFPlacefulWorkflow',
+        'Products.DCWorkflow',
+        'Products.GenericSetup>=1.8.2',
+        'Products.statusmessages',
+        'setuptools',
+        'ZODB3',
         'zope.annotation',
         'zope.component',
         'zope.event',
@@ -46,15 +57,6 @@ setup(
         'zope.lifecycleevent',
         'zope.schema',
         'zope.viewlet',
-        'Acquisition',
-        'DateTime',
-        'Products.Archetypes',
-        'Products.CMFCore',
-        'Products.CMFEditions',
-        'Products.CMFPlacefulWorkflow',
-        'Products.DCWorkflow',
-        'Products.statusmessages',
-        'ZODB3',
         'Zope2',
     ],
     extras_require={

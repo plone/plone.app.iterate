@@ -21,10 +21,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from zope.annotation import IAnnotations
-from persistent.dict import PersistentDict
 from interfaces import annotation_key
+from persistent.dict import PersistentDict
 from Products.CMFCore.utils import getToolByName
+from zope.annotation import IAnnotations
 
 
 def get_storage(context, default=None):

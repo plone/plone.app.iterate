@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import doctest
-from unittest import TestSuite
-
 from plone.app.iterate.testing import PLONEAPPITERATE_FUNCTIONAL_TESTING
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_FUNCTIONAL_TESTING
 from plone.testing import layered
+from unittest import TestSuite
+
+import doctest
 
 
 def test_suite():

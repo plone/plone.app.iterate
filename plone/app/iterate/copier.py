@@ -25,22 +25,23 @@
 $Id: copier.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from zope import interface, component
+from Acquisition import aq_base
+from Acquisition import aq_inner
+from Acquisition import aq_parent
+from interfaces import CheckinException
+from Products.Archetypes.Referenceable import Referenceable
+from Products.CMFCore import interfaces as cmf_ifaces
+from Products.CMFCore.utils import getToolByName
+from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
+from relation import WorkingCopyRelation
+from ZODB.PersistentMapping import PersistentMapping
+from zope import component
+from zope import interface
 from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
 from zope.lifecycleevent import ObjectMovedEvent
 
-from Acquisition import aq_base, aq_parent, aq_inner
-from ZODB.PersistentMapping import PersistentMapping
-
-from Products.Archetypes.Referenceable import Referenceable
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore import interfaces as cmf_ifaces
-from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
-
 import interfaces
-from relation import WorkingCopyRelation
-from interfaces import CheckinException
 
 
 @interface.implementer(interfaces.IObjectCopier)

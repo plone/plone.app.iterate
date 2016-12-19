@@ -26,8 +26,8 @@ $Id: metadata.py 1824 2007-02-08 17:59:41Z hazmat $
 
 from AccessControl import getSecurityManager
 from DateTime import DateTime
-from plone.app.iterate.util import get_storage
 from plone.app.iterate.interfaces import keys
+from plone.app.iterate.util import get_storage
 
 
 def handleCheckout(event):

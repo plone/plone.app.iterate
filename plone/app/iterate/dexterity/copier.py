@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-from Acquisition import aq_inner, aq_parent
-from Products.CMFCore.utils import getToolByName
-from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
-from ZODB.PersistentMapping import PersistentMapping
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.iterate import copier
 from plone.app.iterate import interfaces
-from plone.app.iterate.event import AfterCheckinEvent
 from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from plone.app.iterate.dexterity.relation import StagingRelationValue
+from plone.app.iterate.event import AfterCheckinEvent
 from plone.dexterity.utils import iterSchemata
+from Products.CMFCore.utils import getToolByName
+from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
 from z3c.relationfield import event
 from zc.relation.interfaces import ICatalog
+from ZODB.PersistentMapping import PersistentMapping
 from zope import component
 from zope.annotation.interfaces import IAnnotations
 from zope.event import notify

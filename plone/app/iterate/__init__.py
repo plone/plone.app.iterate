@@ -23,9 +23,11 @@
 """
 """
 
-import logging
-from zope.i18nmessageid import MessageFactory
 from plone.app.iterate import permissions  # noqa
+from zope.i18nmessageid import MessageFactory
+
+import logging
+
 
 PloneMessageFactory = MessageFactory('plone')
 logger = logging.getLogger('plone.app.iterate')

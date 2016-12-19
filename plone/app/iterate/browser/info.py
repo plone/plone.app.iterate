@@ -5,15 +5,16 @@ $Id: base.py 1808 2007-02-06 11:39:11Z hazmat $
 
 from AccessControl import getSecurityManager
 from DateTime import DateTime
+from plone.app.iterate.interfaces import IBaseline
+from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
+from plone.app.iterate.interfaces import keys
+from plone.app.iterate.permissions import CheckoutPermission
+from plone.memoize.instance import memoize
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.log import logger
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
-from plone.app.iterate.interfaces import keys, IBaseline
-from plone.app.iterate.permissions import CheckoutPermission
-from plone.memoize.instance import memoize
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 

@@ -24,8 +24,8 @@
 $Id: marker.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from Products.Five.utilities import marker
 from plone.app.iterate import interfaces
+from Products.Five.utilities import marker
 
 
 def handleCheckout(event):

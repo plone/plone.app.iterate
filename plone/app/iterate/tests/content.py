@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from plone.app.folder.folder import ATFolder, ATFolderSchema
-from Products.ATContentTypes.content.base import registerATCT
+from plone.app.folder.folder import ATFolder
+from plone.app.folder.folder import ATFolderSchema
 from Products.Archetypes import atapi
+from Products.ATContentTypes.content.base import registerATCT
+
 
 RichFolderSchema = ATFolderSchema.copy() + atapi.Schema((
     atapi.TextField('text',

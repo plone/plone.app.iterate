@@ -21,18 +21,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from zope.component import getMultiAdapter, getAdapters
-
 from Acquisition import aq_inner
+from plone.app.iterate import PloneMessageFactory as _
+from plone.app.iterate.interfaces import CheckoutException
+from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
+from plone.app.iterate.interfaces import IWCContainerLocator
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-
 from Products.statusmessages.interfaces import IStatusMessage
-
-from plone.app.iterate import PloneMessageFactory as _
-from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
-from plone.app.iterate.interfaces import CheckoutException
-from plone.app.iterate.interfaces import IWCContainerLocator
+from zope.component import getAdapters
+from zope.component import getMultiAdapter
 
 
 class Checkout(BrowserView):

@@ -21,17 +21,16 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from zope.interface import implementer
-from zope.component import adapts
-
-from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
-from Products.CMFCore.interfaces import IDynamicType
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.permissions import AddPortalContent
-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.interfaces import IWCContainerLocator
+from Products.CMFCore.interfaces import IDynamicType
+from Products.CMFCore.permissions import AddPortalContent
+from Products.CMFCore.utils import getToolByName
+from zope.component import adapts
+from zope.interface import implementer
 
 
 @implementer(IWCContainerLocator)

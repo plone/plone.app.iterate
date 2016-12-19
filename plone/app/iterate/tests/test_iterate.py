@@ -25,14 +25,15 @@ $Id: test_iterate.py 1595 2006-08-24 00:15:21Z hazmat $
 """
 
 from AccessControl import getSecurityManager
-from Products.CMFCore.utils import getToolByName
 from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATE_INTEGRATION_TESTING
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from Products.CMFCore.utils import getToolByName
+
 import unittest2 as unittest
 
 
