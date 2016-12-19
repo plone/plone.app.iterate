@@ -29,15 +29,15 @@ from plone.app.iterate.interfaces import IWCContainerLocator
 from Products.CMFCore.interfaces import IDynamicType
 from Products.CMFCore.permissions import AddPortalContent
 from Products.CMFCore.utils import getToolByName
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 
 
 @implementer(IWCContainerLocator)
+@adapter(IDynamicType)
 class HomeFolderLocator(object):
     """Locate the current user's home folder, if possible.
     """
-    adapts(IDynamicType)
 
     def __init__(self, context):
         self.context = context
@@ -53,11 +53,11 @@ class HomeFolderLocator(object):
 
 
 @implementer(IWCContainerLocator)
+@adapter(IDynamicType)
 class ParentFolderLocator(object):
     """Locate the parent of the context, if the user has the
     Add portal content permission.
     """
-    adapts(IDynamicType)
 
     def __init__(self, context):
         self.context = context

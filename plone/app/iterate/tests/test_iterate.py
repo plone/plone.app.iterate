@@ -192,7 +192,7 @@ class TestIterations(unittest.TestCase):
         from plone.app.iterate.tests.utils import CustomReference
 
         component.provideAdapter(
-            adapts=(IBaseObject,),
+            adapter=(IBaseObject,),
             provides=interfaces.ICheckinCheckoutReference,
             factory=relation.NoCopyReferenceAdapter,
             name="zebra")

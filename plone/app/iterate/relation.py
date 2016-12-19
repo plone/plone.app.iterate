@@ -31,7 +31,7 @@ from Products.Archetypes import config as atconf
 from Products.Archetypes.exceptions import ReferenceException
 from Products.Archetypes.ReferenceEngine import Reference
 from zope.annotation.interfaces import IAttributeAnnotatable
-from zope.component import adapts
+from zope.component import adapter
 from zope.interface import implementer
 
 import logging
@@ -51,6 +51,7 @@ class WorkingCopyRelation(Reference):
 
 
 @implementer(ICheckinCheckoutReference)
+@adapter(IIterateAware)
 class CheckinCheckoutReferenceAdapter(object):
     """
     default adapter for references.
@@ -69,7 +70,6 @@ class CheckinCheckoutReferenceAdapter(object):
     backward refs on baseline are kept by virtue of UID transferance
 
     """
-    adapts(IIterateAware)
 
     storage_key = "coci.references"
 

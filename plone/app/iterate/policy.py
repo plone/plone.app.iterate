@@ -39,6 +39,7 @@ import interfaces
 
 
 @implementer(interfaces.ICheckinCheckoutPolicy)
+@component.adapter(interfaces.IIterateAware)
 class CheckinCheckoutPolicyAdapter(object):
     """
     Default Checkin Checkout Policy For Content
@@ -51,7 +52,6 @@ class CheckinCheckoutPolicyAdapter(object):
 
     dexterity folder has dexterity compatible one
     """
-    component.adapts(interfaces.IIterateAware)
 
     # used when creating baseline version for first time
     default_base_message = "Created Baseline"

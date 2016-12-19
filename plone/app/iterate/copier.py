@@ -45,8 +45,8 @@ import interfaces
 
 
 @interface.implementer(interfaces.IObjectCopier)
+@component.adapter(interfaces.IIterateAware)
 class ContentCopier(object):
-    component.adapts(interfaces.IIterateAware)
 
     def __init__(self, context):
         self.context = context
