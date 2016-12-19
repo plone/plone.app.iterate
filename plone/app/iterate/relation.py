@@ -21,7 +21,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 """
-$Id: relation.py 1392 2006-06-20 01:02:17Z hazmat $
+Archetypes speicifc implementation for relation handling
 """
 
 from interfaces import ICheckinCheckoutReference
