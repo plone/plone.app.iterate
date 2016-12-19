@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Cleanup: isort, zca decorators, etc.
+  [jensens]
 
 
 3.2.3 (2016-11-10)
