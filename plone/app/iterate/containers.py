@@ -66,7 +66,12 @@ class ParentFolderLocator(object):
 
     @property
     def available(self):
-        return bool(getSecurityManager().checkPermission(AddPortalContent, aq_parent(aq_inner(self.context))))
+        return bool(
+            getSecurityManager().checkPermission(
+                AddPortalContent,
+                aq_parent(aq_inner(self.context))
+            )
+        )
 
     def __call__(self):
         if not self.available:

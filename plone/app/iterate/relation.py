@@ -117,9 +117,11 @@ class NoCopyReferenceAdapter(object):
 
         wc_ref_container = getattr(wc, atconf.REFERENCE_ANNOTATION)
 
-        # references aren't globally addable w/ associated perm which default copysupport
-        # wants to check, temporarily monkey around the issue.
-        def _verifyObjectPaste(*args, **kw): pass
+        # references aren't globally addable w/ associated perm which default
+        # copysupport wants to check, temporarily monkey around the issue.
+        def _verifyObjectPaste(*args, **kw):
+            pass
+
         wc_ref_container._verifyObjectPaste = _verifyObjectPaste
         try:
             wc_ref_container.manage_pasteObjects(clipboard)

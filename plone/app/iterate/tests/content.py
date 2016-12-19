@@ -19,6 +19,7 @@ class RichFolder(ATFolder):
     schema = RichFolderSchema
     portal_type = 'RichFolder'
 
+
 registerATCT(RichFolder, 'plone.app.iterate')
 
 
