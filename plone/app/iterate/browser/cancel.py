@@ -38,24 +38,24 @@ class Cancel(BrowserView):
     def __call__(self):
         context = aq_inner(self.context)
 
-        if self.request.form.has_key('form.button.Cancel'):
+        if 'form.button.Cancel' in self.request.form:
             control = getMultiAdapter(
-                (context, self.request), name=u"iterate_control")
+                (context, self.request), name=u'iterate_control')
             if not control.cancel_allowed():
-                raise CheckoutException(u"Not a checkout")
+                raise CheckoutException(u'Not a checkout')
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.cancelCheckout()
             baseline.reindexObject()
 
             IStatusMessage(self.request).addStatusMessage(
-                _(u"Checkout cancelled"), type='info')
+                _(u'Checkout cancelled'), type='info')
             view_url = baseline.restrictedTraverse(
-                "@@plone_context_state").view_url()
+                '@@plone_context_state').view_url()
             self.request.response.redirect(view_url)
-        elif self.request.form.has_key('form.button.Keep'):
+        elif 'form.button.Keep' in self.request.form:
             view_url = context.restrictedTraverse(
-                "@@plone_context_state").view_url()
+                '@@plone_context_state').view_url()
             self.request.response.redirect(view_url)
         else:
             return self.index()

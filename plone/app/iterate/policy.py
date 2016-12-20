@@ -54,7 +54,7 @@ class CheckinCheckoutPolicyAdapter(object):
     """
 
     # used when creating baseline version for first time
-    default_base_message = "Created Baseline"
+    default_base_message = 'Created Baseline'
 
     def __init__(self, context):
         self.context = context
@@ -123,10 +123,10 @@ class CheckinCheckoutPolicyAdapter(object):
         refs = self.context.getReferences(WorkingCopyRelation.relationship)
 
         if not len(refs) == 1:
-            raise interfaces.CheckinException("Baseline count mismatch")
+            raise interfaces.CheckinException('Baseline count mismatch')
 
         if not refs or refs[0] is None:
-            raise interfaces.CheckinException("Baseline has disappeared")
+            raise interfaces.CheckinException('Baseline has disappeared')
 
         baseline = refs[0]
         return baseline

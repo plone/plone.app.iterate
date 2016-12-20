@@ -11,7 +11,9 @@ from zope.interface import implementer
 
 
 @implementer(iterate.interfaces.ICheckinCheckoutPolicy)
-class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
+class CheckinCheckoutPolicyAdapter(
+    iterate.policy.CheckinCheckoutPolicyAdapter
+):
     """
     Dexterity Checkin Checkout Policy
     """
@@ -22,11 +24,11 @@ class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
 
         if relations and not len(relations) == 1:
             raise iterate.interfaces.CheckinException(
-                "Baseline count mismatch")
+                'Baseline count mismatch')
 
         if not relations or not relations[0]:
             raise iterate.interfaces.CheckinException(
-                "Baseline has disappeared")
+                'Baseline has disappeared')
 
         return relations[0]
 
@@ -34,7 +36,7 @@ class CheckinCheckoutPolicyAdapter(iterate.policy.CheckinCheckoutPolicyAdapter):
         baseline = get_baseline(self.context)
         if not baseline:
             raise iterate.interfaces.CheckinException(
-                "Baseline has disappeared")
+                'Baseline has disappeared')
         return baseline
 
     def checkin(self, checkin_message):

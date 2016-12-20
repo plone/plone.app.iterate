@@ -106,11 +106,11 @@ PLONEAPPITERATE_FIXTURE = PloneAppIterateLayer()
 
 PLONEAPPITERATE_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONEAPPITERATE_FIXTURE,),
-    name="PloneAppIterateLayer:Integration")
+    name='PloneAppIterateLayer:Integration')
 
 PLONEAPPITERATE_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEAPPITERATE_FIXTURE,),
-    name="PloneAppIterateLayer:Functional")
+    name='PloneAppIterateLayer:Functional')
 
 
 class DexPloneAppIterateLayer(PloneAppContenttypes):
@@ -133,8 +133,8 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
 PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()
 PLONEAPPITERATEDEX_INTEGRATION_TESTING = IntegrationTesting(
     bases=(PLONEAPPITERATEDEX_FIXTURE,),
-    name="DexPloneAppIterateLayer:Integration")
+    name='DexPloneAppIterateLayer:Integration')
 
 PLONEAPPITERATEDEX_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(PLONEAPPITERATEDEX_FIXTURE,),
-    name="DexPloneAppIterateLayer:Functional")
+    name='DexPloneAppIterateLayer:Functional')

@@ -20,10 +20,6 @@
 # along with CMFDeployment; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
-"""
-$Id: archiver.py 1824 2007-02-08 17:59:41Z hazmat $
-"""
-
 from Products.CMFCore.utils import getToolByName
 from zope.component import adapter
 from zope.interface import implementer
@@ -55,5 +51,5 @@ class ContentArchiver(object):
     def isModified(self):
         try:
             return not self.repository.isUpToDate(self.context)
-        except:
+        except Exception:
             return False

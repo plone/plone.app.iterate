@@ -38,25 +38,25 @@ class Checkin(BrowserView):
     def __call__(self):
         context = aq_inner(self.context)
 
-        if self.request.form.has_key('form.button.Checkin'):
+        if 'form.button.Checkin' in self.request.form:
             control = getMultiAdapter(
-                (context, self.request), name=u"iterate_control")
+                (context, self.request), name=u'iterate_control')
             if not control.checkin_allowed():
-                raise CheckinException(u"Not a checkout")
+                raise CheckinException(u'Not a checkout')
 
-            message = self.request.form.get('checkin_message', "")
+            message = self.request.form.get('checkin_message', '')
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.checkin(message)
 
             IStatusMessage(self.request).addStatusMessage(
-                _("Checked in"), type='info')
+                _('Checked in'), type='info')
             view_url = baseline.restrictedTraverse(
-                "@@plone_context_state").view_url()
+                '@@plone_context_state').view_url()
             self.request.response.redirect(view_url)
-        elif self.request.form.has_key('form.button.Cancel'):
+        elif 'form.button.Cancel'in self.request.form:
             view_url = context.restrictedTraverse(
-                "@@plone_context_state").view_url()
+                '@@plone_context_state').view_url()
             self.request.response.redirect(view_url)
         else:
             return self.index()

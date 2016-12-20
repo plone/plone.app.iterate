@@ -17,6 +17,8 @@ Bug fixes:
 - Cleanup: isort, zca decorators, etc.
   [jensens]
 
+- Some more cleanup.
+  [gforcada]
 
 3.2.3 (2016-11-10)
 ------------------

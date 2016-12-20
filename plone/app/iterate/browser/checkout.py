@@ -52,20 +52,25 @@ class Checkout(BrowserView):
         # end up downloading a file
         if 'form.button.Checkout' in self.request.form:
             control = getMultiAdapter(
-                (context, self.request), name=u"iterate_control")
+                (context, self.request), name=u'iterate_control')
             if not control.checkout_allowed():
-                raise CheckoutException(u"Not allowed")
+                raise CheckoutException(u'Not allowed')
 
             location = self.request.form.get('checkout_location', None)
             locator = None
             try:
-                locator = [c['locator']
-                           for c in self.containers() if c['name'] == location][0]
+                locator = [
+                    c['locator']
+                    for c in self.containers()
+                    if c['name'] == location
+                ][0]
             except IndexError:
-                IStatusMessage(self.request).addStatusMessage(_("Cannot find checkout location"),
-                                                              type='error')
+                IStatusMessage(self.request).addStatusMessage(
+                    _('Cannot find checkout location'),
+                    type='error'
+                )
                 view_url = context.restrictedTraverse(
-                    "@@plone_context_state").view_url()
+                    '@@plone_context_state').view_url()
                 self.request.response.redirect(view_url)
                 return
 
@@ -77,13 +82,13 @@ class Checkout(BrowserView):
             context.reindexObject('review_state')
 
             IStatusMessage(self.request).addStatusMessage(
-                _("Check-out created"), type='info')
+                _('Check-out created'), type='info')
             view_url = wc.restrictedTraverse(
-                "@@plone_context_state").view_url()
+                '@@plone_context_state').view_url()
             self.request.response.redirect(view_url)
         elif 'form.button.Cancel' in self.request.form:
             view_url = context.restrictedTraverse(
-                "@@plone_context_state").view_url()
+                '@@plone_context_state').view_url()
             self.request.response.redirect(view_url)
         else:
             return self.index()

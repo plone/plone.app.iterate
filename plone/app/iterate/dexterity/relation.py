@@ -26,6 +26,9 @@ class StagingRelationValue(relation.RelationValue):
         items = list(catalog.findRelations({'from_id': obj_id}))
         items += list(catalog.findRelations({'to_id': obj_id}))
         if from_attribute:
-            condition = lambda r: r.from_attribute == from_attribute and not r.is_broken()
+
+            def condition(r):
+                return r.from_attribute == from_attribute and not r.is_broken()
+
             items = filter(condition, items)
         return items

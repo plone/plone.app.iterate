@@ -43,7 +43,11 @@ class BaseInfoViewlet(BrowserView):
     def created(self):
         time = self.properties.get(keys.checkout_time, DateTime())
         util = getToolByName(self.context, 'translation_service')
-        return util.ulocalized_time(time, context=self.context, domain='plonelocales')
+        return util.ulocalized_time(
+            time,
+            context=self.context,
+            domain='plonelocales',
+        )
 
     @memoize
     def creator(self):
@@ -58,7 +62,7 @@ class BaseInfoViewlet(BrowserView):
         creator = self.creator()
         if creator is not None:
             portal_url = getToolByName(self.context, 'portal_url')
-            return "%s/author/%s" % (portal_url(), creator.getId())
+            return '{0}/author/{1}'.format(portal_url(), creator.getId())
 
     @memoize
     def creator_name(self):
@@ -69,10 +73,12 @@ class BaseInfoViewlet(BrowserView):
         # the user and log this.
         name = self.properties.get(keys.checkout_user)
         if IBaseline.providedBy(self.context):
-            warning_tpl = "%s is a baseline of a plone.app.iterate checkout by an unknown user id '%s'"  # noqa
+            warning_tpl = '%s is a baseline of a plone.app.iterate checkout ' \
+                          'by an unknown user id "%s"'
         else:
             # IWorkingCopy.providedBy(self.context)
-            warning_tpl = "%s is a working copy of a plone.app.iterate checkout by an unknown user id '%s'"  # noqa
+            warning_tpl = '%s is a working copy of a plone.app.iterate ' \
+                          'checkout by an unknown user id "%s"'
         logger.warning(warning_tpl, self.context, name)
         return name
 
@@ -102,7 +108,7 @@ class BaselineInfoViewlet(BaseInfoViewlet):
                 sm.checkPermission(ModifyPortalContent, working_copy)):
             return self.index()
         else:
-            return ""
+            return ''
 
     @memoize
     def working_copy(self):
@@ -124,7 +130,7 @@ class CheckoutInfoViewlet(BaseInfoViewlet):
                 sm.checkPermission(CheckoutPermission, baseline)):
             return self.index()
         else:
-            return ""
+            return ''
 
     @memoize
     def baseline(self):

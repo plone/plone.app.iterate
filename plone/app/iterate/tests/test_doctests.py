@@ -14,7 +14,7 @@ def test_suite():
         doctest.DocFileSuite(
             'browser.rst',
             optionflags=OPTIONFLAGS,
-            package="plone.app.iterate.tests",
+            package='plone.app.iterate.tests',
         ),
         layer=PLONEAPPITERATE_FUNCTIONAL_TESTING)
     )
@@ -22,7 +22,7 @@ def test_suite():
         doctest.DocFileSuite(
             'dexterity.rst',
             optionflags=OPTIONFLAGS,
-            package="plone.app.iterate.tests",
+            package='plone.app.iterate.tests',
         ),
         layer=PLONEAPPITERATEDEX_FUNCTIONAL_TESTING)
     )

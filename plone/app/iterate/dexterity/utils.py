@@ -8,7 +8,7 @@ from zope import component
 
 try:
     from zope.intid.interfaces import IIntIds
-except:
+except ImportError:
     from zope.app.intid.interfaces import IIntIds
 
 

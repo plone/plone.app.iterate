@@ -36,9 +36,9 @@ from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConf
 from zope.component import getUtility
 
 
-USE_WORKFLOW = "checkout_workflow_policy"
+USE_WORKFLOW = 'checkout_workflow_policy'
 
-policy_storage = "previous_wf_policy"
+policy_storage = 'previous_wf_policy'
 
 
 def handleCheckout(event):
