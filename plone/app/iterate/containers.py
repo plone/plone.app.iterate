@@ -42,7 +42,7 @@ class HomeFolderLocator(object):
     def __init__(self, context):
         self.context = context
 
-    title = _(u"Home folder")
+    title = _(u'Home folder')
 
     @property
     def available(self):
@@ -62,7 +62,7 @@ class ParentFolderLocator(object):
     def __init__(self, context):
         self.context = context
 
-    title = _(u"Parent folder")
+    title = _(u'Parent folder')
 
     @property
     def available(self):

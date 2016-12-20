@@ -24,8 +24,8 @@
 from Products.CMFCore.permissions import setDefaultRoles
 
 
-CheckinPermission = "iterate : Check in content"
-CheckoutPermission = "iterate : Check out content"
+CheckinPermission = 'iterate : Check in content'
+CheckoutPermission = 'iterate : Check out content'
 
 DEFAULT_ROLES = ('Manager', 'Owner', 'Site Administrator', 'Editor')
 setDefaultRoles(CheckinPermission, DEFAULT_ROLES)

@@ -57,7 +57,7 @@ class ContentCopier(object):
             self.context,
             relationship=WorkingCopyRelation.relationship,
             referenceClass=WorkingCopyRelation)
-        self._handleReferences(self.context, wc, "checkout", wc_ref)
+        self._handleReferences(self.context, wc, 'checkout', wc_ref)
         return wc, wc_ref
 
     def merge(self):
@@ -67,7 +67,7 @@ class ContentCopier(object):
         wc_ref = self._deleteWorkingCopyRelation()
 
         # reassemble references on the new baseline
-        self._handleReferences(baseline, self.context, "checkin", wc_ref)
+        self._handleReferences(baseline, self.context, 'checkin', wc_ref)
 
         # move the working copy to the baseline container, deleting
         # the baseline
@@ -84,10 +84,10 @@ class ContentCopier(object):
         refs = self.context.getRefs(WorkingCopyRelation.relationship)
 
         if not len(refs) == 1:
-            raise CheckinException("Baseline count mismatch")
+            raise CheckinException('Baseline count mismatch')
 
         if not refs or refs[0] is None:
-            raise CheckinException("Baseline has disappeared")
+            raise CheckinException('Baseline has disappeared')
 
         baseline = refs[0]
         return baseline
@@ -251,7 +251,7 @@ class ContentCopier(object):
             mode_method = getattr(adapter, mode)
             mode_method(baseline, wc, references, annotations)
 
-        mode = mode + "BackReferences"
+        mode = mode + 'BackReferences'
 
         # handle backward references
         for relationship in baseline.getBRelationships():

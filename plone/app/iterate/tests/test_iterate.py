@@ -63,13 +63,9 @@ class TestIterations(unittest.TestCase):
 
         try:
             test_method()
-        except:
-            import sys
-            import pdb
+        except Exception:
             import traceback
-            ec, e, tb = sys.exc_info()
             traceback.print_exc()
-            pdb.post_mortem(tb)
 
     def test_workflowState(self):
         # ensure baseline workflow state is retained on checkin, including
@@ -80,7 +76,7 @@ class TestIterations(unittest.TestCase):
         # sanity check that owner can edit visible docs
         setRoles(self.portal, TEST_USER_ID, ['Owner'])
         self.assertTrue(getSecurityManager().checkPermission(
-            "Modify portal content", self.portal.docs.doc1))
+            'Modify portal content', self.portal.docs.doc1))
 
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.wf.doActionFor(doc, 'publish')
@@ -92,7 +88,7 @@ class TestIterations(unittest.TestCase):
 
         self.assertNotEqual(state, wc_state)
 
-        ICheckinCheckoutPolicy(wc).checkin("modified")
+        ICheckinCheckoutPolicy(wc).checkin('modified')
         bstate = self.wf.getInfoFor(wc, 'review_state')
         self.assertEqual(state, bstate)
         setRoles(self.portal, TEST_USER_ID, ['Owner'])
@@ -124,35 +120,35 @@ class TestIterations(unittest.TestCase):
         # checkin
         doc = self.portal.docs.doc1
         doc.addReference(self.portal.docs)
-        self.assertEqual(len(doc.getReferences("zebra")), 0)
+        self.assertEqual(len(doc.getReferences('zebra')), 0)
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
-        wc.addReference(self.portal.docs.doc2, "zebra")
-        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
-        self.assertEqual(len(doc.getReferences("zebra")), 1)
+        wc.addReference(self.portal.docs.doc2, 'zebra')
+        doc = ICheckinCheckoutPolicy(wc).checkin('updated')
+        self.assertEqual(len(doc.getReferences('zebra')), 1)
 
     def test_wcNewBackwardReferencesCopied(self):
         # ensure that new wc back references are copied back to the baseline on
         # checkin
 
         doc = self.portal.docs.doc1
-        self.assertEqual(len(doc.getBackReferences("zebra")), 0)
+        self.assertEqual(len(doc.getBackReferences('zebra')), 0)
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
-        self.portal.docs.doc2.addReference(wc, "zebra")
-        self.assertEqual(len(wc.getBackReferences("zebra")), 1)
-        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
-        self.assertEqual(len(doc.getBackReferences("zebra")), 1)
+        self.portal.docs.doc2.addReference(wc, 'zebra')
+        self.assertEqual(len(wc.getBackReferences('zebra')), 1)
+        doc = ICheckinCheckoutPolicy(wc).checkin('updated')
+        self.assertEqual(len(doc.getBackReferences('zebra')), 1)
 
     def test_baselineReferencesMaintained(self):
         # ensure that baseline references are maintained when the object is
         # checked in copies forward, bkw are not copied, but are maintained.
 
         doc = self.portal.docs.doc1
-        doc.addReference(self.portal.docs, "elephant")
+        doc.addReference(self.portal.docs, 'elephant')
         self.portal.docs.doc2.addReference(doc)
 
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
-        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        doc = ICheckinCheckoutPolicy(wc).checkin('updated')
 
         # TODO: This fails in Plone 4.1. The new optimized catalog lookups
         # in the reference catalog no longer filter out non-existing reference
@@ -167,7 +163,7 @@ class TestIterations(unittest.TestCase):
         # checkout should not fail with a ReferenceException.
 
         doc = self.portal.docs.doc1
-        doc.addReference(self.portal.docs.doc2, "pony")
+        doc.addReference(self.portal.docs.doc2, 'pony')
         self.portal.docs._delOb('doc2')
         # _delOb is low level enough that the reference does not get cleaned
         # up.
@@ -178,7 +174,7 @@ class TestIterations(unittest.TestCase):
         self.assertEqual(len(wc.getReferences()), 1)
         self.assertEqual(wc.getReferences()[0].id, 'doc1')
 
-        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        doc = ICheckinCheckoutPolicy(wc).checkin('updated')
         # The checkin removes the broken reference.
         self.assertEqual(len(doc.getReferences()), 0)
 
@@ -195,25 +191,25 @@ class TestIterations(unittest.TestCase):
             adapts=(IBaseObject,),
             provides=interfaces.ICheckinCheckoutReference,
             factory=relation.NoCopyReferenceAdapter,
-            name="zebra")
+            name='zebra')
 
         doc = self.portal.docs.doc1
         ref = doc.addReference(
-            self.portal.docs, "zebra", referenceClass=CustomReference)
-        ref.custom_state = "hello world"
+            self.portal.docs, 'zebra', referenceClass=CustomReference)
+        ref.custom_state = 'hello world'
 
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
-        self.assertEqual(len(wc.getReferences("zebra")), 0)
+        self.assertEqual(len(wc.getReferences('zebra')), 0)
 
-        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        doc = ICheckinCheckoutPolicy(wc).checkin('updated')
 
-        self.assertEqual(len(doc.getReferences("zebra")), 1)
+        self.assertEqual(len(doc.getReferences('zebra')), 1)
 
-        ref = doc.getReferenceImpl("zebra")[0]
+        ref = doc.getReferenceImpl('zebra')[0]
 
-        self.assert_(hasattr(ref, "custom_state"))
-        self.assertEqual(ref.custom_state, "hello world")
+        self.assertTrue(hasattr(ref, 'custom_state'))
+        self.assertEqual(ref.custom_state, 'hello world')
 
     def test_folderOrder(self):
         """When an item is checked out and then back in, the original
@@ -235,7 +231,7 @@ class TestIterations(unittest.TestCase):
         copy_position = container.getObjectPosition(wc.getId())
         self.assertTrue(copy_position > doc2_position)
 
-        new_doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        new_doc = ICheckinCheckoutPolicy(wc).checkin('updated')
         new_position = container.getObjectPosition(new_doc.getId())
         self.assertEqual(new_position, original_position)
 
@@ -257,7 +253,7 @@ class TestIterations(unittest.TestCase):
                                       id='new-folder-item',
                                       text='new folder item text')]
         new_doc_uid = new_doc.UID()
-        new_folder = ICheckinCheckoutPolicy(wc).checkin("updated")
+        new_folder = ICheckinCheckoutPolicy(wc).checkin('updated')
 
         catalog = getToolByName(self.portal, 'portal_catalog')
 
@@ -293,7 +289,7 @@ class TestIterations(unittest.TestCase):
 
         # try to checkout and checkin the subobject
         wc = ICheckinCheckoutPolicy(subobject).checkout(rich_text_folder)
-        ICheckinCheckoutPolicy(wc).checkin("updated")
+        ICheckinCheckoutPolicy(wc).checkin('updated')
 
         # everything went right and the working copy is checked in
         self.assertEqual(subobject_uid, wc.UID())
@@ -312,7 +308,7 @@ class TestIterations(unittest.TestCase):
         # without changes.  But the default behavior in Plone is to check a
         # document out in its original folder, so that is what we check here.
         wc = ICheckinCheckoutPolicy(doc).checkout(folder)
-        doc = ICheckinCheckoutPolicy(wc).checkin("updated")
+        doc = ICheckinCheckoutPolicy(wc).checkin('updated')
         self.assertEqual(folder.getProperty('default_page', ''), 'doc1')
         self.assertEqual(folder.getDefaultPage(), 'doc1')
 

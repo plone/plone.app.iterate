@@ -62,7 +62,11 @@ class Control(BrowserView):
         if original is None:
             return False
 
-        if not checkPermission(Products.CMFCore.permissions.ModifyPortalContent, original):
+        can_modify = checkPermission(
+            Products.CMFCore.permissions.ModifyPortalContent,
+            original,
+        )
+        if not can_modify:
             return False
 
         return True

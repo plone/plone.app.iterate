@@ -21,7 +21,7 @@ from zope.schema import getFieldsInOrder
 
 try:
     from zope.intid.interfaces import IIntIds
-except:
+except ImportError:
     from zope.app.intid.interfaces import IIntIds
 
 
@@ -48,7 +48,7 @@ class ContentCopier(copier.ContentCopier):
         wc_ref = self._deleteWorkingCopyRelation()
 
         # reassemble references on the new baseline
-        self._handleReferences(baseline, self.context, "checkin", wc_ref)
+        self._handleReferences(baseline, self.context, 'checkin', wc_ref)
 
         # move the working copy to the baseline container, deleting the
         # baseline
@@ -74,7 +74,7 @@ class ContentCopier(copier.ContentCopier):
                     continue
                 try:
                     value = field.get(schema(self.context))
-                except:
+                except Exception:
                     value = None
 
                 # TODO: We need a way to identify the DCFieldProperty
@@ -141,10 +141,10 @@ class ContentCopier(copier.ContentCopier):
                            relations)
         # do we have a baseline in our relations?
         if relations and not len(relations) == 1:
-            raise interfaces.CheckinException("Baseline count mismatch")
+            raise interfaces.CheckinException('Baseline count mismatch')
 
         if not relations or not relations[0]:
-            raise interfaces.CheckinException("Baseline has disappeared")
+            raise interfaces.CheckinException('Baseline has disappeared')
         return relations[0]
 
     def _getBaseline(self):
@@ -154,7 +154,7 @@ class ContentCopier(copier.ContentCopier):
             baseline = intids.getObject(relation.from_id)
 
         if not baseline:
-            raise interfaces.CheckinException("Baseline has disappeared")
+            raise interfaces.CheckinException('Baseline has disappeared')
         return baseline
 
     def checkin(self, checkin_message):

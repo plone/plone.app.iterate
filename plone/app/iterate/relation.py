@@ -47,7 +47,7 @@ class WorkingCopyRelation(Reference):
 
     Target Object is Baseline Version
     """
-    relationship = "Working Copy Relation"
+    relationship = 'Working Copy Relation'
 
 
 @implementer(ICheckinCheckoutReference)
@@ -71,7 +71,7 @@ class CheckinCheckoutReferenceAdapter(object):
 
     """
 
-    storage_key = "coci.references"
+    storage_key = 'coci.references'
 
     def __init__(self, context):
         self.context = context

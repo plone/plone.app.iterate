@@ -69,13 +69,13 @@ class ConflictError(CheckinException):
 
 #################################
 # Annotation Key
-annotation_key = "ore.iterate"
+annotation_key = 'ore.iterate'
 
 
 class keys(object):
     # various common keys
-    checkout_user = "checkout_user"
-    checkout_time = "checkout_time"
+    checkout_user = 'checkout_user'
+    checkout_time = 'checkout_time'
 
 
 #################################
@@ -86,15 +86,15 @@ class ICheckinEvent(IObjectEvent):
     message is sent before any mutation/merge has been done on the objects
     """
 
-    baseline = Attribute("The Working Copy's baseline")
-    relation = Attribute("The Working Copy Archetypes Relation Object")
-    checkin_message = Attribute("checkin message")
+    baseline = Attribute('The Working Copy\'s baseline')
+    relation = Attribute('The Working Copy Archetypes Relation Object')
+    checkin_message = Attribute('checkin message')
 
 
 class IAfterCheckinEvent(IObjectEvent):
     """ sent out after an object is checked in """
 
-    checkin_message = Attribute("checkin message")
+    checkin_message = Attribute('checkin message')
 
 
 class IBeforeCheckoutEvent(IObjectEvent):
@@ -104,25 +104,26 @@ class IBeforeCheckoutEvent(IObjectEvent):
 class ICheckoutEvent(IObjectEvent):
     """ an object is being checked out, event.object is the baseline """
 
-    working_copy = Attribute("The object's working copy")
-    relation = Attribute("The Working Copy Archetypes Relation Object")
+    working_copy = Attribute('The object\'s working copy')
+    relation = Attribute('The Working Copy Archetypes Relation Object')
 
 
 class ICancelCheckoutEvent(IObjectEvent):
     """ a working copy is being cancelled """
 
-    baseline = Attribute("The working copy's baseline")
+    baseline = Attribute('The working copy\'s baseline')
 
 
 class IWorkingCopyDeletedEvent(IObjectEvent):
-    """ a working copy is being deleted, this gets called multiple times at different
-    states. so on cancel checkout and checkin operations, its mostly designed to
+    """ a working copy is being deleted, this gets called multiple times at
+    different states.
+    So on cancel checkout and checkin operations, its mostly designed to
     broadcast an event when the user deletes a working copy using the standard
     container paradigms.
     """
 
-    baseline = Attribute("The working copy baseline")
-    relation = Attribute("The Working Copy Archetypes Relation Object")
+    baseline = Attribute('The working copy baseline')
+    relation = Attribute('The Working Copy Archetypes Relation Object')
 
 #################################
 # Content Marker Interfaces
@@ -158,10 +159,10 @@ class IWCContainerLocator(Interface):
     """
 
     available = schema.Bool(
-        title=u"Available", description=u"Whether location will be available.")
+        title=u'Available', description=u'Whether location will be available.')
 
     title = schema.TextLine(
-        title=u"Title", description=u"Title of this location")
+        title=u'Title', description=u'Title of this location')
 
     def __call__():
         """Return a container object, or None if available() is False
@@ -184,23 +185,20 @@ class ICheckinCheckoutTool(Interface):
         """
 
     def allowCancelCheckout(content):
-        """
-        denotes whether a cancel checkout operation can be performed on the content.
+        """denotes whether a cancel checkout operation can be performed on the
+        content.
         """
 
     def checkin(content, checkin_messsage):
-        """
-        check the working copy in, this will merge the working copy with the baseline
-
+        """check the working copy in, this will merge the working copy with
+        the baseline
         """
 
     def checkout(container, content):
-        """
-        """
+        pass
 
     def cancelCheckout(content):
-        """
-        """
+        pass
 
 
 class IObjectCopier(Interface):
@@ -208,8 +206,9 @@ class IObjectCopier(Interface):
     """
 
     def copyTo(container):
-        """ copy the context to the given container, must also create an AT relation
-        using the WorkingCopyRelation.relation name between the source and the copy.
+        """ copy the context to the given container, must also create an AT
+        relation using the WorkingCopyRelation.relation name between the
+        source and the copy.
         returns the copy.
         """
 
@@ -240,23 +239,21 @@ class IObjectArchiver(Interface):
 
 
 class ICheckinCheckoutPolicy(Interface):
-    """
-    Checkin / Checkout Policy
-    """
+    """Checkin / Checkout Policy"""
 
     def checkin(checkin_message):
-        """
-        checkin the context, if the target has been deleted then raises a checkin exception.
+        """checkin the context, if the target has been deleted then raises a
+        checkin exception.
 
-#       if the object version has changed since the checkout begin (due to another checkin)
-#       raises a conflict error.
-#
+       if the object version has changed since the checkout begin (due to
+       another checkin) raises a conflict error.
         """
 
     def checkout(container):
         """
         checkout the content object into the container, iff another object with
-        the same id exists the id is amended, the working copy object is returned.
+        the same id exists the id is amended, the working copy object is
+        returned.
 
         the content object is locked during checkout.
 
@@ -264,29 +261,19 @@ class ICheckinCheckoutPolicy(Interface):
         """
 
     def cancelCheckout():
-        """
-        coxtent is a checkout (working copy), this method will go ahead and delete
+        """coxtent is a checkout (working copy), this method will go ahead and
+        delete
         the working copy.
         """
 
     def getWorkingCopies():
-        """
-        """
+        pass
 
     def getBaseline():
-        """
-        """
+        pass
 
     def getWorkingCopy():
-        """
-        """
-
-#     def merge( content ):
-#         """
-#         if there are known conflicts between the checkout and the checkedin version,
-#         using the merge method signals that conflicts have been resolved in the working
-#         copy.
-#         """
+        pass
 
 
 #################################
