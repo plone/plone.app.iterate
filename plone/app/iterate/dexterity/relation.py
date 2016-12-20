@@ -6,6 +6,7 @@ from zope.annotation.interfaces import IAttributeAnnotatable
 from zope.component import getUtility
 from zope.interface import implementer
 
+
 try:
     from zope.intid.interfaces import IIntIds
 except ImportError:

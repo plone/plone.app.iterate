@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from zope.interface import implementer
 from Products.CMFPlone.interfaces import INonInstallable
+from zope.interface import implementer
 
 
 @implementer(INonInstallable)

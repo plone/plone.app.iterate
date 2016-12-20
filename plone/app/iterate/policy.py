@@ -25,18 +25,21 @@ A Default Checkin Checkout Policy For Content
 
 """
 
-from Acquisition import aq_inner, aq_parent
-from Products.Archetypes.interfaces import IReferenceable
-import event
-import interfaces
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.iterate.util import get_storage
+from Products.Archetypes.interfaces import IReferenceable
 from relation import WorkingCopyRelation
 from zope import component
 from zope.event import notify
 from zope.interface import implementer
 
+import event
+import interfaces
+
 
 @implementer(interfaces.ICheckinCheckoutPolicy)
+@component.adapter(interfaces.IIterateAware)
 class CheckinCheckoutPolicyAdapter(object):
     """
     Default Checkin Checkout Policy For Content
@@ -49,7 +52,6 @@ class CheckinCheckoutPolicyAdapter(object):
 
     dexterity folder has dexterity compatible one
     """
-    component.adapts(interfaces.IIterateAware)
 
     # used when creating baseline version for first time
     default_base_message = "Created Baseline"

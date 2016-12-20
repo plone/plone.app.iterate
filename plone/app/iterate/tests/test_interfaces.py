@@ -4,11 +4,11 @@ from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IIterateAware
 from plone.app.iterate.interfaces import IWorkingCopy
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
-from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.dexterity.utils import createContentInContainer
 from unittest2 import TestCase
 

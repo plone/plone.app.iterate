@@ -23,12 +23,13 @@
 
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
-import Products.CMFCore.permissions
-from Products.Five.browser import BrowserView
 from plone.app.iterate import interfaces
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IWorkingCopy
 from plone.memoize.view import memoize
+from Products.Five.browser import BrowserView
+
+import Products.CMFCore.permissions
 
 
 class Control(BrowserView):

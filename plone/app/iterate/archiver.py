@@ -24,17 +24,16 @@
 $Id: archiver.py 1824 2007-02-08 17:59:41Z hazmat $
 """
 
-from zope.interface import implementer
-from zope.component import adapts
-
 from Products.CMFCore.utils import getToolByName
+from zope.component import adapter
+from zope.interface import implementer
 
 import interfaces
 
 
 @implementer(interfaces.IObjectArchiver)
+@adapter(interfaces.IIterateAware)
 class ContentArchiver(object):
-    adapts(interfaces.IIterateAware)
 
     def __init__(self, context):
         self.context = context

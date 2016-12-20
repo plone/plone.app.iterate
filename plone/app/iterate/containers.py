@@ -21,24 +21,23 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from zope.interface import implementer
-from zope.component import adapts
-
-from Acquisition import aq_inner, aq_parent
 from AccessControl import getSecurityManager
-from Products.CMFCore.interfaces import IDynamicType
-from Products.CMFCore.utils import getToolByName
-from Products.CMFCore.permissions import AddPortalContent
-
+from Acquisition import aq_inner
+from Acquisition import aq_parent
 from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.interfaces import IWCContainerLocator
+from Products.CMFCore.interfaces import IDynamicType
+from Products.CMFCore.permissions import AddPortalContent
+from Products.CMFCore.utils import getToolByName
+from zope.component import adapter
+from zope.interface import implementer
 
 
 @implementer(IWCContainerLocator)
+@adapter(IDynamicType)
 class HomeFolderLocator(object):
     """Locate the current user's home folder, if possible.
     """
-    adapts(IDynamicType)
 
     def __init__(self, context):
         self.context = context
@@ -54,11 +53,11 @@ class HomeFolderLocator(object):
 
 
 @implementer(IWCContainerLocator)
+@adapter(IDynamicType)
 class ParentFolderLocator(object):
     """Locate the parent of the context, if the user has the
     Add portal content permission.
     """
-    adapts(IDynamicType)
 
     def __init__(self, context):
         self.context = context
@@ -67,7 +66,12 @@ class ParentFolderLocator(object):
 
     @property
     def available(self):
-        return bool(getSecurityManager().checkPermission(AddPortalContent, aq_parent(aq_inner(self.context))))
+        return bool(
+            getSecurityManager().checkPermission(
+                AddPortalContent,
+                aq_parent(aq_inner(self.context))
+            )
+        )
 
     def __call__(self):
         if not self.available:
