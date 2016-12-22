@@ -16,13 +16,8 @@ from zope import component
 from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
 from zope.interface import implementer
+from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
-
-
-try:
-    from zope.intid.interfaces import IIntIds
-except ImportError:
-    from zope.app.intid.interfaces import IIntIds
 
 
 @implementer(interfaces.IObjectCopier)

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.2.4 (unreleased)
+3.3.0 (unreleased)
 ------------------
 
 Breaking changes:
@@ -10,9 +10,14 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Do not depend on Products.Archetypes anymore.
+  If Archetypes is present it still registers the adapters.
+  [jensens]
 
 Bug fixes:
+
+- Do not use unittest2 anymore.
+  [jensens]
 
 - Cleanup: isort, zca decorators, etc.
   [jensens]

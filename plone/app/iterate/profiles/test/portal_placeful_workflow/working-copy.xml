@@ -5,6 +5,6 @@
         <default>
             <bound-workflow workflow_id="workingcopy_workflow" />
         </default>
-            <type default_chain="true" type_id="Document" />
+        <type default_chain="true" type_id="Document" />
     </bindings>
 </object>

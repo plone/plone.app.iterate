@@ -57,13 +57,16 @@ setup(
         'zope.lifecycleevent',
         'zope.schema',
         'zope.viewlet',
-        'Zope2',
     ],
     extras_require={
+        'archetypes': [
+            'Products.Archetypes',
+        ],
         'test': [
             'plone.app.testing',
             'plone.app.contenttypes',
-            'plone.app.robotframework'
+            'plone.app.robotframework',
+            'Products.Archetypes',
         ]
     },
     entry_points="""

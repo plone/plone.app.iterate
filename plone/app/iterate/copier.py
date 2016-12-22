@@ -22,7 +22,7 @@
 ##################################################################
 
 """
-$Id: copier.py 1824 2007-02-08 17:59:41Z hazmat $
+Archtypes specific copier, dexterity folder has its own!
 """
 
 from Acquisition import aq_base
