@@ -12,7 +12,7 @@ import pkg_resources
 
 
 try:
-    pkg_resources.get_distribution('Products.Archtypes')
+    pkg_resources.get_distribution('Products.Archetypes')
 except pkg_resources.DistributionNotFound:
     HAS_AT = False
 else:
@@ -73,7 +73,6 @@ class PloneAppIterateLayer(PloneSandboxLayer):
         if HAS_AT:
             # add default content
             applyProfile(portal, 'Products.ATContentTypes:content')
-
         applyProfile(portal, 'plone.app.iterate:default')
         applyProfile(portal, 'plone.app.iterate:test')
 

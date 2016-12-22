@@ -24,54 +24,27 @@
 Archetypes Checkin Checkout Policy For Content
 
 """
-
-from Acquisition import aq_inner
-from Acquisition import aq_parent
+from plone.app.iterate.base import CheckinCheckoutBasePolicyAdapter
+from plone.app.iterate.event import AfterCheckinEvent
+from plone.app.iterate.event import CheckinEvent
+from plone.app.iterate.interfaces import CheckinException
+from plone.app.iterate.interfaces import IIterateAware
+from plone.app.iterate.interfaces import IObjectCopier
+from plone.app.iterate.relation import WorkingCopyRelation
 from plone.app.iterate.util import get_storage
 from Products.Archetypes.interfaces import IReferenceable
-from relation import WorkingCopyRelation
-from zope import component
+from zope.component import adapter
+from zope.component import queryAdapter
 from zope.event import notify
-from zope.interface import implementer
-
-import event
-import interfaces
 
 
-@implementer(interfaces.ICheckinCheckoutPolicy)
-@component.adapter(interfaces.IIterateAware)
-class CheckinCheckoutPolicyAdapter(object):
+@adapter(IIterateAware)
+class CheckinCheckoutPolicyAdapter(CheckinCheckoutBasePolicyAdapter):
+    """Checkin Checkout Policy For Archetypes Content
+
+    - on checkout context is the baseline
+    - on checkin context is the working copy.
     """
-    Default Checkin Checkout Policy For Content
-
-    on checkout context is the baseline
-
-    on checkin context is the working copy.
-
-    This default Policy works with Archetypes.
-
-    dexterity folder has dexterity compatible one
-    """
-
-    # used when creating baseline version for first time
-    default_base_message = 'Created Baseline'
-
-    def __init__(self, context):
-        self.context = context
-
-    def checkout(self, container):
-        # see interface
-        notify(event.BeforeCheckoutEvent(self.context))
-
-        # use the object copier to checkout the content to the container
-        copier = component.queryAdapter(self.context, interfaces.IObjectCopier)
-        working_copy, relation = copier.copyTo(container)
-
-        # publish the event for any subscribers
-        notify(event.CheckoutEvent(self.context, working_copy, relation))
-
-        # finally return the working copy
-        return working_copy
 
     def checkin(self, checkin_message):
         # see interface
@@ -81,39 +54,24 @@ class CheckinCheckoutPolicyAdapter(object):
 
         # get a hold of the relation object
         wc_ref = self.context.getReferenceImpl(
-            WorkingCopyRelation.relationship)[0]
+            WorkingCopyRelation.relationship
+        )[0]
 
         # publish the event for subscribers, early because contexts are about
         # to be manipulated
-        notify(event.CheckinEvent(self.context,
-                                  baseline, wc_ref, checkin_message))
+        notify(CheckinEvent(self.context, baseline, wc_ref, checkin_message))
 
         # merge the object back to the baseline with a copier
 
         # XXX by gotcha
         # bug we should or use a getAdapter call or test if copier is None
-        copier = component.queryAdapter(self.context, interfaces.IObjectCopier)
+        copier = queryAdapter(self.context, IObjectCopier)
         new_baseline = copier.merge()
 
         # don't need to unlock the lock disappears with old baseline deletion
-        notify(event.AfterCheckinEvent(new_baseline, checkin_message))
+        notify(AfterCheckinEvent(new_baseline, checkin_message))
 
         return new_baseline
-
-    def cancelCheckout(self):
-        # see interface
-
-        # get the baseline
-        baseline = self._getBaseline()
-
-        # publish an event
-        notify(event.CancelCheckoutEvent(self.context, baseline))
-
-        # delete the working copy
-        wc_container = aq_parent(aq_inner(self.context))
-        wc_container.manage_delObjects([self.context.getId()])
-
-        return baseline
 
     #################################
     #  Checkin Support Methods
@@ -123,10 +81,10 @@ class CheckinCheckoutPolicyAdapter(object):
         refs = self.context.getReferences(WorkingCopyRelation.relationship)
 
         if not len(refs) == 1:
-            raise interfaces.CheckinException('Baseline count mismatch')
+            raise CheckinException('Baseline count mismatch')
 
         if not refs or refs[0] is None:
-            raise interfaces.CheckinException('Baseline has disappeared')
+            raise CheckinException('Baseline has disappeared')
 
         baseline = refs[0]
         return baseline

@@ -16,6 +16,9 @@ New features:
 
 Bug fixes:
 
+- Do not use unittest2 anymore.
+  [jensens]
+
 - Cleanup: isort, zca decorators, etc.
   [jensens]
 
