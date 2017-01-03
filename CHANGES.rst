@@ -4,10 +4,6 @@ Changelog
 3.3.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Do not depend on Products.Archetypes anymore.
