@@ -241,9 +241,8 @@ you need to set a couple of registry-entries::
     >>> browser.open("http://nohost/plone/portal_registry/edit/plone.app.iterate.interfaces.IIterateSettings.enable_checkout_workflow")
     >>> browser.getControl(name="form.widgets.value:list").value
     []
-    >>> browser.getControl(name="form.widgets.value:list").value = [True]
+    >>> browser.getControl(name="form.widgets.value:list").controls[0].selected = True
     >>> browser.getControl(name="form.buttons.save").click()
-    >>> browser.open("http://nohost/plone/portal_registry/edit/plone.app.iterate.interfaces.IIterateSettings.checkout_workflow_policy")
 
 Create a new page to test workflows with::
 
