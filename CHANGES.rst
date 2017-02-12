@@ -4,14 +4,6 @@ Changelog
 3.3.1 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix test in Zope 4. [davisagli]
