@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Change ``IIterateSettings.checkout_workflow_policy`` to ASCIILine,
+  as required by ``Products.CMFWorkflowPolicy``.
 
 
 3.3.1 (2017-02-12)
