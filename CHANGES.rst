@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Add each field label for the diff view, fix visual diff link and add break
+  [frapell]
 
 Bug fixes:
 
