@@ -15,6 +15,8 @@ New features:
 
 Bug fixes:
 
+- Change wrong CSS-Class in "Working-Copy" portalMessage [2silver]
+
 - Change ``IIterateSettings.checkout_workflow_policy`` to ASCIILine,
   as required by ``Products.CMFWorkflowPolicy``.
 

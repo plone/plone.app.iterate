@@ -1,4 +1,4 @@
-<div class="portalMessage info"
+<div class="portalMessage warning"
      tal:define="baseline view/baseline;"
      i18n:domain="plone">
 
