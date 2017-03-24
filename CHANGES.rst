@@ -4,10 +4,6 @@ Changelog
 3.3.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
 New features:
 
 - Add each field label for the diff view, fix visual diff link and add break
