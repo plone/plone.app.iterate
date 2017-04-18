@@ -8,7 +8,6 @@
     <permission>iterate : Check out content</permission>
     <permission>View</permission>
     <permission>Access contents information</permission>
-    <permission>Change portal events</permission>
     <permission>Modify portal content</permission>
     <permission>Copy or Move</permission>
 
@@ -17,12 +16,6 @@
         <description i18n:translate="">New version created but not ready for publication</description>
         <exit-transition transition_id="submit-copy-for-publication" />
         <permission-map name="Access contents information" acquired="False">
-            <permission-role>Editor</permission-role>
-            <permission-role>Contributor</permission-role>
-            <permission-role>Site Administrator</permission-role>
-            <permission-role>Manager</permission-role>
-        </permission-map>
-        <permission-map name="Change portal events" acquired="False">
             <permission-role>Editor</permission-role>
             <permission-role>Contributor</permission-role>
             <permission-role>Site Administrator</permission-role>
@@ -58,11 +51,6 @@
         <permission-map name="Access contents information" acquired="False">
             <permission-role>Editor</permission-role>
             <permission-role>Contributor</permission-role>
-            <permission-role>Site Administrator</permission-role>
-            <permission-role>Manager</permission-role>
-        </permission-map>
-        <permission-map name="Change portal events" acquired="False">
-            <permission-role>Editor</permission-role>
             <permission-role>Site Administrator</permission-role>
             <permission-role>Manager</permission-role>
         </permission-map>
