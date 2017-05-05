@@ -17,6 +17,8 @@ Bug fixes:
 - removed "change portal events" permission
   [kakshay21]
 
+- Prevent using queryUtility with name=None
+  [pbauer]
 
 3.3.2 (2017-03-23)
 ------------------
