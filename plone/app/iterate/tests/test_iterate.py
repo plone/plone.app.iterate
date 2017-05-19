@@ -34,7 +34,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from Products.CMFCore.utils import getToolByName
 
-import unittest2 as unittest
+import unittest
 
 
 class TestIterations(unittest.TestCase):
