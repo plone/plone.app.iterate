@@ -4,12 +4,7 @@ from Acquisition import aq_inner
 from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from zc.relation.interfaces import ICatalog
 from zope import component
-
-
-try:
-    from zope.intid.interfaces import IIntIds
-except ImportError:
-    from zope.app.intid.interfaces import IIntIds
+from zope.intid.interfaces import IIntIds
 
 
 def get_relations(context):

@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.2.5 (unreleased)
+3.3.3 (unreleased)
 ------------------
 
 Breaking changes:
@@ -17,11 +17,47 @@ Bug fixes:
 - removed unittest2 dependency
   [kakshay21]
 
+- removed "change portal events" permission
+  [kakshay21]
 
-3.2.4 (2017-01-02)
+- Prevent using queryUtility with name=None
+  [pbauer]
+
+3.3.2 (2017-03-23)
+------------------
+
+New features:
+
+- Add each field label for the diff view, fix visual diff link and add break
+  [frapell]
+
+Bug fixes:
+
+- Change ``IIterateSettings.checkout_workflow_policy`` to ASCIILine,
+  as required by ``Products.CMFWorkflowPolicy``.
+
+
+3.3.1 (2017-02-12)
 ------------------
 
 Bug fixes:
+
+- Fix test in Zope 4. [davisagli]
+
+
+3.3.0 (2017-01-02)
+------------------
+
+New features:
+
+- Do not depend on Products.Archetypes anymore.
+  If Archetypes is present it still registers the adapters.
+  [jensens]
+
+Bug fixes:
+
+- Do not use unittest2 anymore.
+  [jensens]
 
 - Cleanup: isort, zca decorators, etc.
   [jensens]

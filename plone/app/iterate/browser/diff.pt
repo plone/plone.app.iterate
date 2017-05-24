@@ -38,12 +38,14 @@
                   tal:repeat="d diffs/getDiffs">
               <div class="field"
                    tal:condition="not:d/same"
-                   tal:define="unified exists:d/unified_diff;
+                   tal:define="field_label d/label;
+                               unified exists:d/unified_diff;
                                html exists:d/html_diff;
                                inline exists:d/inline_diff;
                                ndiff exists:d/ndiff;
                                inline python: inline and not request.get('no_inline', 0);
                                html python: html and not request.get('show_unified', 0)">
+                <label tal:content="field_label" />
 
                 <tal:html condition="inline">
                     <br />
@@ -58,7 +60,7 @@
                     <br />
                     <tal:visual-only tal:condition="exists:d/inline_diff">
                         <a href="#"
-                           tal:attributes="href string:">Show visual differences</a>
+                           tal:attributes="href string:${diff_url}">Show visual differences</a>
                         <br />
                     </tal:visual-only>
                     <a href="#"
@@ -66,6 +68,7 @@
                     <pre tal:content="structure d/html_diff">[html diff]</pre>
                 </tal:html>
                 <tal:unified condition="python:unified and not html">
+                    <br />
                     <a href="#"
                         tal:condition="exists:d/inline_diff"
                         tal:attributes="href string:${diff_url}">Show visual differences</a>

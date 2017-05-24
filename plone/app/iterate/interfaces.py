@@ -27,11 +27,22 @@ $Id: interfaces.py 1811 2007-02-06 18:40:02Z hazmat $
 from plone.app.iterate import PloneMessageFactory as _
 from plone.locking.interfaces import LockType
 from plone.locking.interfaces import MAX_TIMEOUT
-from Products.Archetypes.interfaces import IReference
 from zope import schema
 from zope.component.interfaces import IObjectEvent
 from zope.interface import Attribute
 from zope.interface import Interface
+
+import pkg_resources
+
+
+try:
+    pkg_resources.get_distribution('Products.Archetypes')
+except pkg_resources.DistributionNotFound:
+
+    class IReference(Interface):
+        pass
+else:
+    from Products.Archetypes.interfaces import IReference
 
 
 ################################
@@ -310,9 +321,9 @@ class IIterateSettings(Interface):
         required=False
     )
 
-    checkout_workflow_policy = schema.TextLine(
+    checkout_workflow_policy = schema.ASCIILine(
         title=_(u'Checkout workflow policy'),
         description=u'',
-        default=u'checkout_workflow_policy',
+        default='checkout_workflow_policy',
         required=True
     )

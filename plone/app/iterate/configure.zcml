@@ -65,15 +65,7 @@
       factory=".profiles.HiddenProfiles"
       />
 
-    <!-- Policy and behavior for basic objects -->
-  <class class="Products.Archetypes.BaseObject.BaseObject">
-      <implements interface=".interfaces.IIterateAware" />
-  </class>
-
-  <adapter factory=".policy.CheckinCheckoutPolicyAdapter" />
-  <adapter factory=".relation.CheckinCheckoutReferenceAdapter"/>
   <adapter factory=".archiver.ContentArchiver" />
-  <adapter factory=".copier.ContentCopier" />
 
   <!-- Checkout folder locators -->
   <adapter
@@ -104,5 +96,6 @@
     />
 
   <include package=".dexterity" zcml:condition="installed plone.app.relationfield" />
+  <include file="at.zcml" zcml:condition="installed Products.Archetypes" />
 
 </configure>

@@ -12,7 +12,7 @@ LONG_DESCRIPTION = (
 
 setup(
     name='plone.app.iterate',
-    version='3.2.5.dev0',
+    version='3.3.3.dev0',
     description='check-out/check-in staging for Plone',
     long_description=LONG_DESCRIPTION,
     classifiers=[
@@ -57,13 +57,16 @@ setup(
         'zope.lifecycleevent',
         'zope.schema',
         'zope.viewlet',
-        'Zope2',
     ],
     extras_require={
+        'archetypes': [
+            'Products.Archetypes',
+        ],
         'test': [
             'plone.app.testing',
             'plone.app.contenttypes',
-            'plone.app.robotframework'
+            'plone.app.robotframework',
+            'Products.Archetypes',
         ]
     },
     entry_points="""

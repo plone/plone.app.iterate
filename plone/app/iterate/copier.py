@@ -22,7 +22,7 @@
 ##################################################################
 
 """
-$Id: copier.py 1824 2007-02-08 17:59:41Z hazmat $
+Archtypes specific copier, dexterity folder has its own!
 """
 
 from Acquisition import aq_base
@@ -239,9 +239,14 @@ class ContentCopier(object):
 
         # handle forward references
         for relationship in baseline.getRelationships():
-            # look for a named relation adapter first
-            adapter = component.queryAdapter(
-                baseline, interfaces.ICheckinCheckoutReference, relationship)
+            if relationship is None:
+                adapter = None
+            else:
+                # look for a named relation adapter first
+                adapter = component.queryAdapter(
+                    baseline,
+                    interfaces.ICheckinCheckoutReference,
+                    relationship)
 
             if adapter is None:  # default
                 adapter = baseline_adapter
@@ -255,8 +260,15 @@ class ContentCopier(object):
 
         # handle backward references
         for relationship in baseline.getBRelationships():
-            adapter = component.queryAdapter(
-                baseline, interfaces.ICheckinCheckoutReference, relationship)
+            if relationship is None:
+                adapter = None
+            else:
+                # look for a named relation adapter first
+                adapter = component.queryAdapter(
+                    baseline,
+                    interfaces.ICheckinCheckoutReference,
+                    relationship)
+
             if adapter is None:
                 adapter = baseline_adapter
 

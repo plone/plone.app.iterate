@@ -47,7 +47,7 @@ def handleCheckout(event):
     settings = registry.forInterface(IIterateSettings)
     if not settings.enable_checkout_workflow:
         return
-    policy_id = settings.checkout_workflow_policy
+    policy_id = str(settings.checkout_workflow_policy)
 
     existing_policy = getattr(
         aq_base(event.working_copy), WorkflowPolicyConfig_id, None)
