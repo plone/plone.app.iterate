@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Revert changing ``IIterateSettings.checkout_workflow_policy`` to ASCIILine.
+  [pbauer]
 
 
 3.3.3 (2017-05-31)
