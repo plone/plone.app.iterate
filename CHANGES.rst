@@ -14,7 +14,11 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Do not depend on Products.Archetypes anymore. (part 2)
+  [tomgross]
+
+- Remove explicit dependency on ZODB3
+  [tomgross]
 
 
 3.3.3 (2017-05-31)
