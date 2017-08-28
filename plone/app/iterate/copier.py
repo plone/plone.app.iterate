@@ -29,7 +29,6 @@ from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from interfaces import CheckinException
-from Products.Archetypes.Referenceable import Referenceable
 from Products.CMFCore import interfaces as cmf_ifaces
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
@@ -42,6 +41,14 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectMovedEvent
 
 import interfaces
+import pkg_resources
+
+try:
+    pkg_resources.get_distribution('Products.Archetypes')
+    from Products.Archetypes.Referenceable import Referenceable
+    HAS_AT = True
+except pkg_resources.NotFound:
+    HAS_AT = False
 
 
 @interface.implementer(interfaces.IObjectCopier)
@@ -137,8 +144,9 @@ class ContentCopier(object):
                 baseline_container._setProperty('default_page', baseline_id)
 
         # reregister our references with the reference machinery after moving
-        Referenceable.manage_afterAdd(new_baseline, new_baseline,
-                                      baseline_container)
+        if HAS_AT:
+            Referenceable.manage_afterAdd(new_baseline, new_baseline,
+                                          baseline_container)
 
         notify(ObjectMovedEvent(new_baseline, wc_container,
                                 wc_id, baseline_container, baseline_id))
