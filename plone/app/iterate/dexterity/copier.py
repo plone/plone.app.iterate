@@ -163,3 +163,37 @@ class ContentCopier(BaseContentCopier):
         # don't need to unlock the lock disappears with old baseline deletion
         notify(AfterCheckinEvent(new_baseline, checkin_message))
         return new_baseline
+
+    def _copyBaseline(self, container):
+        # copy the context from source to the target container
+        source_container = aq_parent(aq_inner(self.context))
+        clipboard = source_container.manage_copyObjects([self.context.getId()])
+        result = container.manage_pasteObjects(clipboard)
+
+        # get a reference to the working copy
+        target_id = result[0]['new_id']
+        target = container._getOb(target_id)
+        return target
+
+
+class ContainerCopier(ContentCopier):
+
+    def _copyBaseline(self, container):
+        from plone.app.iterate.interfaces import IBaseline
+        from zope.interface import alsoProvides
+        alsoProvides(self.context, IBaseline)
+        target = super(ContainerCopier, self)._copyBaseline(container)
+        target._initBTrees()
+        return target
+
+def object_copied(ob, event):
+    print ob.getId()
+    ob._initBTrees()
+    order = ob.getOrdering()
+    from zope.annotation.interfaces import IAnnotations
+    from persistent.list import PersistentList
+    ann = IAnnotations(ob)
+    ann[order.ORDER_KEY] = PersistentList()
+    import transaction
+    transaction.savepoint()
+    print(ob.objectIds())

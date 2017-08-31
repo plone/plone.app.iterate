@@ -10,8 +10,13 @@
        />
 
     <adapter
-       for="plone.dexterity.interfaces.IDexterityContent"
+       for="plone.dexterity.interfaces.IDexterityItem"
        factory=".copier.ContentCopier"
+       />
+
+    <adapter
+       for="plone.dexterity.interfaces.IDexterityContainer"
+       factory=".copier.ContainerCopier"
        />
 
     <adapter
@@ -23,4 +28,8 @@
         <implements interface="plone.app.iterate.dexterity.interfaces.IDexterityIterateAware" />
     </class>
 
+
+      <subscriber for="plone.app.iterate.interfaces.IBaseline
+                   zope.lifecycleevent.interfaces.IObjectCopiedEvent"
+              handler=".copier.object_copied" />
 </configure>
