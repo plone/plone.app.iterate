@@ -28,8 +28,10 @@ Archtypes specific copier, dexterity folder has its own!
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from interfaces import CheckinException
-from Products.CMFCore import interfaces as cmf_ifaces
+from plone.app.iterate import interfaces
+from plone.app.iterate.interfaces import CheckinException
+from plone.app.iterate.base import BaseContentCopier
+from Products.Archetypes.Referenceable import Referenceable
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
 from relation import WorkingCopyRelation
@@ -40,23 +42,11 @@ from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
 from zope.lifecycleevent import ObjectMovedEvent
 
-import interfaces
-import pkg_resources
-
-try:
-    pkg_resources.get_distribution('Products.Archetypes')
-    from Products.Archetypes.Referenceable import Referenceable
-    HAS_AT = True
-except pkg_resources.NotFound:
-    HAS_AT = False
-
 
 @interface.implementer(interfaces.IObjectCopier)
 @component.adapter(interfaces.IIterateAware)
-class ContentCopier(object):
-
-    def __init__(self, context):
-        self.context = context
+class ContentCopier(BaseContentCopier):
+    """ Content copier for Archetypes """
 
     def copyTo(self, container):
         wc = self._copyBaseline(container)
@@ -144,9 +134,8 @@ class ContentCopier(object):
                 baseline_container._setProperty('default_page', baseline_id)
 
         # reregister our references with the reference machinery after moving
-        if HAS_AT:
-            Referenceable.manage_afterAdd(new_baseline, new_baseline,
-                                          baseline_container)
+        Referenceable.manage_afterAdd(new_baseline, new_baseline,
+                                      baseline_container)
 
         notify(ObjectMovedEvent(new_baseline, wc_container,
                                 wc_id, baseline_container, baseline_id))
@@ -183,41 +172,6 @@ class ContentCopier(object):
 
         return new_baseline
 
-    def _recursivelyReattachUIDs(self, baseline, new_baseline):
-        original_refs = len(new_baseline.getRefs())
-        original_back_refs = len(new_baseline.getBRefs())
-        new_baseline._setUID(baseline.UID())
-        new_refs = len(new_baseline.getRefs())
-        new_back_refs = len(new_baseline.getBRefs())
-        if original_refs != new_refs:
-            self._removeDuplicateReferences(new_baseline, backrefs=False)
-        if original_back_refs != new_back_refs:
-            self._removeDuplicateReferences(new_baseline, backrefs=True)
-
-        if cmf_ifaces.IFolderish.providedBy(baseline):
-            new_ids = new_baseline.contentIds()
-            for child in baseline.contentValues():
-                if child.getId() in new_ids:
-                    self._recursivelyReattachUIDs(
-                        child, new_baseline[child.getId()])
-
-    def _removeDuplicateReferences(self, item, backrefs=False):
-        # Remove duplicate (back) references from this item.
-        reference_tool = getToolByName(self.context, 'reference_catalog')
-        if backrefs:
-            ref_func = reference_tool.getBackReferences
-        else:
-            ref_func = reference_tool.getReferences
-        try:
-            # Plone 4.1 or later
-            brains = ref_func(item, objects=False)
-        except TypeError:
-            # Plone 4.0 or earlier.  Nothing to fix here
-            return
-        for brain in brains:
-            if brain.getObject() is None:
-                reference_tool.uncatalog_object(brain.getPath())
-
     def _deleteWorkingCopyRelation(self):
         # delete the wc reference keeping a reference to it for its annotations
         refs = self.context.getReferenceImpl(WorkingCopyRelation.relationship)
@@ -227,17 +181,6 @@ class ContentCopier(object):
 
     #################################
     # Checkout Support Methods
-
-    def _copyBaseline(self, container):
-        # copy the context from source to the target container
-        source_container = aq_parent(aq_inner(self.context))
-        clipboard = source_container.manage_copyObjects([self.context.getId()])
-        result = container.manage_pasteObjects(clipboard)
-
-        # get a reference to the working copy
-        target_id = result[0]['new_id']
-        target = container._getOb(target_id)
-        return target
 
     def _handleReferences(self, baseline, wc, mode, wc_ref):
 

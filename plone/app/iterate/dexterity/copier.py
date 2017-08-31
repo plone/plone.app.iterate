@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from plone.app.iterate import copier
+from plone.app.iterate.base import BaseContentCopier
 from plone.app.iterate import interfaces
 from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from plone.app.iterate.dexterity.relation import StagingRelationValue
@@ -15,13 +15,11 @@ from ZODB.PersistentMapping import PersistentMapping
 from zope import component
 from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
-from zope.interface import implementer
 from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
 
 
-@implementer(interfaces.IObjectCopier)
-class ContentCopier(copier.ContentCopier):
+class ContentCopier(BaseContentCopier):
 
     def copyTo(self, container):
         context = aq_inner(self.context)
@@ -32,8 +30,6 @@ class ContentCopier(copier.ContentCopier):
         # create a relation
         relation = StagingRelationValue(wc_id)
         event._setRelation(context, ITERATE_RELATION_NAME, relation)
-        #
-        self._handleReferences(self.context, wc, 'checkout', relation)
         return wc, relation
 
     def merge(self):
@@ -41,10 +37,6 @@ class ContentCopier(copier.ContentCopier):
 
         # delete the working copy reference to the baseline
         wc_ref = self._deleteWorkingCopyRelation()
-
-        # reassemble references on the new baseline
-        self._handleReferences(baseline, self.context, 'checkin', wc_ref)
-
         # move the working copy to the baseline container, deleting the
         # baseline
         new_baseline = self._replaceBaseline(baseline)
