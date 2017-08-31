@@ -28,10 +28,10 @@ Base Checkin Checkout Policy For Content
 
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from plone.app.iterate import interfaces
 from plone.app.iterate.event import BeforeCheckoutEvent
 from plone.app.iterate.event import CancelCheckoutEvent
 from plone.app.iterate.event import CheckoutEvent
-from plone.app.iterate import interfaces
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IObjectCopier
 from plone.app.iterate.util import get_storage

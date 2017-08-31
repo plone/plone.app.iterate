@@ -29,8 +29,8 @@ from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from plone.app.iterate import interfaces
-from plone.app.iterate.interfaces import CheckinException
 from plone.app.iterate.base import BaseContentCopier
+from plone.app.iterate.interfaces import CheckinException
 from Products.Archetypes.Referenceable import Referenceable
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition

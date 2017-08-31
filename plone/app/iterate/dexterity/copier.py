@@ -36,7 +36,7 @@ class ContentCopier(BaseContentCopier):
         baseline = self._getBaseline()
 
         # delete the working copy reference to the baseline
-        wc_ref = self._deleteWorkingCopyRelation()
+        self._deleteWorkingCopyRelation()
         # move the working copy to the baseline container, deleting the
         # baseline
         new_baseline = self._replaceBaseline(baseline)
