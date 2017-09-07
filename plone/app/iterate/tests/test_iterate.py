@@ -21,7 +21,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 """
-$Id: test_iterate.py 1595 2006-08-24 00:15:21Z hazmat $
 """
 
 from AccessControl import getSecurityManager
@@ -283,9 +282,9 @@ class TestIterations(unittest.TestCase):
         subobject_uid = subobject.UID()
 
         # link (by uid) the subobject in it's parent's rich text field
-        link_html = '<a class="internal-link" href="resolveuid/%s">' \
+        link_html = '<a class="internal-link" href="resolveuid/{0}">' \
             'Link to subobject</a>'
-        rich_text_folder.setText(link_html % subobject_uid)
+        rich_text_folder.setText(link_html.format(subobject_uid))
 
         # try to checkout and checkin the subobject
         wc = ICheckinCheckoutPolicy(subobject).checkout(rich_text_folder)

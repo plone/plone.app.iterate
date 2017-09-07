@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Do not depend on Products.Archetypes anymore. (part 3)
+  [tomgross]
 
 
 3.3.4 (2017-08-27)
