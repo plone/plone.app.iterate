@@ -14,8 +14,9 @@ New features:
 
 Bug fixes:
 
-- *add item here*
-
+- Revert change ``IIterateSettings.checkout_workflow_policy`` to ASCIILine.
+  See https://github.com/plone/plone.app.iterate/commit/a3c13406
+  [pbauer]
 
 3.3.5 (2017-09-08)
 ------------------
@@ -61,7 +62,7 @@ Bug fixes:
 
 - Change ``IIterateSettings.checkout_workflow_policy`` to ASCIILine,
   as required by ``Products.CMFWorkflowPolicy``.
-
+  [tiberiuichim]
 
 3.3.1 (2017-02-12)
 ------------------

@@ -321,7 +321,7 @@ class IIterateSettings(Interface):
         required=False
     )
 
-    checkout_workflow_policy = schema.ASCIILine(
+    checkout_workflow_policy = schema.TextLine(
         title=_(u'Checkout workflow policy'),
         description=u'',
         default='checkout_workflow_policy',
