@@ -21,6 +21,7 @@ from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
+from Products.BTreeFolder2.BTreeFolder2 import BTreeFolder2Base
 
 
 WC_ANNOTATION_READONLY = [DefaultOrdering.ORDER_KEY, DefaultOrdering.POS_KEY]
@@ -205,6 +206,8 @@ class ContainerCopier(ContentCopier):
 
 
 def object_copied(ob, event):
-    ann = IAnnotations(ob)
-    del ann[DefaultOrdering.ORDER_KEY]
-    del ann[DefaultOrdering.POS_KEY]
+    if isinstance(ob, BTreeFolder2Base):
+        # Remove all references to children
+        ids = list(ob.objectIds())
+        for i in ids:
+             ob._delOb(i)
