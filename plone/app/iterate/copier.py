@@ -43,8 +43,6 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectMovedEvent
 
 
-@interface.implementer(interfaces.IObjectCopier)
-@component.adapter(interfaces.IIterateAware)
 class ContentCopier(BaseContentCopier):
     """ Content copier for Archetypes """
 
