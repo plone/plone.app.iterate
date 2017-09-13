@@ -23,7 +23,6 @@ from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
 from Products.BTreeFolder2.BTreeFolder2 import BTreeFolder2Base
 
-
 WC_ANNOTATION_READONLY = [DefaultOrdering.ORDER_KEY, DefaultOrdering.POS_KEY]
 
 
@@ -211,3 +210,6 @@ def object_copied(ob, event):
         ids = list(ob.objectIds())
         for i in ids:
              ob._delOb(i)
+        ann = IAnnotations(ob)
+        del ann[DefaultOrdering.ORDER_KEY]
+        del ann[DefaultOrdering.POS_KEY]
