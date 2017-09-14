@@ -54,7 +54,8 @@ class ContentCopier(BaseContentCopier):
         # baseline
         new_baseline = self._replaceBaseline(baseline)
 
-        # patch the working copy with baseline info not preserved during checkout
+        # patch the working copy with baseline info not preserved during
+        # checkout
         self._reassembleWorkingCopy(new_baseline, baseline)
 
         return new_baseline
