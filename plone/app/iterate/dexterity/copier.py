@@ -200,7 +200,6 @@ class ContainerCopier(ContentCopier):
     def _copyBaseline(self, container):
         alsoProvides(self.context, IBaseline)
         target = super(ContainerCopier, self)._copyBaseline(container)
-        target._initBTrees()
         return target
 
 
