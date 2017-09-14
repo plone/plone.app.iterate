@@ -27,6 +27,7 @@ from AccessControl import getSecurityManager
 from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATE_INTEGRATION_TESTING
+from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -148,12 +149,6 @@ class TestIterations(unittest.TestCase):
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
         doc = ICheckinCheckoutPolicy(wc).checkin('updated')
-
-        # TODO: This fails in Plone 4.1. The new optimized catalog lookups
-        # in the reference catalog no longer filter out non-existing reference
-        # objects. In both Plone 4.0 and 4.1 there's two references, one of
-        # them is a stale catalog entry in the reference catalog. The real fix
-        # is to figure out how the stale catalog entry gets in there
         self.assertEqual(len(doc.getReferences()), 1)
         self.assertEqual(len(doc.getBackReferences()), 1)
 
@@ -322,3 +317,32 @@ class TestIterations(unittest.TestCase):
     def test_control_cancel_allowed_with_no_policy(self):
         control = Control(self.portal, self.layer['request'])
         self.assertFalse(control.cancel_allowed())
+
+
+class TestIterations(unittest.TestCase):
+
+    layer = PLONEAPPITERATEDEX_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer['portal']
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        login(self.portal, TEST_USER_NAME)
+
+        self.wf = self.portal.portal_workflow
+        self.wf.setChainForPortalTypes(('Document',), 'plone_workflow')
+
+        # add a folder with two documents in it
+        self.portal.invokeFactory('Folder', 'docs')
+        self.portal.docs.invokeFactory('Document', 'doc1')
+        self.portal.docs.invokeFactory('Document', 'doc2')
+
+        # add a working copy folder
+        self.portal.invokeFactory('Folder', 'workarea')
+
+        self.repo = self.portal.portal_repository
+
+    def test_no_recursive_wc(self):
+        wc = ICheckinCheckoutPolicy(self.portal['docs']).checkout(self.portal['workarea'])
+        import pdb; pdb.set_trace()
+
+

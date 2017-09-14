@@ -12,7 +12,7 @@ import pkg_resources
 
 
 try:
-    pkg_resources.get_distribution('Products.Archetypes')
+    pkg_resources.get_distribution('Products.ATContentTypes')
 except pkg_resources.DistributionNotFound:
     HAS_AT = False
 else:
