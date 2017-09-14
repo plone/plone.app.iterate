@@ -326,7 +326,13 @@ class TestIterations(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         setRoles(self.portal, TEST_USER_ID, ['Manager'])
-        login(self.portal, TEST_USER_NAME)
+
+        # make folder lockable
+        portal_types = getToolByName(self.portal, 'portal_types')
+        fti = portal_types['Folder']
+        behaviors = list(fti.behaviors)
+        behaviors.append('plone.app.lockingbehavior.behaviors.ILocking')
+        fti.behaviors = tuple(behaviors)
 
         self.wf = self.portal.portal_workflow
         self.wf.setChainForPortalTypes(('Document',), 'plone_workflow')
@@ -343,6 +349,9 @@ class TestIterations(unittest.TestCase):
 
     def test_no_recursive_wc(self):
         wc = ICheckinCheckoutPolicy(self.portal['docs']).checkout(self.portal['workarea'])
-        import pdb; pdb.set_trace()
-
+        wc.title = 'Changed in Working Copy'
+        self.assertEqual(len(wc.keys()), 0)
+        ICheckinCheckoutPolicy(wc).checkin('modified')
+        self.assertEqual(self.portal['docs'].title, 'Changed in Working Copy')
+        self.assertEqual(self.portal['docs'].keys(), ['doc1', 'doc2'])
 

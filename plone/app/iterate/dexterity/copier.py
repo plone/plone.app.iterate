@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from OFS.interfaces import IObjectManager
 from plone.app.iterate.base import BaseContentCopier
 from plone.app.iterate import interfaces
 from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
@@ -18,10 +19,9 @@ from zope import component
 from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
 from zope.interface import alsoProvides
-from zope.interface import implementer
 from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
-from Products.BTreeFolder2.BTreeFolder2 import BTreeFolder2Base
+
 
 WC_ANNOTATION_READONLY = [DefaultOrdering.ORDER_KEY, DefaultOrdering.POS_KEY]
 
@@ -200,12 +200,11 @@ class ContentCopier(BaseContentCopier):
 class ContainerCopier(ContentCopier):
     def _copyBaseline(self, container):
         alsoProvides(self.context, IBaseline)
-        target = super(ContainerCopier, self)._copyBaseline(container)
-        return target
+        return super(ContainerCopier, self)._copyBaseline(container)
 
 
 def object_copied(ob, event):
-    if isinstance(ob, BTreeFolder2Base):
+    if IObjectManager.providedBy(ob):
         # Remove all references to children
         ids = list(ob.objectIds())
         for i in ids:
