@@ -23,6 +23,9 @@ Bug fixes:
 - Do not depend on Products.Archetypes anymore. (part 3)
   [tomgross]
 
+- If the working-copy was canceled from the base-object, it was deleted instead of the working copy.
+  [rristow]
+
 
 3.3.4 (2017-08-27)
 ------------------

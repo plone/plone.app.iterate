@@ -80,13 +80,14 @@ class CheckinCheckoutBasePolicyAdapter(object):
 
         # get the baseline
         baseline = self._getBaseline()
+        wcopy = self.getWorkingCopy()
 
         # publish an event
-        notify(CancelCheckoutEvent(self.context, baseline))
+        notify(CancelCheckoutEvent(wcopy, baseline))
 
         # delete the working copy
-        wc_container = aq_parent(aq_inner(self.context))
-        wc_container.manage_delObjects([self.context.getId()])
+        wc_container = aq_parent(aq_inner(wcopy))
+        wc_container.manage_delObjects([wcopy.getId()])
 
         return baseline
 

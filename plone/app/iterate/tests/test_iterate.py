@@ -33,6 +33,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from Products.CMFCore.utils import getToolByName
+from plone.app.iterate.interfaces import CheckinException
 
 import unittest
 
@@ -346,6 +347,42 @@ class TestIterations(unittest.TestCase):
         self.portal.invokeFactory('Folder', 'workarea')
 
         self.repo = self.portal.portal_repository
+
+    def test_wrong_reference(self):
+        basedoc = self.portal['docs']
+        basedoc.title = 'BASE'
+
+        # No working copy
+        policy_base = ICheckinCheckoutPolicy(basedoc)
+        self.assertIsNone(policy_base.getBaseline())
+        self.assertRaises(CheckinException, policy_base._getBaseline)
+
+        wcdoc = policy_base.checkout(self.portal['workarea'])
+        wcdoc.title = 'WCOPY'
+        policy_wc = ICheckinCheckoutPolicy(wcdoc)
+
+        self.assertEqual(policy_base.getWorkingCopy().title, 'WCOPY')
+        self.assertEqual(policy_wc.getBaseline().title, 'BASE')
+
+    def test_cancel_workingcopy(self):
+        basedoc = self.portal['docs']
+        workarea = self.portal['workarea']
+        policy_base = ICheckinCheckoutPolicy(basedoc)
+        wcdoc = policy_base.checkout(workarea)
+
+        #Cancel from BASE
+        self.assertIn('docs', workarea)
+        policy_base.cancelCheckout()
+        self.assertIn('docs',self.portal)
+        self.assertNotIn('docs', workarea)
+
+        #Cancel from Work-copy
+        wcdoc = policy_base.checkout(self.portal['workarea'])
+        policy_wc = ICheckinCheckoutPolicy(wcdoc)
+        self.assertIn('docs', workarea)
+        policy_wc.cancelCheckout()
+        self.assertIn('docs',self.portal)
+        self.assertNotIn('docs', workarea)
 
     def test_no_recursive_wc(self):
         wc = ICheckinCheckoutPolicy(self.portal['docs']).checkout(self.portal['workarea'])

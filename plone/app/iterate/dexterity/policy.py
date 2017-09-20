@@ -49,7 +49,7 @@ class CheckinCheckoutPolicyAdapter(CheckinCheckoutBasePolicyAdapter):
     def _getBaseline(self):
         baseline = get_baseline(self.context)
         if not baseline:
-            raise CheckinException('Baseline has disappeared')
+            raise CheckinException('Working copy has no reference to the original object (baseline)')
         return baseline
 
     def getBaseline(self):

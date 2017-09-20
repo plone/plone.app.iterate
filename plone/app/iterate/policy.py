@@ -78,22 +78,23 @@ class CheckinCheckoutPolicyAdapter(CheckinCheckoutBasePolicyAdapter):
 
     def _getBaseline(self):
         # follow the working copy's reference back to the baseline
+        if not IReferenceable.providedBy(self.context):
+            raise CheckinException('Context is not a working copy (IReferenceable interface expected)')
+
         refs = self.context.getReferences(WorkingCopyRelation.relationship)
 
-        if not len(refs) == 1:
-            raise CheckinException('Baseline count mismatch')
-
         if not refs or refs[0] is None:
-            raise CheckinException('Baseline has disappeared')
+            raise CheckinException('Working copy has no reference to the original object (baseline)')
+        elif len(refs) > 1:
+            raise CheckinException('Working copy has too many references to origin')
+        return refs[0]
 
-        baseline = refs[0]
-        return baseline
 
     def getBaseline(self):
-        if IReferenceable.providedBy(self.context):
-            refs = self.context.getReferences(WorkingCopyRelation.relationship)
-            if refs:
-                return refs[0]
+        try:
+            return self._getBaseline()
+        except CheckinException:
+            return
 
     def getWorkingCopy(self):
         if IReferenceable.providedBy(self.context):

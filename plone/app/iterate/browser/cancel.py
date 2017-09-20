@@ -42,7 +42,7 @@ class Cancel(BrowserView):
             control = getMultiAdapter(
                 (context, self.request), name=u'iterate_control')
             if not control.cancel_allowed():
-                raise CheckoutException(u'Not a checkout')
+                raise CheckoutException('Context is not a working copy')
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.cancelCheckout()
