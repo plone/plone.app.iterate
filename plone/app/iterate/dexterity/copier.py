@@ -23,7 +23,7 @@ from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
 
 
-WC_ANNOTATION_READONLY = [DefaultOrdering.ORDER_KEY, DefaultOrdering.POS_KEY]
+WCOPY_ANNOTATION_READONLY = [DefaultOrdering.ORDER_KEY, DefaultOrdering.POS_KEY]
 
 
 class ContentCopier(BaseContentCopier):
@@ -61,11 +61,18 @@ class ContentCopier(BaseContentCopier):
         return new_baseline
 
     def _replaceBaseline(self, baseline):
+        """ Copy all field values and annotations from working-copy to baseline and delete it """
         wc_id = self.context.getId()
         wc_container = aq_parent(self.context)
+        self._copy_attributes(self.context, baseline)
+        # delete the working copy
+        wc_container._delObject(wc_id)
+        return baseline
 
-        # copy all field values from the working copy to the baseline
-        for schema in iterSchemata(baseline):
+    def _copy_attributes(self, obj_orig, obj_dest, blacklist_annotations=WCOPY_ANNOTATION_READONLY):
+        """ Copy all field values and annotations from the obj_orig copy to obj_dest """
+
+        for schema in iterSchemata(obj_dest):
             for name, field in getFieldsInOrder(schema):
                 # Skip read-only fields
                 if field.readonly:
@@ -73,43 +80,35 @@ class ContentCopier(BaseContentCopier):
                 if field.__name__ == 'id':
                     continue
                 try:
-                    value = field.get(schema(self.context))
+                    value = field.get(schema(obj_orig))
                 except Exception:
                     value = None
 
                 # TODO: We need a way to identify the DCFieldProperty
                 # fields and use the appropriate set_name/get_name
                 if name == 'effective':
-                    baseline.effective_date = self.context.effective()
+                    obj_dest.effective_date = obj_orig.effective()
                 elif name == 'expires':
-                    baseline.expiration_date = self.context.expires()
+                    obj_dest.expiration_date = obj_orig.expires()
                 elif name == 'subjects':
-                    baseline.setSubject(self.context.Subject())
+                    obj_dest.setSubject(obj_orig.Subject())
                 else:
-                    field.set(baseline, value)
-
-        baseline.reindexObject()
+                    field.set(obj_dest, value)
 
         # copy annotations
-        wc_annotations = IAnnotations(self.context)
-        baseline_annotations = IAnnotations(baseline)
+        orig_annotations = IAnnotations(obj_orig)
+        obj_dest_annotations = IAnnotations(obj_dest)
 
         # remove the items that are not in wc anymore
-        for item in baseline_annotations:
-            if item not in WC_ANNOTATION_READONLY and item not in wc_annotations:
-                del baseline_annotations[item]
+        for item in obj_dest_annotations:
+            if item not in blacklist_annotations and item not in orig_annotations:
+                del obj_dest_annotations[item]
 
         # Copy all other values from wc
-        for item in wc_annotations:
-            if item not in WC_ANNOTATION_READONLY:
-                baseline_annotations[item] = wc_annotations[item]
-
-        self.clear_annotations(wc_annotations)
-
-        # delete the working copy
-        wc_container._delObject(wc_id)
-
-        return baseline
+        for item in orig_annotations:
+            if item not in blacklist_annotations:
+                obj_dest_annotations[item] = orig_annotations[item]
+        obj_dest.reindexObject()
 
     def _reassembleWorkingCopy(self, new_baseline, baseline):
         # reattach the source's workflow history, try avoid a dangling ref
@@ -148,12 +147,11 @@ class ContentCopier(BaseContentCopier):
         relations = list(catalog.findRelations({'to_id': id}))
         relations = filter(lambda r: r.from_attribute == ITERATE_RELATION_NAME,
                            relations)
-        # do we have a baseline in our relations?
-        if relations and not len(relations) == 1:
-            raise interfaces.CheckinException('Baseline count mismatch')
 
-        if not relations or not relations[0]:
-            raise interfaces.CheckinException('Baseline has disappeared')
+        if not relations or relations[0] is None:
+            raise interfaces.CheckinException('Working copy has no reference to the original object (baseline)')
+        elif len(relations) > 1:
+            raise interfaces.CheckinException('Working copy has too many references to origin')
         return relations[0]
 
     def _getBaseline(self):
@@ -163,7 +161,7 @@ class ContentCopier(BaseContentCopier):
             baseline = intids.getObject(relation.from_id)
 
         if not baseline:
-            raise interfaces.CheckinException('Baseline has disappeared')
+            raise interfaces.CheckinException('Working copy has no reference to the original object (baseline)')
         return baseline
 
     def checkin(self, checkin_message):
@@ -188,12 +186,9 @@ class ContentCopier(BaseContentCopier):
 
     def _copyBaseline(self, container):
         # copy the context from source to the target container
-        source_container = aq_parent(aq_inner(self.context))
-        clipboard = source_container.manage_copyObjects([self.context.getId()])
-        result = container.manage_pasteObjects(clipboard)
-        # get a reference to the working copy
-        target_id = result[0]['new_id']
+        target_id = container.invokeFactory(self.context.portal_type, id=container._get_id(self.context.getId()))
         target = container._getOb(target_id)
+        self._copy_attributes(self.context, target)
         return target
 
 
