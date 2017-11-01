@@ -38,6 +38,12 @@ class Control(BrowserView):
     This is a public view, referenced in action condition expressions.
     """
 
+    def is_working_copy(self):
+        """Check if context is a working copy
+        """
+        return IWorkingCopy.providedBy(self.context)
+
+
     def checkin_allowed(self):
         """Check if a checkin is allowed
         """

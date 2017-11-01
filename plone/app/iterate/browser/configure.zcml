@@ -9,7 +9,7 @@
         name="iterate_control"
         class=".control.Control"
         permission="zope2.View"
-        allowed_attributes="checkin_allowed checkout_allowed cancel_allowed"
+        allowed_attributes="checkin_allowed checkout_allowed cancel_allowed is_working_copy"
         />
 
     <!-- Forms -->
