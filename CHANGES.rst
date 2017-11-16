@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix #54: Cancelling a check out from the original deletes the original.
+  [jensens]
 
 
 3.3.5 (2017-09-08)
