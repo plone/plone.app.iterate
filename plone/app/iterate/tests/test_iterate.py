@@ -298,8 +298,7 @@ class TestIterations(unittest.TestCase):
         # the default page.
         folder = self.portal.docs
         doc = folder.doc1
-        from Products.CMFDynamicViewFTI.interfaces import \
-            ISelectableBrowserDefault
+        from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault  # noqa: C901
         ISelectableBrowserDefault(folder).setDefaultPage('doc1')
         self.assertEqual(folder.getProperty('default_page', ''), 'doc1')
         self.assertEqual(folder.getDefaultPage(), 'doc1')
@@ -322,3 +321,19 @@ class TestIterations(unittest.TestCase):
     def test_control_cancel_allowed_with_no_policy(self):
         control = Control(self.portal, self.layer['request'])
         self.assertFalse(control.cancel_allowed())
+
+    def test_control_cancel_on_original_does_not_delete_original(self):
+        # checkout document
+        doc = self.portal.docs.doc1
+        policy = ICheckinCheckoutPolicy(self.portal.docs.doc1, None)
+        policy.checkout(self.portal.workarea)
+
+        # get cancel browser view
+        from plone.app.iterate.browser.cancel import Cancel
+        cancel = Cancel(doc, self.layer['request'])
+        self.layer['request'].form['form.button.Cancel'] = True
+
+        # check if cancel on original raises the correct exception
+        from plone.app.iterate.interfaces import CheckoutException
+        with self.assertRaises(CheckoutException):
+            cancel()
