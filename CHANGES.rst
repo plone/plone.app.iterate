@@ -4,14 +4,6 @@ Changelog
 3.3.6 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix #54: Cancelling a check out from the original deletes the original.
