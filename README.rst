@@ -9,12 +9,12 @@ customization.
 Features
 ========
 
-  - versioning utilizing cmf editions
-  - locking using zope dav locks
-  - pluggable behavior for policies via adapters
-  - observable behavior via events
-  - specialized handling for archetypes references
-  - simple, clean integration with the plone user interface
+- versioning utilizing cmf editions
+- locking using zope dav locks
+- pluggable behavior for policies via adapters
+- observable behavior via events
+- specialized handling for archetypes references
+- simple, clean integration with the plone user interface
 
 Use Cases
 =========
