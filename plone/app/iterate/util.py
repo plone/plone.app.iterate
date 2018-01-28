@@ -23,7 +23,7 @@
 
 from interfaces import annotation_key
 from persistent.dict import PersistentDict
-from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import get_installer
 from zope.annotation import IAnnotations
 
 
@@ -37,5 +37,6 @@ def get_storage(context, default=None):
 
 
 def upgrade_by_reinstall(context):
-    qi = getToolByName(context, 'portal_quickinstaller')
-    qi.reinstallProducts(['plone.app.iterate'])
+    qi = get_installer(context)
+    qi.uninstall_product('plone.app.iterate')
+    qi.install_product('plone.app.iterate')

@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Use ``get_installer`` in general upgrade step.  [maurits]
 
 
 3.3.6 (2017-11-24)
