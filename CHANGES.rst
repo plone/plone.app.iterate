@@ -4,14 +4,6 @@ Changelog
 3.3.7 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Use ``get_installer`` in general upgrade step.  [maurits]
