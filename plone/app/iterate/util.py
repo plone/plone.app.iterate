@@ -21,7 +21,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from interfaces import annotation_key
+from .interfaces import annotation_key
 from persistent.dict import PersistentDict
 from Products.CMFPlone.utils import get_installer
 from zope.annotation import IAnnotations

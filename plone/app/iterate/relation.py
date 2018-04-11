@@ -24,9 +24,9 @@
 Archetypes speicifc implementation for relation handling
 """
 
-from interfaces import ICheckinCheckoutReference
-from interfaces import IIterateAware
-from interfaces import IWorkingCopyRelation
+from .interfaces import ICheckinCheckoutReference
+from .interfaces import IIterateAware
+from .interfaces import IWorkingCopyRelation
 from Products.Archetypes import config as atconf
 from Products.Archetypes.exceptions import ReferenceException
 from Products.Archetypes.ReferenceEngine import Reference
