@@ -34,7 +34,7 @@ from plone.app.iterate.interfaces import CheckinException
 from Products.Archetypes.Referenceable import Referenceable
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
-from relation import WorkingCopyRelation
+from .relation import WorkingCopyRelation
 from ZODB.PersistentMapping import PersistentMapping
 from zope import component
 from zope import interface

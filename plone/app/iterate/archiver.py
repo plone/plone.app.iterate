@@ -24,7 +24,7 @@ from Products.CMFCore.utils import getToolByName
 from zope.component import adapter
 from zope.interface import implementer
 
-import interfaces
+from . import interfaces
 
 
 @implementer(interfaces.IObjectArchiver)
