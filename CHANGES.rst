@@ -17,6 +17,9 @@ Bug fixes:
 - Python 3 compatibility.
   [pbauer]
 
+- Only test Archetypes support when Archetypes is installed.
+  [davisagli]
+
 
 3.3.7 (2018-02-05)
 ------------------
