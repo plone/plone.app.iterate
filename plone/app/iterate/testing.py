@@ -140,6 +140,13 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
         super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
         applyProfile(portal, 'plone.app.iterate:default')
 
+        # Disable automatic versioning of core content types
+        for name in ('Document', 'Event', 'Link', 'News Item'):
+            fti = portal.portal_types[name]
+            behaviors = list(fti.behaviors)
+            behaviors.remove('plone.app.versioningbehavior.behaviors.IVersionable')
+            fti.behaviors = tuple(behaviors)
+
 
 PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()
 PLONEAPPITERATEDEX_INTEGRATION_TESTING = IntegrationTesting(
