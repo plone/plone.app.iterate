@@ -4,14 +4,6 @@ Changelog
 3.3.8 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Python 3 compatibility.
