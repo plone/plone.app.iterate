@@ -3,6 +3,7 @@
 from plone.app.contenttypes.testing import PloneAppContenttypes
 from plone.app.testing import applyProfile
 from plone.app.testing import PLONE_FIXTURE
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing.layers import FunctionalTesting
 from plone.app.testing.layers import IntegrationTesting
@@ -48,19 +49,19 @@ USERS_WITH_MEMBER_FOLDER = (
 class PloneAppIterateLayer(PloneSandboxLayer):
     """Plone Sandbox Layer for plone.app.iterate."""
 
-    defaultBases = (PLONE_FIXTURE,)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
         """Setup Zope with Addons."""
-        if HAS_AT:
-            import Products.ATContentTypes
-            self.loadZCML(package=Products.ATContentTypes)
-            z2.installProduct(app, 'Products.ATContentTypes')
+        # if HAS_AT:
+        #     import Products.ATContentTypes
+        #     self.loadZCML(package=Products.ATContentTypes)
+        #     z2.installProduct(app, 'Products.ATContentTypes')
 
-            z2.installProduct(app, 'Products.Archetypes')
-            z2.installProduct(app, 'Products.ATContentTypes')
-            z2.installProduct(app, 'plone.app.blob')
-            z2.installProduct(app, 'plone.app.collection')
+        #     z2.installProduct(app, 'Products.Archetypes')
+        #     z2.installProduct(app, 'Products.ATContentTypes')
+        #     z2.installProduct(app, 'plone.app.blob')
+        #     z2.installProduct(app, 'plone.app.collection')
 
         import plone.app.iterate
         self.loadZCML(package=plone.app.iterate)
@@ -70,9 +71,9 @@ class PloneAppIterateLayer(PloneSandboxLayer):
         # restore default workflow
         applyProfile(portal, 'Products.CMFPlone:testfixture')
 
-        if HAS_AT:
-            # add default content
-            applyProfile(portal, 'Products.ATContentTypes:content')
+        # if HAS_AT:
+        #     # add default content
+        #     applyProfile(portal, 'Products.ATContentTypes:content')
         applyProfile(portal, 'plone.app.iterate:default')
         applyProfile(portal, 'plone.app.iterate:test')
 
@@ -145,6 +146,12 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
             fti = portal.portal_types[name]
             behaviors = list(fti.behaviors)
             behaviors.remove('plone.app.versioningbehavior.behaviors.IVersionable')
+            fti.behaviors = tuple(behaviors)
+        for name in ('Folder',):
+            fti = portal.portal_types[name]
+            behaviors = list(fti.behaviors)
+            behaviors.append('plone.app.lockingbehavior.behaviors.ILocking')
+            behaviors.append('plone.app.versioningbehavior.behaviors.IVersionable')
             fti.behaviors = tuple(behaviors)
 
 

@@ -56,7 +56,7 @@ class TestIterations(unittest.TestCase):
 
         self.repo = self.portal.portal_repository
 
-    @unittest.skip('This test needs to be fixed for Dexterity content.')
+    # @unittest.skip('This test needs to be fixed for Dexterity content.')
     def test_workflowState(self):
         # ensure baseline workflow state is retained on checkin, including
         # security
@@ -129,7 +129,7 @@ class TestIterations(unittest.TestCase):
         new_position = container.getObjectPosition(new_doc.getId())
         self.assertEqual(new_position, original_position)
 
-    @unittest.skip('This test needs to be fixed for Dexterity content.')
+    # @unittest.skip('This test needs to be fixed for Dexterity content.')
     def test_folderContents(self):
         """When an folder is checked out, and item is added, and then
         the folder is checked back in, the added item is in the new
@@ -144,11 +144,15 @@ class TestIterations(unittest.TestCase):
 
         self.repo.save(folder)
         wc = ICheckinCheckoutPolicy(folder).checkout(container)
-        new_doc = wc[wc.invokeFactory(type_name='Document',
-                                      id='new-folder-item',
-                                      text='new folder item text')]
+        wc.invokeFactory(
+            type_name='Document',
+            id='new-folder-item',
+            text='new folder item text',
+            )
+        new_doc = wc['new-folder-item']
         new_doc_uid = new_doc.UID()
-        new_folder = ICheckinCheckoutPolicy(wc).checkin('updated')
+        adapted = ICheckinCheckoutPolicy(wc)
+        new_folder = adapted.checkin('updated')
 
         catalog = getToolByName(self.portal, 'portal_catalog')
 
