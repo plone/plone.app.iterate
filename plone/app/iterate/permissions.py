@@ -21,12 +21,11 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from Products.CMFCore.permissions import setDefaultRoles
-
+from AccessControl.Permission import addPermission
 
 CheckinPermission = 'iterate : Check in content'
 CheckoutPermission = 'iterate : Check out content'
 
 DEFAULT_ROLES = ('Manager', 'Owner', 'Site Administrator', 'Editor')
-setDefaultRoles(CheckinPermission, DEFAULT_ROLES)
-setDefaultRoles(CheckoutPermission, DEFAULT_ROLES)
+addPermission(CheckinPermission, default_roles=DEFAULT_ROLES)
+addPermission(CheckoutPermission, default_roles=DEFAULT_ROLES)

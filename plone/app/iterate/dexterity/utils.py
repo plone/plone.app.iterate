@@ -24,7 +24,7 @@ def get_relations(context):
         lambda r: r.from_attribute == ITERATE_RELATION_NAME,
         relations
     )
-    return relations
+    return list(relations)
 
 
 def get_checkout_relation(context):

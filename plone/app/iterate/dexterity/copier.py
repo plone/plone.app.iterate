@@ -123,9 +123,9 @@ class ContentCopier(BaseContentCopier):
         id = intids.getId(context)
         # ask catalog
         catalog = component.getUtility(ICatalog)
-        relations = list(catalog.findRelations({'to_id': id}))
-        relations = filter(lambda r: r.from_attribute == ITERATE_RELATION_NAME,
-                           relations)
+        relations = catalog.findRelations({'to_id': id})
+        relations = [i for i in relations
+                     if i.from_attribute == ITERATE_RELATION_NAME]
         # do we have a baseline in our relations?
         if relations and not len(relations) == 1:
             raise interfaces.CheckinException('Baseline count mismatch')

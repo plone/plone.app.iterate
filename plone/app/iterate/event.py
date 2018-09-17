@@ -26,7 +26,7 @@ from zope.component.interfaces import ObjectEvent
 from zope.event import notify
 from zope.interface import implementer
 
-import interfaces
+from . import interfaces
 
 
 @implementer(interfaces.ICheckoutEvent)

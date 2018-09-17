@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Some Python 3 fixes.
+  [pbauer]
 
 
 3.3.8 (2018-06-18)
