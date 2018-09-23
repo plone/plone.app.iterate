@@ -4,14 +4,6 @@ Changelog
 3.3.9 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Some Python 3 fixes.
