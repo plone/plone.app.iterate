@@ -52,27 +52,31 @@ class PloneAppIterateLayer(PloneSandboxLayer):
 
     def setUpZope(self, app, configurationContext):
         """Setup Zope with Addons."""
-        if HAS_AT:
-            import Products.ATContentTypes
-            self.loadZCML(package=Products.ATContentTypes)
-            z2.installProduct(app, 'Products.ATContentTypes')
+        if not HAS_AT:
+            return
 
-            z2.installProduct(app, 'Products.Archetypes')
-            z2.installProduct(app, 'Products.ATContentTypes')
-            z2.installProduct(app, 'plone.app.blob')
-            z2.installProduct(app, 'plone.app.collection')
+        import Products.ATContentTypes
+        self.loadZCML(package=Products.ATContentTypes)
+        z2.installProduct(app, 'Products.ATContentTypes')
+
+        z2.installProduct(app, 'Products.Archetypes')
+        z2.installProduct(app, 'Products.ATContentTypes')
+        z2.installProduct(app, 'plone.app.blob')
+        z2.installProduct(app, 'plone.app.collection')
 
         import plone.app.iterate
         self.loadZCML(package=plone.app.iterate)
 
     def setUpPloneSite(self, portal):
         """Setup Plone Site with Addons."""
+        if not HAS_AT:
+            return
+
         # restore default workflow
         applyProfile(portal, 'Products.CMFPlone:testfixture')
 
-        if HAS_AT:
-            # add default content
-            applyProfile(portal, 'Products.ATContentTypes:content')
+        # add default content
+        applyProfile(portal, 'Products.ATContentTypes:content')
         applyProfile(portal, 'plone.app.iterate:default')
         applyProfile(portal, 'plone.app.iterate:test')
 
