@@ -4,17 +4,10 @@ Changelog
 3.3.10 (unreleased)
 -------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
-- *add item here*
+- Avoid test setup error for layer that uses AT when it's not installed
+  [davisagli]
 
 
 3.3.9 (2018-09-23)
