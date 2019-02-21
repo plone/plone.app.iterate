@@ -92,7 +92,7 @@ class BaseInfoViewlet(BrowserView):
             return {}
 
     def _getReference(self):
-        raise NotImplemented
+        raise NotImplementedError()
 
 
 class BaselineInfoViewlet(BaseInfoViewlet):
