@@ -5,10 +5,12 @@ $Id: base.py 1808 2007-02-06 11:39:11Z hazmat $
 
 from AccessControl import getSecurityManager
 from DateTime import DateTime
+
 from plone.app.iterate.interfaces import IBaseline
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import keys
-from plone.app.iterate.permissions import CheckoutPermission
+from plone.app.iterate import permissions
+
 from plone.memoize.instance import memoize
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
@@ -104,7 +106,10 @@ class BaselineInfoViewlet(BaseInfoViewlet):
         working_copy = self.working_copy()
         if working_copy is not None and (
                 sm.checkPermission(ModifyPortalContent, self.context) or
-                sm.checkPermission(CheckoutPermission, self.context) or
+                sm.checkPermission(
+                    permissions.CheckoutPermission, self.context) or
+                sm.checkPermission(
+                    permissions.CheckinPermission, self.context) or
                 sm.checkPermission(ModifyPortalContent, working_copy)):
             return self.index()
         else:
@@ -127,7 +132,10 @@ class CheckoutInfoViewlet(BaseInfoViewlet):
         baseline = self.baseline()
         if baseline is not None and (
                 sm.checkPermission(ModifyPortalContent, self.context) or
-                sm.checkPermission(CheckoutPermission, baseline)):
+                sm.checkPermission(
+                    permissions.CheckoutPermission, baseline) or
+                sm.checkPermission(
+                    permissions.CheckinPermission, baseline)):
             return self.index()
         else:
             return ''

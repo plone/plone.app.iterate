@@ -116,7 +116,9 @@ class ContentCopier(BaseContentCopier):
         self.context._v_is_cp = 0
 
         wc_id = self.context.getId()
-        wc_container.manage_delObjects([wc_id])
+        # Bypass AT security check,
+        # checking `iterate : Check in content` should be sufficient
+        wc_container._delObject(wc_id)
 
         # move the working copy back to the baseline container
         working_copy = aq_base(self.context)

@@ -8,6 +8,16 @@
   <include package="zope.annotation" />
   <include package="Products.CMFCore" file="permissions.zcml" />
 
+  <permission
+    id="plone.app.iterate.CheckInContent"
+    title="iterate : Check in content"
+    />
+
+  <permission
+    id="plone.app.iterate.CheckOutContent"
+    title="iterate : Check out content"
+    />
+
   <include package=".subscribers"/>
   <include package=".browser"/>
 
@@ -84,16 +94,6 @@
           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
      handler=".event.handleDeletion"
      />
-
-  <permission
-    id="plone.app.iterate.CheckInContent"
-    title="iterate : Check in content"
-    />
-
-  <permission
-    id="plone.app.iterate.CheckOutContent"
-    title="iterate : Check out content"
-    />
 
   <include package=".dexterity" zcml:condition="installed plone.app.relationfield" />
   <include file="at.zcml" zcml:condition="installed Products.Archetypes" />

@@ -26,6 +26,7 @@ from AccessControl.Permission import addPermission
 CheckinPermission = 'iterate : Check in content'
 CheckoutPermission = 'iterate : Check out content'
 
-DEFAULT_ROLES = ('Manager', 'Owner', 'Site Administrator', 'Editor')
-addPermission(CheckinPermission, default_roles=DEFAULT_ROLES)
-addPermission(CheckoutPermission, default_roles=DEFAULT_ROLES)
+addPermission(CheckinPermission, default_roles=(
+    'Manager', 'Site Administrator', 'Reviewer'))
+addPermission(CheckoutPermission, default_roles=(
+    'Manager', 'Owner', 'Site Administrator', 'Editor'))

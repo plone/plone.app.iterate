@@ -1,0 +1,2 @@
+Use the Iterate permissions instead of CMF core permissions to support
+customizing the policy. [rpatterson]

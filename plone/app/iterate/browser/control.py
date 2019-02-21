@@ -29,7 +29,7 @@ from plone.app.iterate.interfaces import IWorkingCopy
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 
-import Products.CMFCore.permissions
+from .. import permissions
 
 
 class Control(BrowserView):
@@ -62,11 +62,8 @@ class Control(BrowserView):
         if original is None:
             return False
 
-        can_modify = checkPermission(
-            Products.CMFCore.permissions.ModifyPortalContent,
-            original,
-        )
-        if not can_modify:
+        can_check_in = checkPermission(permissions.CheckinPermission, original)
+        if not can_check_in:
             return False
 
         return True
@@ -75,6 +72,7 @@ class Control(BrowserView):
         """Check if a checkout is allowed.
         """
         context = aq_inner(self.context)
+        checkPermission = getSecurityManager().checkPermission
 
         if not interfaces.IIterateAware.providedBy(context):
             return False
@@ -92,6 +90,11 @@ class Control(BrowserView):
 
         # check if its is a checkout
         if policy.getBaseline() is not None:
+            return False
+
+        can_check_out = checkPermission(
+            permissions.CheckoutPermission, context)
+        if not can_check_out:
             return False
 
         return True
