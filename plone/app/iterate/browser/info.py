@@ -109,7 +109,7 @@ class BaselineInfoViewlet(BaseInfoViewlet):
                 sm.checkPermission(
                     permissions.CheckoutPermission, self.context) or
                 sm.checkPermission(
-                    permissions.CheckinPermission, self.context) or
+                    permissions.CheckinPermission, working_copy) or
                 sm.checkPermission(ModifyPortalContent, working_copy)):
             return self.index()
         else:
