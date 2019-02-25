@@ -28,6 +28,8 @@ Base Checkin Checkout Policy For Content
 
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from AccessControl import SpecialUsers
+
 from plone.app.iterate import interfaces
 from plone.app.iterate.event import BeforeCheckoutEvent
 from plone.app.iterate.event import CancelCheckoutEvent
@@ -35,6 +37,8 @@ from plone.app.iterate.event import CheckoutEvent
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IObjectCopier
 from plone.app.iterate.util import get_storage
+from plone import api
+
 from Products.CMFCore import interfaces as cmf_ifaces
 from Products.CMFCore.utils import getToolByName
 from zope import component
@@ -151,8 +155,10 @@ class BaseContentCopier(object):
     def _copyBaseline(self, container):
         # copy the context from source to the target container
         source_container = aq_parent(aq_inner(self.context))
-        clipboard = source_container.manage_copyObjects([self.context.getId()])
-        result = container.manage_pasteObjects(clipboard)
+        with api.env._adopt_user(SpecialUsers.system):
+            clipboard = source_container.manage_copyObjects(
+                [self.context.getId()])
+            result = container.manage_pasteObjects(clipboard)
 
         # get a reference to the working copy
         target_id = result[0]['new_id']
