@@ -28,23 +28,23 @@ Archtypes specific copier, dexterity folder has its own!
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from AccessControl import SpecialUsers
 
 from plone.app.iterate import interfaces
 from plone.app.iterate.base import BaseContentCopier
 from plone.app.iterate.interfaces import CheckinException
-from plone import api
 
 from Products.Archetypes.Referenceable import Referenceable
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
-from .relation import WorkingCopyRelation
 from ZODB.PersistentMapping import PersistentMapping
 from zope import component
 from zope import interface
 from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
 from zope.lifecycleevent import ObjectMovedEvent
+
+from . import util
+from .relation import WorkingCopyRelation
 
 
 @interface.implementer(interfaces.IObjectCopier)
@@ -122,7 +122,7 @@ class ContentCopier(BaseContentCopier):
         wc_id = self.context.getId()
         # Bypass AT security check,
         # checking `iterate : Check in content` should be sufficient
-        with api.env._adopt_user(SpecialUsers.system):
+        with util.adopt_system():
             wc_container.manage_delObjects([wc_id])
 
         # move the working copy back to the baseline container
