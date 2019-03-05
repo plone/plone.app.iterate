@@ -22,9 +22,12 @@
 ##################################################################
 
 from AccessControl import getSecurityManager
+
 from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
+from plone.app.iterate import testing
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
+
 from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -207,3 +210,32 @@ class TestIterations(unittest.TestCase):
         from plone.app.iterate.interfaces import CheckoutException
         with self.assertRaises(CheckoutException):
             cancel()
+
+    def test_local_role(self):
+        """
+        A local role is assigned for the user making the checkout.
+        """
+        self.portal.portal_membership.addMember(
+            testing.EDITOR['id'], testing.EDITOR['password'],
+            testing.EDITOR['roles'], [])
+        login(self.portal, testing.EDITOR['id'])
+
+        baseline = self.portal.docs.doc1
+        policy = ICheckinCheckoutPolicy(baseline, None)
+        working_copy = policy.checkout(self.portal.workarea)
+
+        # Verify assumptions
+        self.assertEqual(
+            baseline.get_local_roles_for_userid(TEST_USER_ID), ('Owner', ),
+            'Different Owner local role than this test assumes')
+        self.assertEqual(
+            working_copy.get_local_roles_for_userid(TEST_USER_ID), ('Owner', ),
+            'Different Owner local role than this test assumes')
+        self.assertEqual(
+            baseline.get_local_roles_for_userid('editor'), (),
+            'Different check out user local role than this test assumes')
+
+        self.assertEqual(
+            working_copy.get_local_roles_for_userid('editor'),
+            ('iterate: Check out initiator', ),
+            'Wrong check out initiator local role')

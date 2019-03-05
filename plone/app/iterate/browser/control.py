@@ -62,7 +62,7 @@ class Control(BrowserView):
         if original is None:
             return False
 
-        can_check_in = checkPermission(permissions.CheckinPermission, original)
+        can_check_in = checkPermission(permissions.CheckinPermission, context)
         if not can_check_in:
             return False
 

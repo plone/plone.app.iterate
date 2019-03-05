@@ -28,6 +28,7 @@ Base Checkin Checkout Policy For Content
 
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from AccessControl import SecurityManagement
 
 from plone.app.iterate import interfaces
 from plone.app.iterate.event import BeforeCheckoutEvent
@@ -164,4 +165,10 @@ class BaseContentCopier(object):
         # get a reference to the working copy
         target_id = result[0]['new_id']
         target = container._getOb(target_id)
+
+        security_manager = SecurityManagement.getSecurityManager()
+        target.manage_addLocalRoles(
+            security_manager.getUser().getId(),
+            ('iterate: Check out initiator', ))
+
         return target
