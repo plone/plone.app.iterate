@@ -24,6 +24,7 @@
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from plone.app.iterate import interfaces
+from plone.app.iterate import permissions
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IWorkingCopy
 from plone.memoize.view import memoize
@@ -62,11 +63,11 @@ class Control(BrowserView):
         if original is None:
             return False
 
-        can_modify = checkPermission(
-            Products.CMFCore.permissions.ModifyPortalContent,
-            original,
+        can_check_in = checkPermission(
+            permissions.CheckinPermission,
+            self.context,
         )
-        if not can_modify:
+        if not can_check_in:
             return False
 
         return True

@@ -9,6 +9,17 @@
   <include package="Products.CMFCore" file="permissions.zcml" />
 
   <include package=".subscribers"/>
+
+  <permission
+    id="plone.app.iterate.CheckInContent"
+    title="iterate : Check in content"
+    />
+
+  <permission
+    id="plone.app.iterate.CheckOutContent"
+    title="iterate : Check out content"
+    />
+
   <include package=".browser"/>
 
   <includeDependencies package="." />
@@ -93,15 +104,7 @@
      handler=".event.handleDeletion"
      />
 
-  <permission
-    id="plone.app.iterate.CheckInContent"
-    title="iterate : Check in content"
-    />
 
-  <permission
-    id="plone.app.iterate.CheckOutContent"
-    title="iterate : Check out content"
-    />
 
   <include package=".dexterity" zcml:condition="installed plone.app.relationfield" />
 
