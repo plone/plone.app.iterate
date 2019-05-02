@@ -143,13 +143,25 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
         """Setup Plone Site with Addons."""
         super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
         applyProfile(portal, 'plone.app.iterate:default')
+        # with named AND dotted behaviors we need to take care of both
+        versioning_behavior = set(
+            [
+                'plone.app.versioningbehavior.behaviors.IVersionable',
+                'plone.versioning',
+            ],
+        )
 
         # Disable automatic versioning of core content types
         for name in ('Document', 'Event', 'Link', 'News Item'):
             fti = portal.portal_types[name]
-            behaviors = list(fti.behaviors)
-            behaviors.remove('plone.app.versioningbehavior.behaviors.IVersionable')
-            fti.behaviors = tuple(behaviors)
+            # write back the behaviors without the versioning behaviors
+            # using a Set to keep it simple
+            # a = set((1,2,3))
+            # b = set([2,4])
+            # res = tuple(a.difference(b)) >> (1,3)
+            fti.behaviors = tuple(
+                set(fti.behaviors).difference(versioning_behavior),
+            )
 
 
 PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()
