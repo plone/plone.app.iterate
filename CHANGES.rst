@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.11 (2019-05-04)
+-------------------
+
+Bug fixes:
+
+
+- Made removing of versioning behaviors less strict (named vs dotted). [iham] (#71)
+
+
 3.3.10 (2018-10-31)
 -------------------
 
