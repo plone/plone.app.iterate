@@ -20,13 +20,13 @@
        tal:define="diffs view/diffs;
                    diff_url string:${context/absolute_url}/@@iterate_diff">
 
-    <h1 class="documentFirstHeading">
+    <h1 class="documentFirstHeading" i18n:translate="">
         Changes to
-        <span tal:replace="context/title_or_id" />
+        <span tal:replace="context/title_or_id" i18n:name="title"/>
     </h1>
 
     <div id="content-core">
-        <em tal:condition="diffs/same">
+        <em tal:condition="diffs/same" i18n:translate="">
             No significant changes found.
         </em>
 
@@ -50,7 +50,7 @@
                 <tal:html condition="inline">
                     <br />
                     <a href="#"
-                       tal:attributes="href string:${diff_url}?no_inline:int=1">Show code differences</a>
+                       tal:attributes="href string:${diff_url}?no_inline:int=1" i18n:translate="">Show code differences</a>
                     <br />
                     <br />
                     <div class="inline-diff"
@@ -60,29 +60,29 @@
                     <br />
                     <tal:visual-only tal:condition="exists:d/inline_diff">
                         <a href="#"
-                           tal:attributes="href string:${diff_url}">Show visual differences</a>
+                           tal:attributes="href string:${diff_url}" i18n:translate="">Show visual differences</a>
                         <br />
                     </tal:visual-only>
                     <a href="#"
-                       tal:attributes="href string:${diff_url}?no_inline:int=1&amp;show_unified:int=1">Unified diff format</a>
+                       tal:attributes="href string:${diff_url}?no_inline:int=1&amp;show_unified:int=1" i18n:translate="">Unified diff format</a>
                     <pre tal:content="structure d/html_diff">[html diff]</pre>
                 </tal:html>
                 <tal:unified condition="python:unified and not html">
                     <br />
                     <a href="#"
                         tal:condition="exists:d/inline_diff"
-                        tal:attributes="href string:${diff_url}">Show visual differences</a>
+                        tal:attributes="href string:${diff_url}" i18n:translate="">Show visual differences</a>
                     <br />
                     <a href="#"
                        tal:condition="exists:d/html_diff"
-                       tal:attributes="href string:${diff_url}?no_inline:int=1">Show side by side</a>
+                       tal:attributes="href string:${diff_url}?no_inline:int=1" i18n:translate="">Show side by side</a>
                     <pre tal:content="d/unified_diff">[unified diff]</pre>
                 </tal:unified>
                 <tal:ndiff condition="python:ndiff and not (unified or html)">
                     <pre tal:content="d/ndiff">[ndiff]</pre>
                 </tal:ndiff>
                 <tal:nodiff condition="python:not (unified or html or ndiff)">
-                    <span class="diff_chg">Field Changed</span>
+                    <span class="diff_chg" i18n:translate="">Field Changed</span>
                     <br /><br />
                 </tal:nodiff>
               </div>
@@ -90,7 +90,7 @@
         </div>
 
         <tal:block tal:condition="diffs/recursive">
-        <h2>Changed files</h2>
+        <h2 i18n:translate="">Changed files</h2>
         <i tal:condition="not:diffs/getSubDiffs">None</i>
         <ul tal:condition="diffs/getSubDiffs">
             <li tal:repeat="cs diffs/getSubDiffs">
@@ -100,14 +100,14 @@
            </li>
         </ul>
 
-        <h2>Removed files</h2>
-        <em tal:condition="not:diffs/getRemovedItems">None</em>
+        <h2 i18n:translate="">Removed files</h2>
+        <em tal:condition="not:diffs/getRemovedItems" i18n:translate="">None</em>
         <ul tal:condition="diffs/getRemovedItems">
         <li tal:repeat="id diffs/getRemovedItems" tal:content="id">[filename]</li>
         </ul>
 
-        <h2>Added files</h2>
-        <em tal:condition="not:diffs/getAddedItems">None</em>
+        <h2 i18n:translate="">Added files</h2>
+        <em tal:condition="not:diffs/getAddedItems" i18n:translate="">None</em>
         <ul tal:condition="diffs/getAddedItems">
         <li tal:repeat="id diffs/getAddedItems"><a tal:content="id" tal:attributes="href id">[filename]</a></li>
         </ul>
