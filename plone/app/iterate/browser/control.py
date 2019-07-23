@@ -76,6 +76,7 @@ class Control(BrowserView):
         """Check if a checkout is allowed.
         """
         context = aq_inner(self.context)
+        checkPermission = getSecurityManager().checkPermission
 
         if not interfaces.IIterateAware.providedBy(context):
             return False
@@ -93,6 +94,13 @@ class Control(BrowserView):
 
         # check if its is a checkout
         if policy.getBaseline() is not None:
+            return False
+
+        can_check_out = checkPermission(
+            permissions.CheckoutPermission,
+            self.context,
+        )
+        if not can_check_out:
             return False
 
         return True
