@@ -19,7 +19,7 @@
         name="content-checkout"
         class=".checkout.Checkout"
         template="checkout.pt"
-        permission="zope2.View"
+        permission="plone.app.iterate.CheckOutContent"
         />
 
     <browser:page
@@ -35,7 +35,7 @@
         name="content-cancel-checkout"
         class=".cancel.Cancel"
         template="cancel.pt"
-        permission="cmf.ModifyPortalContent"
+        permission="plone.app.iterate.CheckOutContent"
         />
 
     <!-- Information -->
