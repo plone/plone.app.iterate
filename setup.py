@@ -15,6 +15,7 @@ setup(
     description='check-out/check-in staging for Plone',
     long_description=LONG_DESCRIPTION,
     classifiers=[
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Framework :: Plone',
         'Framework :: Plone :: 5.1',
