@@ -35,7 +35,7 @@
         name="content-cancel-checkout"
         class=".cancel.Cancel"
         template="cancel.pt"
-        permission="plone.app.iterate.CheckOutContent"
+        permission="cmf.ModifyPortalContent"
         />
 
     <!-- Information -->
