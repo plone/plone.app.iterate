@@ -25,8 +25,10 @@ def get_relations(context):
     catalog = component.getUtility(ICatalog)
     relations = list(catalog.findRelations({'to_id': id}))
     relations += list(catalog.findRelations({'from_id': id}))
-    relations = filter(lambda r: r.from_attribute ==
-                       ITERATE_RELATION_NAME, relations)
+    relations = filter(
+        lambda r: r.from_attribute == ITERATE_RELATION_NAME,
+        relations
+    )
     return relations
 
 
@@ -42,6 +44,9 @@ def get_baseline(context):
     relation = get_checkout_relation(context)
     if relation and relation.from_id:
         intids = component.getUtility(IIntIds)
+        context_id = intids.queryId(aq_base(context))
+        if context_id == relation.from_id:
+            return None
         return intids.getObject(relation.from_id)
     return None
 
