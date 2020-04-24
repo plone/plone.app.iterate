@@ -27,7 +27,7 @@
         name="content-checkin"
         class=".checkin.Checkin"
         template="checkin.pt"
-        permission="cmf.ModifyPortalContent"
+        permission="plone.app.iterate.CheckInContent"
         />
 
     <browser:page

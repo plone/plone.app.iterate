@@ -34,10 +34,16 @@ CONTRIBUTOR = {
     'password': 'secret',
     'roles': ['Contributor'],
 }
+REVIEWER = {
+    'id': 'reviewer',
+    'password': 'secret',
+    'roles': ['Reviewer'],
+}
 USERS_TO_BE_ADDED = (
     ADMIN,
     EDITOR,
     CONTRIBUTOR,
+    REVIEWER,
 )
 USERS_WITH_MEMBER_FOLDER = (
     EDITOR,

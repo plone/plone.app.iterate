@@ -92,6 +92,7 @@ check out published pages::
     True
 
     >>> browser = z2.Browser(app)
+    >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization', 'Basic editor:secret')
 
     >>> browser.open(portal.absolute_url() + '/hello-world')
@@ -113,19 +114,12 @@ therefore our Editor lacks permissions to modify the original::
     ...
     LinkNotFoundError
 
-The Editor could, however, ask someone to retract the original so he
-gains permissions again and check in (and then possibly request for
-review)::
+The Reviewer can check the working copy back in to update the original
+published item::
 
     >>> browser = z2.Browser(app)
-    >>> browser.addHeader('Authorization',
-    ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
-    >>> browser.open(portal.absolute_url() + '/hello-world')
-    >>> browser.getLink("Published").click()
-    >>> browser.getControl("Retract").click()
-    >>> browser.getControl("Save").click()
-    >>> browser = z2.Browser(app)
-    >>> browser.addHeader('Authorization', 'Basic editor:secret')
+    >>> browser.handleErrors = False
+    >>> browser.addHeader('Authorization', 'Basic reviewer:secret')
     >>> browser.open(portal.absolute_url() + '/hello-world')
     >>> browser.getLink("working copy").click()
     >>> browser.getLink("Check in").click()
@@ -261,8 +255,14 @@ Create a new page to test workflows with::
 
 Checkout::
 
+    >>> import transaction
+    >>> from plone import api
+    >>> api.user.grant_roles(username='editor', roles=['Contributor'])
+    >>> transaction.commit()
+
     >>> browser = z2.Browser(app)
-    >>> browser.addHeader('Authorization', 'Basic contributor:secret')
+    >>> browser.handleErrors = False
+    >>> browser.addHeader('Authorization', 'Basic editor:secret')
     >>> browser.open(workflow_test_url)
     >>> browser.getLink(id='plone-contentmenu-actions-iterate_checkout').click()
     >>> browser.contents
@@ -271,16 +271,19 @@ Checkout::
     >>> checkout_form.getControl('Parent folder').selected = True
     >>> checkout_form.getControl('Check out').click()
     >>> browser.contents
-    '...This is a working copy of...My workflow test..., made by...contributor...'
+    '...This is a working copy of...My workflow test..., made by...editor...'
     >>> browser.contents
     '...state-draft-copy...'
     >>> workflow_checkout_url = browser.url
+
+    >>> api.user.revoke_roles(username='editor', roles=['Contributor'])
+    >>> transaction.commit()
 
 Check get info message on original::
 
     >>> browser.open(workflow_test_url)
     >>> browser.contents
-    '...This item is being edited by...contributor...a working copy...'
+    '...This item is being edited by...editor...a working copy...'
 
 We're going to manually give the contributor user the CheckoutPermission
 to check it's used when displaying the info messages.  In our workflow
@@ -288,6 +291,7 @@ once the checked out item is submitted the contributor no longer has
 permission to modify it but we still want them to see the info messages::
 
     >>> browser = z2.Browser(app)
+    >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization',
     ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
 
@@ -297,6 +301,7 @@ permission to modify it but we still want them to see the info messages::
     >>> browser.getControl('Save Changes').click()
 
     >>> browser = z2.Browser(app)
+    >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization', 'Basic contributor:secret')
     >>> browser.open(workflow_checkout_url)
     >>> browser.getLink(id='workflow-transition-submit-copy-for-publication')\
@@ -314,6 +319,7 @@ move permissions in our workflow so this should not appear in the action menu.
 http://code.google.com/p/dexterity/issues/detail?id=258 ::
 
     >>> browser = z2.Browser(app)
+    >>> browser.handleErrors = False
     >>> browser.addHeader('Authorization', 'Basic editor:secret')
     >>> browser.open(workflow_checkout_url)
     >>> browser.getLink(id='plone-contentmenu-actions-copy')
