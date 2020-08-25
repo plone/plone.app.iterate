@@ -74,7 +74,7 @@
 
   <utility
       name="plone.app.iterate"
-      factory=".profiles.HiddenProfiles"
+      factory=".setuphandlers.HiddenProfiles"
       />
 
   <adapter factory=".archiver.ContentArchiver" />
