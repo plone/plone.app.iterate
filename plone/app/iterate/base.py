@@ -37,6 +37,7 @@ from plone.app.iterate.interfaces import IObjectCopier
 from plone.app.iterate.util import get_storage
 from Products.CMFCore import interfaces as cmf_ifaces
 from Products.CMFCore.utils import getToolByName
+from zc.relation.interfaces import ICatalog
 from zope import component
 from zope.component import queryAdapter
 from zope.event import notify
@@ -83,6 +84,11 @@ class CheckinCheckoutBasePolicyAdapter(object):
 
         # publish an event
         notify(CancelCheckoutEvent(self.context, baseline))
+
+        # Remove the relationship
+        relation = self._get_relation_to_baseline()
+        catalog = component.queryUtility(ICatalog)
+        catalog.unindex(relation)
 
         # delete the working copy
         wc_container = aq_parent(aq_inner(self.context))

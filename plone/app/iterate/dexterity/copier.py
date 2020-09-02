@@ -113,8 +113,9 @@ class ContentCopier(BaseContentCopier):
     def _deleteWorkingCopyRelation(self):
         # delete the wc reference keeping a reference to it for its annotations
         relation = self._get_relation_to_baseline()
-        relation.broken(relation.to_path)
-        return relation
+        catalog = component.queryUtility(ICatalog)
+        catalog.unindex(relation)
+        return
 
     def _get_relation_to_baseline(self):
         context = aq_inner(self.context)

@@ -30,6 +30,9 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from Products.CMFCore.utils import getToolByName
+from zc.relation.interfaces import ICatalog
+from zope.intid.interfaces import IIntIds
+from zope import component
 
 import unittest
 
@@ -207,3 +210,65 @@ class TestIterations(unittest.TestCase):
         from plone.app.iterate.interfaces import CheckoutException
         with self.assertRaises(CheckoutException):
             cancel()
+
+    def test_relationship_deleted_on_checkin(self):
+        # Ensure that the relationship between the baseline and the wc is
+        # removed when the working copy is checked in
+        folder = self.portal.docs
+        doc = folder.doc1
+
+        intids = component.getUtility(IIntIds)
+        catalog = component.getUtility(ICatalog)
+        obj_id = intids.getId(doc)
+        rels = list(catalog.findRelations({'from_id': obj_id}))
+        self.assertEqual(len(rels), 0)
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+        wc_id = intids.getId(wc)
+
+        rels = list(catalog.findRelations({'from_id': obj_id}))
+        self.assertEqual(len(rels), 1)
+        from_rel = rels[0]
+
+        rels = list(catalog.findRelations({'to_id': wc_id}))
+        self.assertEqual(len(rels), 1)
+        to_rel = rels[0]
+
+        self.assertEqual(from_rel, to_rel)
+
+        doc = ICheckinCheckoutPolicy(wc).checkin('updated')
+
+        rels = list(catalog.findRelations({'from_id': obj_id}))
+
+        self.assertEqual(len(rels), 0)
+
+    def test_relationship_deleted_on_cancel_checkout(self):
+        # Ensure that the relationship between the baseline and the wc is
+        # removed when the working copy is checked in
+        folder = self.portal.docs
+        doc = folder.doc1
+
+        intids = component.getUtility(IIntIds)
+        catalog = component.getUtility(ICatalog)
+        obj_id = intids.getId(doc)
+        rels = list(catalog.findRelations({'from_id': obj_id}))
+        self.assertEqual(len(rels), 0)
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+        wc_id = intids.getId(wc)
+
+        rels = list(catalog.findRelations({'from_id': obj_id}))
+        self.assertEqual(len(rels), 1)
+        from_rel = rels[0]
+
+        rels = list(catalog.findRelations({'to_id': wc_id}))
+        self.assertEqual(len(rels), 1)
+        to_rel = rels[0]
+
+        self.assertEqual(from_rel, to_rel)
+
+        ICheckinCheckoutPolicy(wc).cancelCheckout()
+
+        rels = list(catalog.findRelations({'from_id': obj_id}))
+
+        self.assertEqual(len(rels), 0)
