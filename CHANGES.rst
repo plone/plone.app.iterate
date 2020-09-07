@@ -8,6 +8,19 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.15 (2020-09-07)
+-------------------
+
+Bug fixes:
+
+
+- Remove relationship between baseline and working copy, when wc is removed.
+  [frapell] (#77)
+- Fixed deprecation warning for ObjectEvent and IObjectEvent.
+  Moved all code from ``profiles.py`` to ``setuphandlers.py`` to avoid confusion with ``profiles`` directory.
+  [maurits] (#3130)
+
+
 3.3.14 (2020-04-20)
 -------------------
 

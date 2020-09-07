@@ -1,3 +1,0 @@
-Fixed deprecation warning for ObjectEvent and IObjectEvent.
-Moved all code from ``profiles.py`` to ``setuphandlers.py`` to avoid confusion with ``profiles`` directory.
-[maurits]
