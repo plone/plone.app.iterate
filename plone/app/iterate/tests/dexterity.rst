@@ -22,7 +22,7 @@ Aquisition wrapper you get a KeyError from zope.intid, originating from five.int
     >>> browser.open(portal_url + "/folder_factories")
     >>> browser.getControl("Folder").click()
     >>> browser.getControl("Add").click()
-    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = "My Folder"
+    >>> browser.getControl(name="form.widgets.title").value = "My Folder"
     >>> browser.getControl(name="form.buttons.save").click()
     >>> browser.url
     'http://nohost/plone/my-folder/view'
@@ -30,7 +30,7 @@ Aquisition wrapper you get a KeyError from zope.intid, originating from five.int
     >>> browser.open("http://nohost/plone/my-folder/folder_factories")
     >>> browser.getControl("Page").click()
     >>> browser.getControl("Add").click()
-    >>> browser.getControl(name="form.widgets.IDublinCore.title").value = "My Sub-object"
+    >>> browser.getControl(name="form.widgets.title").value = "My Sub-object"
     >>> browser.getControl(name="form.buttons.save").click()
     >>> browser.url
     'http://nohost/plone/my-folder/my-sub-object/view'
