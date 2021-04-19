@@ -78,12 +78,17 @@ class ContentCopier(BaseContentCopier):
         baseline.reindexObject()
 
         # copy annotations
-        # wc_annotations = IAnnotations(self.context)
-        # baseline_annotations = IAnnotations(baseline)
+        wc_annotations = IAnnotations(self.context)
+        baseline_annotations = IAnnotations(baseline)
 
-        # The next one is wrong
+        # The next one is just wrong
         # baseline_annotations.clear()
-        # baseline_annotations.update(wc_annotations)
+
+        # Remove plone.folder.ordered.order from it to not mess with the original
+        if "plone.folder.ordered.order" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.order")
+
+        baseline_annotations.update(wc_annotations)
 
         # delete the working copy
         wc_container._delObject(wc_id)
@@ -198,6 +203,15 @@ class FolderishContentCopier(ContentCopier):
                     field.set(obj, value)
 
         obj.reindexObject()
+
+        # copy annotations
+        wc_annotations = IAnnotations(self.context)
+        baseline_annotations = IAnnotations(self.context)
+
+        wc_annotations.update(baseline_annotations)
+        # Remove plone.folder.order from it to not spoil the wc
+        if "plone.folder.ordered.order" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.order")
 
         # clone workflow history, try avoid a dangling ref
         try:
