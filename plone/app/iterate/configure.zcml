@@ -108,6 +108,6 @@
     />
 
   <include package=".dexterity" zcml:condition="installed plone.app.relationfield" />
-  <include file="at.zcml" zcml:condition="installed Products.Archetypes" />
+  <include file="at.zcml" zcml:condition="installed Products.Archetypes.BaseObject" />
 
 </configure>
