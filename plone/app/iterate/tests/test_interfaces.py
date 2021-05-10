@@ -29,21 +29,22 @@ class TestObjectsProvideCorrectInterfaces(TestCase):
     def setUp(self):
         super(TestObjectsProvideCorrectInterfaces, self).setUp()
 
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         login(self.portal, TEST_USER_NAME)
 
         # create a folder where everything of this test suite should happen
-        self.assertNotIn('test-folder', self.portal.objectIds())
+        self.assertNotIn("test-folder", self.portal.objectIds())
         self.folder = self.portal.get(
-            self.portal.invokeFactory('Folder', 'test-folder'))
+            self.portal.invokeFactory("Folder", "test-folder")
+        )
 
-        self.obj = createContentInContainer(self.folder, 'Document')
+        self.obj = createContentInContainer(self.folder, "Document")
 
     def tearDown(self):
         self.portal.manage_delObjects([self.folder.id])
         logout()
-        setRoles(self.portal, TEST_USER_ID, ['Member'])
+        setRoles(self.portal, TEST_USER_ID, ["Member"])
         super(TestObjectsProvideCorrectInterfaces, self).tearDown()
 
     def do_checkout(self):
@@ -57,7 +58,7 @@ class TestObjectsProvideCorrectInterfaces(TestCase):
 
     def do_checkin(self, working_copy):
         policy = ICheckinCheckoutPolicy(working_copy)
-        policy.checkin('')
+        policy.checkin("")
 
     def test_before_checkout(self):
         self.assertTrue(self.obj)

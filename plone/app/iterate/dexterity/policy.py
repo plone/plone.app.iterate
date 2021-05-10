@@ -40,16 +40,16 @@ class CheckinCheckoutPolicyAdapter(CheckinCheckoutBasePolicyAdapter):
         # do we have a baseline in our relations?
         relations = get_relations(self.context)
         if relations and not len(relations) == 1:
-            raise CheckinException('Baseline count mismatch')
+            raise CheckinException("Baseline count mismatch")
         if not relations or not relations[0]:
-            raise CheckinException('Baseline has disappeared')
+            raise CheckinException("Baseline has disappeared")
 
         return relations[0]
 
     def _getBaseline(self):
         baseline = get_baseline(self.context)
         if not baseline:
-            raise CheckinException('Baseline has disappeared')
+            raise CheckinException("Baseline has disappeared")
         return baseline
 
     def getBaseline(self):

@@ -30,10 +30,9 @@ from . import interfaces
 @implementer(interfaces.IObjectArchiver)
 @adapter(interfaces.IIterateAware)
 class ContentArchiver(object):
-
     def __init__(self, context):
         self.context = context
-        self.repository = getToolByName(context, 'portal_repository')
+        self.repository = getToolByName(context, "portal_repository")
 
     def save(self, checkin_message):
         self.repository.save(self.context, checkin_message)
@@ -44,7 +43,7 @@ class ContentArchiver(object):
         return True
 
     def isVersioned(self):
-        archivist = getToolByName(self.context, 'portal_archivist')
+        archivist = getToolByName(self.context, "portal_archivist")
         version_count = len(archivist.queryHistory(self.context))
         return bool(version_count)
 

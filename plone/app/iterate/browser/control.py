@@ -39,8 +39,7 @@ class Control(BrowserView):
     """
 
     def checkin_allowed(self):
-        """Check if a checkin is allowed
-        """
+        """Check if a checkin is allowed"""
         context = aq_inner(self.context)
         checkPermission = getSecurityManager().checkPermission
 
@@ -72,8 +71,7 @@ class Control(BrowserView):
         return True
 
     def checkout_allowed(self):
-        """Check if a checkout is allowed.
-        """
+        """Check if a checkout is allowed."""
         context = aq_inner(self.context)
 
         if not interfaces.IIterateAware.providedBy(context):

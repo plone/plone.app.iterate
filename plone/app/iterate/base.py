@@ -54,13 +54,13 @@ class CheckinCheckoutBasePolicyAdapter(object):
     """
 
     # used when creating baseline version for first time
-    default_base_message = 'Created Baseline'
+    default_base_message = "Created Baseline"
 
     def __init__(self, context):
         self.context = context
 
     def checkin(self, checkin_message):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def checkout(self, container):
         # see interface
@@ -100,10 +100,10 @@ class CheckinCheckoutBasePolicyAdapter(object):
     #  Checkin Support Methods
 
     def getBaseline(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def getWorkingCopy(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
     def getProperties(self, obj, default=None):
         return get_storage(obj, default=default)
@@ -112,7 +112,6 @@ class CheckinCheckoutBasePolicyAdapter(object):
 @implementer(interfaces.IObjectCopier)
 @component.adapter(interfaces.IIterateAware)
 class BaseContentCopier(object):
-
     def __init__(self, context):
         self.context = context
 
@@ -131,12 +130,11 @@ class BaseContentCopier(object):
             new_ids = new_baseline.contentIds()
             for child in baseline.contentValues():
                 if child.getId() in new_ids:
-                    self._recursivelyReattachUIDs(
-                        child, new_baseline[child.getId()])
+                    self._recursivelyReattachUIDs(child, new_baseline[child.getId()])
 
     def _removeDuplicateReferences(self, item, backrefs=False):
         # Remove duplicate (back) references from this item.
-        reference_tool = getToolByName(self.context, 'reference_catalog')
+        reference_tool = getToolByName(self.context, "reference_catalog")
         if backrefs:
             ref_func = reference_tool.getBackReferences
         else:
@@ -161,6 +159,6 @@ class BaseContentCopier(object):
         result = container.manage_pasteObjects(clipboard)
 
         # get a reference to the working copy
-        target_id = result[0]['new_id']
+        target_id = result[0]["new_id"]
         target = container._getOb(target_id)
         return target
