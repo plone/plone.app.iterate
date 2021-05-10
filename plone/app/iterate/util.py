@@ -38,5 +38,5 @@ def get_storage(context, default=None):
 
 def upgrade_by_reinstall(context):
     qi = get_installer(context)
-    qi.uninstall_product('plone.app.iterate')
-    qi.install_product('plone.app.iterate')
+    qi.uninstall_product("plone.app.iterate")
+    qi.install_product("plone.app.iterate")

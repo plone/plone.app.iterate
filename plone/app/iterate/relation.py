@@ -37,7 +37,7 @@ from zope.interface import implementer
 import logging
 
 
-logger = logging.getLogger('plone.app.iterate')
+logger = logging.getLogger("plone.app.iterate")
 
 
 @implementer(IWorkingCopyRelation, IAttributeAnnotatable)
@@ -47,7 +47,8 @@ class WorkingCopyRelation(Reference):
 
     Target Object is Baseline Version
     """
-    relationship = 'Working Copy Relation'
+
+    relationship = "Working Copy Relation"
 
 
 @implementer(ICheckinCheckoutReference)
@@ -71,7 +72,7 @@ class CheckinCheckoutReferenceAdapter(object):
 
     """
 
-    storage_key = 'coci.references'
+    storage_key = "coci.references"
 
     def __init__(self, context):
         self.context = context
@@ -79,14 +80,17 @@ class CheckinCheckoutReferenceAdapter(object):
     def checkout(self, baseline, wc, refs, storage):
         for ref in refs:
             try:
-                wc.addReference(ref.targetUID, ref.relationship,
-                                referenceClass=ref.__class__)
+                wc.addReference(
+                    ref.targetUID, ref.relationship, referenceClass=ref.__class__
+                )
             except ReferenceException:
                 logger.warn(
-                    'Reference exception when adding relation %r '
-                    'from new working copy %s to uid %s. Ignoring relation.',
-                    ref.relationship, '/'.join(wc.getPhysicalPath()),
-                    ref.targetUID)
+                    "Reference exception when adding relation %r "
+                    "from new working copy %s to uid %s. Ignoring relation.",
+                    ref.relationship,
+                    "/".join(wc.getPhysicalPath()),
+                    ref.targetUID,
+                )
 
     def checkin(self, *args):
         pass

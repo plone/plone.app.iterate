@@ -53,9 +53,7 @@ class CheckinCheckoutPolicyAdapter(CheckinCheckoutBasePolicyAdapter):
         baseline = self._getBaseline()
 
         # get a hold of the relation object
-        wc_ref = self.context.getReferenceImpl(
-            WorkingCopyRelation.relationship
-        )[0]
+        wc_ref = self.context.getReferenceImpl(WorkingCopyRelation.relationship)[0]
 
         # publish the event for subscribers, early because contexts are about
         # to be manipulated
@@ -81,10 +79,10 @@ class CheckinCheckoutPolicyAdapter(CheckinCheckoutBasePolicyAdapter):
         refs = self.context.getReferences(WorkingCopyRelation.relationship)
 
         if not len(refs) == 1:
-            raise CheckinException('Baseline count mismatch')
+            raise CheckinException("Baseline count mismatch")
 
         if not refs or refs[0] is None:
-            raise CheckinException('Baseline has disappeared')
+            raise CheckinException("Baseline has disappeared")
 
         baseline = refs[0]
         return baseline

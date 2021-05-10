@@ -33,30 +33,26 @@ from zope.component import getMultiAdapter
 
 class Checkin(BrowserView):
 
-    index = ViewPageTemplateFile('checkin.pt')
+    index = ViewPageTemplateFile("checkin.pt")
 
     def __call__(self):
         context = aq_inner(self.context)
 
-        if 'form.button.Checkin' in self.request.form:
-            control = getMultiAdapter(
-                (context, self.request), name=u'iterate_control')
+        if "form.button.Checkin" in self.request.form:
+            control = getMultiAdapter((context, self.request), name=u"iterate_control")
             if not control.checkin_allowed():
-                raise CheckinException(u'Not a checkout')
+                raise CheckinException(u"Not a checkout")
 
-            message = self.request.form.get('checkin_message', '')
+            message = self.request.form.get("checkin_message", "")
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.checkin(message)
 
-            IStatusMessage(self.request).addStatusMessage(
-                _('Checked in'), type='info')
-            view_url = baseline.restrictedTraverse(
-                '@@plone_context_state').view_url()
+            IStatusMessage(self.request).addStatusMessage(_("Checked in"), type="info")
+            view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
-        elif 'form.button.Cancel'in self.request.form:
-            view_url = context.restrictedTraverse(
-                '@@plone_context_state').view_url()
+        elif "form.button.Cancel" in self.request.form:
+            view_url = context.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:
             return self.index()

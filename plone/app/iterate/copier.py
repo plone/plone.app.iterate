@@ -53,8 +53,9 @@ class ContentCopier(BaseContentCopier):
         wc_ref = wc.addReference(
             self.context,
             relationship=WorkingCopyRelation.relationship,
-            referenceClass=WorkingCopyRelation)
-        self._handleReferences(self.context, wc, 'checkout', wc_ref)
+            referenceClass=WorkingCopyRelation,
+        )
+        self._handleReferences(self.context, wc, "checkout", wc_ref)
         return wc, wc_ref
 
     def merge(self):
@@ -64,7 +65,7 @@ class ContentCopier(BaseContentCopier):
         wc_ref = self._deleteWorkingCopyRelation()
 
         # reassemble references on the new baseline
-        self._handleReferences(baseline, self.context, 'checkin', wc_ref)
+        self._handleReferences(baseline, self.context, "checkin", wc_ref)
 
         # move the working copy to the baseline container, deleting
         # the baseline
@@ -81,10 +82,10 @@ class ContentCopier(BaseContentCopier):
         refs = self.context.getRefs(WorkingCopyRelation.relationship)
 
         if not len(refs) == 1:
-            raise CheckinException('Baseline count mismatch')
+            raise CheckinException("Baseline count mismatch")
 
         if not refs or refs[0] is None:
-            raise CheckinException('Baseline has disappeared')
+            raise CheckinException("Baseline has disappeared")
 
         baseline = refs[0]
         return baseline
@@ -100,12 +101,13 @@ class ContentCopier(BaseContentCopier):
         # Check if we are a default_page, because this property of the
         # container might get lost.
         is_default_page = (
-            baseline_container.getProperty('default_page', '') == baseline_id)
+            baseline_container.getProperty("default_page", "") == baseline_id
+        )
         baseline_pos = baseline_container.getObjectPosition(baseline_id)
         baseline_container._delOb(baseline_id)
 
         # uninedxing the deleted baseline object from portal_catalog
-        portal_catalog = getToolByName(self.context, 'portal_catalog')
+        portal_catalog = getToolByName(self.context, "portal_catalog")
         portal_catalog.unindexObject(baseline)
 
         # delete the working copy from the its container
@@ -128,17 +130,19 @@ class ContentCopier(BaseContentCopier):
         if is_default_page:
             # Restore default_page to container.  Note that the property might
             # have been removed by an event handler in the mean time.
-            if baseline_container.hasProperty('default_page'):
-                baseline_container._updateProperty('default_page', baseline_id)
+            if baseline_container.hasProperty("default_page"):
+                baseline_container._updateProperty("default_page", baseline_id)
             else:
-                baseline_container._setProperty('default_page', baseline_id)
+                baseline_container._setProperty("default_page", baseline_id)
 
         # reregister our references with the reference machinery after moving
-        Referenceable.manage_afterAdd(new_baseline, new_baseline,
-                                      baseline_container)
+        Referenceable.manage_afterAdd(new_baseline, new_baseline, baseline_container)
 
-        notify(ObjectMovedEvent(new_baseline, wc_container,
-                                wc_id, baseline_container, baseline_id))
+        notify(
+            ObjectMovedEvent(
+                new_baseline, wc_container, wc_id, baseline_container, baseline_id
+            )
+        )
 
         return new_baseline
 
@@ -146,13 +150,14 @@ class ContentCopier(BaseContentCopier):
         # reattach the source's workflow history, try avoid a dangling ref
         try:
             new_baseline.workflow_history = PersistentMapping(
-                baseline.workflow_history.items())
+                baseline.workflow_history.items()
+            )
         except AttributeError:
             # No workflow apparently.  Oh well.
             pass
 
         # reset wf state security directly
-        workflow_tool = getToolByName(self.context, 'portal_workflow')
+        workflow_tool = getToolByName(self.context, "portal_workflow")
         wfs = workflow_tool.getWorkflowsFor(self.context)
         for wf in wfs:
             if not isinstance(wf, DCWorkflowDefinition):
@@ -166,7 +171,7 @@ class ContentCopier(BaseContentCopier):
 
         # reattach the source's history id, to get the previous
         # version ancestry
-        histid_handler = getToolByName(self.context, 'portal_historyidhandler')
+        histid_handler = getToolByName(self.context, "portal_historyidhandler")
         huid = histid_handler.getUid(baseline)
         histid_handler.setUid(new_baseline, huid, check_uniqueness=False)
 
@@ -195,9 +200,8 @@ class ContentCopier(BaseContentCopier):
             else:
                 # look for a named relation adapter first
                 adapter = component.queryAdapter(
-                    baseline,
-                    interfaces.ICheckinCheckoutReference,
-                    relationship)
+                    baseline, interfaces.ICheckinCheckoutReference, relationship
+                )
 
             if adapter is None:  # default
                 adapter = baseline_adapter
@@ -207,7 +211,7 @@ class ContentCopier(BaseContentCopier):
             mode_method = getattr(adapter, mode)
             mode_method(baseline, wc, references, annotations)
 
-        mode = mode + 'BackReferences'
+        mode = mode + "BackReferences"
 
         # handle backward references
         for relationship in baseline.getBRelationships():
@@ -216,9 +220,8 @@ class ContentCopier(BaseContentCopier):
             else:
                 # look for a named relation adapter first
                 adapter = component.queryAdapter(
-                    baseline,
-                    interfaces.ICheckinCheckoutReference,
-                    relationship)
+                    baseline, interfaces.ICheckinCheckoutReference, relationship
+                )
 
             if adapter is None:
                 adapter = baseline_adapter

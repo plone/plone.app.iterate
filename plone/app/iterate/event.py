@@ -31,7 +31,6 @@ from . import interfaces
 
 @implementer(interfaces.ICheckoutEvent)
 class CheckoutEvent(ObjectEvent):
-
     def __init__(self, baseline, wc, relation):
         ObjectEvent.__init__(self, baseline)
         self.working_copy = wc
@@ -40,7 +39,6 @@ class CheckoutEvent(ObjectEvent):
 
 @implementer(interfaces.ICheckinEvent)
 class CheckinEvent(ObjectEvent):
-
     def __init__(self, wc, baseline, relation, message):
         ObjectEvent.__init__(self, wc)
         self.baseline = baseline
@@ -50,7 +48,6 @@ class CheckinEvent(ObjectEvent):
 
 @implementer(interfaces.IAfterCheckinEvent)
 class AfterCheckinEvent(ObjectEvent):
-
     def __init__(self, new_baseline, checkin_message):
         super(AfterCheckinEvent, self).__init__(new_baseline)
         self.message = checkin_message
@@ -58,7 +55,6 @@ class AfterCheckinEvent(ObjectEvent):
 
 @implementer(interfaces.ICancelCheckoutEvent)
 class CancelCheckoutEvent(ObjectEvent):
-
     def __init__(self, wc, baseline):
         ObjectEvent.__init__(self, wc)
         self.baseline = baseline
@@ -66,7 +62,6 @@ class CancelCheckoutEvent(ObjectEvent):
 
 @implementer(interfaces.IWorkingCopyDeletedEvent)
 class WorkingCopyDeletedEvent(ObjectEvent):
-
     def __init__(self, wc, baseline, relation):
         ObjectEvent.__init__(self, wc)
         self.baseline = baseline

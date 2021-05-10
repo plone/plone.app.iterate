@@ -36,11 +36,13 @@ import pkg_resources
 
 
 try:
-    pkg_resources.get_distribution('Products.Archetypes')
+    pkg_resources.get_distribution("Products.Archetypes")
 except pkg_resources.DistributionNotFound:
 
     class IReference(Interface):
         pass
+
+
 else:
     from Products.Archetypes.interfaces import IReference
 
@@ -50,13 +52,15 @@ else:
 
 
 class IIterateAware(Interface):
-    """An object that can be used for check-in/check-out operations.
-    """
+    """An object that can be used for check-in/check-out operations."""
+
 
 #################################
 #  Lock types
 
-ITERATE_LOCK = LockType(u'iterate.lock', stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT)  # noqa
+ITERATE_LOCK = LockType(
+    u"iterate.lock", stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT
+)  # noqa
 
 #################################
 #  Exceptions
@@ -80,32 +84,33 @@ class ConflictError(CheckinException):
 
 #################################
 # Annotation Key
-annotation_key = 'ore.iterate'
+annotation_key = "ore.iterate"
 
 
 class keys(object):
     # various common keys
-    checkout_user = 'checkout_user'
-    checkout_time = 'checkout_time'
+    checkout_user = "checkout_user"
+    checkout_time = "checkout_time"
 
 
 #################################
 #  Event Interfaces
 
+
 class ICheckinEvent(IObjectEvent):
-    """ a working copy is being checked in, event.object is the working copy, this
+    """a working copy is being checked in, event.object is the working copy, this
     message is sent before any mutation/merge has been done on the objects
     """
 
-    baseline = Attribute('The Working Copy\'s baseline')
-    relation = Attribute('The Working Copy Archetypes Relation Object')
-    checkin_message = Attribute('checkin message')
+    baseline = Attribute("The Working Copy's baseline")
+    relation = Attribute("The Working Copy Archetypes Relation Object")
+    checkin_message = Attribute("checkin message")
 
 
 class IAfterCheckinEvent(IObjectEvent):
     """ sent out after an object is checked in """
 
-    checkin_message = Attribute('checkin message')
+    checkin_message = Attribute("checkin message")
 
 
 class IBeforeCheckoutEvent(IObjectEvent):
@@ -115,26 +120,27 @@ class IBeforeCheckoutEvent(IObjectEvent):
 class ICheckoutEvent(IObjectEvent):
     """ an object is being checked out, event.object is the baseline """
 
-    working_copy = Attribute('The object\'s working copy')
-    relation = Attribute('The Working Copy Archetypes Relation Object')
+    working_copy = Attribute("The object's working copy")
+    relation = Attribute("The Working Copy Archetypes Relation Object")
 
 
 class ICancelCheckoutEvent(IObjectEvent):
     """ a working copy is being cancelled """
 
-    baseline = Attribute('The working copy\'s baseline')
+    baseline = Attribute("The working copy's baseline")
 
 
 class IWorkingCopyDeletedEvent(IObjectEvent):
-    """ a working copy is being deleted, this gets called multiple times at
+    """a working copy is being deleted, this gets called multiple times at
     different states.
     So on cancel checkout and checkin operations, its mostly designed to
     broadcast an event when the user deletes a working copy using the standard
     container paradigms.
     """
 
-    baseline = Attribute('The working copy baseline')
-    relation = Attribute('The Working Copy Archetypes Relation Object')
+    baseline = Attribute("The working copy baseline")
+    relation = Attribute("The Working Copy Archetypes Relation Object")
+
 
 #################################
 # Content Marker Interfaces
@@ -147,18 +153,16 @@ class IIterateManagedContent(Interface):
 
 
 class IWorkingCopy(IIterateManagedContent):
-    """A working copy/check-out
-    """
+    """A working copy/check-out"""
 
 
 class IBaseline(IIterateManagedContent):
-    """A baseline
-    """
+    """A baseline"""
 
 
 class IWorkingCopyRelation(IReference):
-    """A relationship to a working copy
-    """
+    """A relationship to a working copy"""
+
 
 #################################
 #  Working copy container locator
@@ -170,21 +174,20 @@ class IWCContainerLocator(Interface):
     """
 
     available = schema.Bool(
-        title=u'Available', description=u'Whether location will be available.')
+        title=u"Available", description=u"Whether location will be available."
+    )
 
-    title = schema.TextLine(
-        title=u'Title', description=u'Title of this location')
+    title = schema.TextLine(title=u"Title", description=u"Title of this location")
 
     def __call__():
-        """Return a container object, or None if available() is False
-        """
+        """Return a container object, or None if available() is False"""
+
 
 #################################
 #  Interfaces
 
 
 class ICheckinCheckoutTool(Interface):
-
     def allowCheckin(content):
         """
         denotes whether a checkin operation can be performed on the content.
@@ -213,40 +216,33 @@ class ICheckinCheckoutTool(Interface):
 
 
 class IObjectCopier(Interface):
-    """ copies and merges the object state
-    """
+    """copies and merges the object state"""
 
     def copyTo(container):
-        """ copy the context to the given container, must also create an AT
+        """copy the context to the given container, must also create an AT
         relation using the WorkingCopyRelation.relation name between the
         source and the copy.
         returns the copy.
         """
 
     def merge():
-        """ merge/replace the source with the copy, context is the copy.
-        """
+        """merge/replace the source with the copy, context is the copy."""
 
 
 class IObjectArchiver(Interface):
-    """ iterate needs minimal versioning support
-    """
+    """iterate needs minimal versioning support"""
 
     def save(checkin_message):
-        """ save a new version of the object
-        """
+        """save a new version of the object"""
 
     def isVersioned(self):
-        """ is this content already versioned
-        """
+        """is this content already versioned"""
 
     def isVersionable(self):
-        """ is versionable check.
-        """
+        """is versionable check."""
 
     def isModified(self):
-        """ is the resource current state, different than its last saved state.
-        """
+        """is the resource current state, different than its last saved state."""
 
 
 class ICheckinCheckoutPolicy(Interface):
@@ -254,10 +250,10 @@ class ICheckinCheckoutPolicy(Interface):
 
     def checkin(checkin_message):
         """checkin the context, if the target has been deleted then raises a
-        checkin exception.
+         checkin exception.
 
-       if the object version has changed since the checkout begin (due to
-       another checkin) raises a conflict error.
+        if the object version has changed since the checkout begin (due to
+        another checkin) raises a conflict error.
         """
 
     def checkout(container):
@@ -289,6 +285,7 @@ class ICheckinCheckoutPolicy(Interface):
 
 #################################
 
+
 class ICheckinCheckoutReference(Interface):
     # a reference processor
 
@@ -300,30 +297,27 @@ class ICheckinCheckoutReference(Interface):
         """
 
     def checkoutBackReferences(baseline, wc, references, storage):
-        """
-        """
+        """"""
 
     def checkin(baseline, wc, references, storage):
-        """
-        """
+        """"""
 
     def checkinBackReferences(baseline, wc, references, storage):
-        """
-        """
+        """"""
 
 
 class IIterateSettings(Interface):
 
     enable_checkout_workflow = schema.Bool(
-        title=_(u'Enable checkout workflow'),
-        description=u'',
+        title=_(u"Enable checkout workflow"),
+        description=u"",
         default=False,
-        required=False
+        required=False,
     )
 
     checkout_workflow_policy = schema.ASCIILine(
-        title=_(u'Checkout workflow policy'),
-        description=u'',
-        default='checkout_workflow_policy',
-        required=True
+        title=_(u"Checkout workflow policy"),
+        description=u"",
+        default="checkout_workflow_policy",
+        required=True,
     )

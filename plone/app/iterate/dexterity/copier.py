@@ -20,7 +20,6 @@ from zope.schema import getFieldsInOrder
 
 
 class ContentCopier(BaseContentCopier):
-
     def copyTo(self, container):
         context = aq_inner(self.context)
         wc = self._copyBaseline(container)
@@ -57,7 +56,7 @@ class ContentCopier(BaseContentCopier):
                 # Skip read-only fields
                 if field.readonly:
                     continue
-                if field.__name__ == 'id':
+                if field.__name__ == "id":
                     continue
                 try:
                     value = field.get(schema(self.context))
@@ -66,11 +65,11 @@ class ContentCopier(BaseContentCopier):
 
                 # TODO: We need a way to identify the DCFieldProperty
                 # fields and use the appropriate set_name/get_name
-                if name == 'effective':
+                if name == "effective":
                     baseline.effective_date = self.context.effective()
-                elif name == 'expires':
+                elif name == "expires":
                     baseline.expiration_date = self.context.expires()
-                elif name == 'subjects':
+                elif name == "subjects":
                     baseline.setSubject(self.context.Subject())
                 else:
                     field.set(baseline, value)
@@ -93,13 +92,14 @@ class ContentCopier(BaseContentCopier):
         # reattach the source's workflow history, try avoid a dangling ref
         try:
             new_baseline.workflow_history = PersistentMapping(
-                baseline.workflow_history.items())
+                baseline.workflow_history.items()
+            )
         except AttributeError:
             # No workflow apparently.  Oh well.
             pass
 
         # reset wf state security directly
-        workflow_tool = getToolByName(self.context, 'portal_workflow')
+        workflow_tool = getToolByName(self.context, "portal_workflow")
         wfs = workflow_tool.getWorkflowsFor(self.context)
         for wf in wfs:
             if not isinstance(wf, DCWorkflowDefinition):
@@ -124,15 +124,14 @@ class ContentCopier(BaseContentCopier):
         id = intids.getId(context)
         # ask catalog
         catalog = component.getUtility(ICatalog)
-        relations = catalog.findRelations({'to_id': id})
-        relations = [i for i in relations
-                     if i.from_attribute == ITERATE_RELATION_NAME]
+        relations = catalog.findRelations({"to_id": id})
+        relations = [i for i in relations if i.from_attribute == ITERATE_RELATION_NAME]
         # do we have a baseline in our relations?
         if relations and not len(relations) == 1:
-            raise interfaces.CheckinException('Baseline count mismatch')
+            raise interfaces.CheckinException("Baseline count mismatch")
 
         if not relations or not relations[0]:
-            raise interfaces.CheckinException('Baseline has disappeared')
+            raise interfaces.CheckinException("Baseline has disappeared")
         return relations[0]
 
     def _getBaseline(self):
@@ -142,7 +141,7 @@ class ContentCopier(BaseContentCopier):
             baseline = intids.getObject(relation.from_id)
 
         if not baseline:
-            raise interfaces.CheckinException('Baseline has disappeared')
+            raise interfaces.CheckinException("Baseline has disappeared")
         return baseline
 
     def checkin(self, checkin_message):
@@ -152,14 +151,9 @@ class ContentCopier(BaseContentCopier):
         relation = self._get_relation_to_baseline()
         # publish the event for subscribers, early because contexts are about
         # to be manipulated
-        notify(event.CheckinEvent(self.context,
-                                  baseline,
-                                  relation,
-                                  checkin_message
-                                  ))
+        notify(event.CheckinEvent(self.context, baseline, relation, checkin_message))
         # merge the object back to the baseline with a copier
-        copier = component.queryAdapter(self.context,
-                                        interfaces.IObjectCopier)
+        copier = component.queryAdapter(self.context, interfaces.IObjectCopier)
         new_baseline = copier.merge()
         # don't need to unlock the lock disappears with old baseline deletion
         notify(AfterCheckinEvent(new_baseline, checkin_message))

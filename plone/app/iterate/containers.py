@@ -36,20 +36,19 @@ from zope.interface import implementer
 @implementer(IWCContainerLocator)
 @adapter(IDynamicType)
 class HomeFolderLocator(object):
-    """Locate the current user's home folder, if possible.
-    """
+    """Locate the current user's home folder, if possible."""
 
     def __init__(self, context):
         self.context = context
 
-    title = _(u'Home folder')
+    title = _(u"Home folder")
 
     @property
     def available(self):
         return self() is not None
 
     def __call__(self):
-        return getToolByName(self.context, 'portal_membership').getHomeFolder()
+        return getToolByName(self.context, "portal_membership").getHomeFolder()
 
 
 @implementer(IWCContainerLocator)
@@ -62,14 +61,13 @@ class ParentFolderLocator(object):
     def __init__(self, context):
         self.context = context
 
-    title = _(u'Parent folder')
+    title = _(u"Parent folder")
 
     @property
     def available(self):
         return bool(
             getSecurityManager().checkPermission(
-                AddPortalContent,
-                aq_parent(aq_inner(self.context))
+                AddPortalContent, aq_parent(aq_inner(self.context))
             )
         )
 

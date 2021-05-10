@@ -32,12 +32,12 @@ def handleWCDeleted(event):
     # may be called multiple times, must be reentrant
     lock.unlockContext(event.baseline)
     # we reindex to force a metadata update
-    event.baseline.reindexObject(idxs=['review_state'])
+    event.baseline.reindexObject(idxs=["review_state"])
 
 
 def handleCheckout(event):
     lock.lockContext(event.object)
-    event.object.reindexObject(idxs=['review_state'])
+    event.object.reindexObject(idxs=["review_state"])
 
 
 def handleCheckin(event):
@@ -53,4 +53,4 @@ def handleCancelCheckout(event):
         # unlock working copy if it was auto-locked, or this will fail
         lockable.clear_locks()
     lock.unlockContext(event.baseline)
-    event.baseline.reindexObject(idxs=['review_state'])
+    event.baseline.reindexObject(idxs=["review_state"])

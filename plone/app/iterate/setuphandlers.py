@@ -7,15 +7,14 @@ import warnings
 
 @implementer(INonInstallable)
 class HiddenProfiles(object):
-
     def getNonInstallableProfiles(self):
         """Prevents uninstall profile from showing up in the profile list
         when creating a Plone site.
 
         """
         return [
-            u'plone.app.iterate:uninstall',
-            u'plone.app.iterate:plone.app.iterate',
+            u"plone.app.iterate:uninstall",
+            u"plone.app.iterate:plone.app.iterate",
         ]
 
 
@@ -26,5 +25,5 @@ def deprecate_profile(tool):
     """
     warnings.warn(
         'The profile with id "plone.app.iterate" was renamed to "default".',
-        DeprecationWarning
+        DeprecationWarning,
     )

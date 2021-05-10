@@ -29,23 +29,26 @@ from zope.i18nmessageid import MessageFactory
 import logging
 
 
-PloneMessageFactory = MessageFactory('plone')
-logger = logging.getLogger('plone.app.iterate')
+PloneMessageFactory = MessageFactory("plone")
+logger = logging.getLogger("plone.app.iterate")
 
 
 try:
     import plone.app.relationfield  # noqa
 except ImportError:
-    logger.warn('Dexterity support for iterate is not available. '
-                'You must install plone.app.relationfield')
+    logger.warn(
+        "Dexterity support for iterate is not available. "
+        "You must install plone.app.relationfield"
+    )
 
 
 try:
     import plone.app.stagingbehavior  # noqa
+
     logger.error(
-        'plone.app.stagingbehavior should NOT be installed with this version '
-        'of plone.app.iterate. You may experience problems running this '
-        'configuration. plone.app.iterate now has dexterity suport built-in.'
+        "plone.app.stagingbehavior should NOT be installed with this version "
+        "of plone.app.iterate. You may experience problems running this "
+        "configuration. plone.app.iterate now has dexterity suport built-in."
     )
 except ImportError:
     pass
