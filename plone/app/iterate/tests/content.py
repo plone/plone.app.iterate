@@ -5,22 +5,25 @@ from Products.Archetypes import atapi
 from Products.ATContentTypes.content.base import registerATCT
 
 
-RichFolderSchema = ATFolderSchema.copy() + atapi.Schema((
-    atapi.TextField('text',
-                    default_output_type='text/x-html-safe',
-                    widget=atapi.RichWidget(),
-                    ),
-))
+RichFolderSchema = ATFolderSchema.copy() + atapi.Schema(
+    (
+        atapi.TextField(
+            "text",
+            default_output_type="text/x-html-safe",
+            widget=atapi.RichWidget(),
+        ),
+    )
+)
 
 
 class RichFolder(ATFolder):
     """ sample content type for testing purposes """
 
     schema = RichFolderSchema
-    portal_type = 'RichFolder'
+    portal_type = "RichFolder"
 
 
-registerATCT(RichFolder, 'plone.app.iterate')
+registerATCT(RichFolder, "plone.app.iterate")
 
 
 def addRichFolder(container, id, **kwargs):

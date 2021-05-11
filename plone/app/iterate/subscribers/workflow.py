@@ -31,14 +31,18 @@ from Acquisition import aq_base
 from plone.app.iterate.interfaces import IIterateSettings
 from plone.app.iterate.util import get_storage
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id  # noqa
-from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig  # noqa
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import (
+    WorkflowPolicyConfig_id,
+)  # noqa
+from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import (
+    WorkflowPolicyConfig,
+)  # noqa
 from zope.component import getUtility
 
 
-USE_WORKFLOW = 'checkout_workflow_policy'
+USE_WORKFLOW = "checkout_workflow_policy"
 
-policy_storage = 'previous_wf_policy'
+policy_storage = "previous_wf_policy"
 
 
 def handleCheckout(event):
@@ -50,7 +54,8 @@ def handleCheckout(event):
     policy_id = str(settings.checkout_workflow_policy)
 
     existing_policy = getattr(
-        aq_base(event.working_copy), WorkflowPolicyConfig_id, None)
+        aq_base(event.working_copy), WorkflowPolicyConfig_id, None
+    )
     storage = get_storage(event.relation)
 
     # set config for policy in and below
@@ -72,7 +77,7 @@ def handleCheckin(event):
     previous_policy = storage.get(policy_storage)
     if previous_policy is None:
         # only reset workflows we know.. could use are own storage
-        if policy and not getattr(policy, 'coci_created', False):
+        if policy and not getattr(policy, "coci_created", False):
             return
         elif policy is None:
             return

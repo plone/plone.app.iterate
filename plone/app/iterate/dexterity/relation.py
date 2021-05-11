@@ -10,16 +10,14 @@ from zope.intid.interfaces import IIntIds
 
 @implementer(IStagingRelationValue, IAttributeAnnotatable)
 class StagingRelationValue(relation.RelationValue):
-
     @classmethod
     def get_relations_of(cls, obj, from_attribute=None):
-        """ a list of relations to or from the passed object
-        """
+        """a list of relations to or from the passed object"""
         catalog = getUtility(ICatalog)
         intids = getUtility(IIntIds)
         obj_id = intids.getId(obj)
-        items = list(catalog.findRelations({'from_id': obj_id}))
-        items += list(catalog.findRelations({'to_id': obj_id}))
+        items = list(catalog.findRelations({"from_id": obj_id}))
+        items += list(catalog.findRelations({"to_id": obj_id}))
         if from_attribute:
 
             def condition(r):

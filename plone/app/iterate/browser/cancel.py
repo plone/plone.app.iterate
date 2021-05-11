@@ -33,29 +33,27 @@ from zope.component import getMultiAdapter
 
 class Cancel(BrowserView):
 
-    index = ViewPageTemplateFile('cancel.pt')
+    index = ViewPageTemplateFile("cancel.pt")
 
     def __call__(self):
         context = aq_inner(self.context)
 
-        if 'form.button.Cancel' in self.request.form:
-            control = getMultiAdapter(
-                (context, self.request), name=u'iterate_control')
+        if "form.button.Cancel" in self.request.form:
+            control = getMultiAdapter((context, self.request), name=u"iterate_control")
             if not control.cancel_allowed():
-                raise CheckoutException(u'Not a checkout')
+                raise CheckoutException(u"Not a checkout")
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.cancelCheckout()
             baseline.reindexObject()
 
             IStatusMessage(self.request).addStatusMessage(
-                _(u'Checkout cancelled'), type='info')
-            view_url = baseline.restrictedTraverse(
-                '@@plone_context_state').view_url()
+                _(u"Checkout cancelled"), type="info"
+            )
+            view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
-        elif 'form.button.Keep' in self.request.form:
-            view_url = context.restrictedTraverse(
-                '@@plone_context_state').view_url()
+        elif "form.button.Keep" in self.request.form:
+            view_url = context.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
         else:
             return self.index()

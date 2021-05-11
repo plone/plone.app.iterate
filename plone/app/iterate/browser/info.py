@@ -21,7 +21,6 @@ from zope.viewlet.interfaces import IViewlet
 
 @implementer(IViewlet)
 class BaseInfoViewlet(BrowserView):
-
     def __init__(self, context, request, view, manager):
         super(BaseInfoViewlet, self).__init__(context, request)
         self.__parent__ = view
@@ -42,17 +41,17 @@ class BaseInfoViewlet(BrowserView):
     @memoize
     def created(self):
         time = self.properties.get(keys.checkout_time, DateTime())
-        util = getToolByName(self.context, 'translation_service')
+        util = getToolByName(self.context, "translation_service")
         return util.ulocalized_time(
             time,
             context=self.context,
-            domain='plonelocales',
+            domain="plonelocales",
         )
 
     @memoize
     def creator(self):
         user_id = self.properties.get(keys.checkout_user)
-        membership = getToolByName(self.context, 'portal_membership')
+        membership = getToolByName(self.context, "portal_membership")
         if not user_id:
             return membership.getAuthenticatedMember()
         return membership.getMemberById(user_id)
@@ -61,24 +60,28 @@ class BaseInfoViewlet(BrowserView):
     def creator_url(self):
         creator = self.creator()
         if creator is not None:
-            portal_url = getToolByName(self.context, 'portal_url')
-            return '{0}/author/{1}'.format(portal_url(), creator.getId())
+            portal_url = getToolByName(self.context, "portal_url")
+            return "{0}/author/{1}".format(portal_url(), creator.getId())
 
     @memoize
     def creator_name(self):
         creator = self.creator()
         if creator is not None:
-            return creator.getProperty('fullname') or creator.getId()
+            return creator.getProperty("fullname") or creator.getId()
         # User is not known by PAS. This may be due to LDAP issues, so we keep
         # the user and log this.
         name = self.properties.get(keys.checkout_user)
         if IBaseline.providedBy(self.context):
-            warning_tpl = '%s is a baseline of a plone.app.iterate checkout ' \
-                          'by an unknown user id "%s"'
+            warning_tpl = (
+                "%s is a baseline of a plone.app.iterate checkout "
+                'by an unknown user id "%s"'
+            )
         else:
             # IWorkingCopy.providedBy(self.context)
-            warning_tpl = '%s is a working copy of a plone.app.iterate ' \
-                          'checkout by an unknown user id "%s"'
+            warning_tpl = (
+                "%s is a working copy of a plone.app.iterate "
+                'checkout by an unknown user id "%s"'
+            )
         logger.warning(warning_tpl, self.context, name)
         return name
 
@@ -92,23 +95,24 @@ class BaseInfoViewlet(BrowserView):
             return {}
 
     def _getReference(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
 class BaselineInfoViewlet(BaseInfoViewlet):
 
-    index = ViewPageTemplateFile('info_baseline.pt')
+    index = ViewPageTemplateFile("info_baseline.pt")
 
     def render(self):
         sm = getSecurityManager()
         working_copy = self.working_copy()
         if working_copy is not None and (
-                sm.checkPermission(ModifyPortalContent, self.context) or
-                sm.checkPermission(CheckoutPermission, self.context) or
-                sm.checkPermission(ModifyPortalContent, working_copy)):
+            sm.checkPermission(ModifyPortalContent, self.context)
+            or sm.checkPermission(CheckoutPermission, self.context)
+            or sm.checkPermission(ModifyPortalContent, working_copy)
+        ):
             return self.index()
         else:
-            return ''
+            return ""
 
     @memoize
     def working_copy(self):
@@ -120,17 +124,18 @@ class BaselineInfoViewlet(BaseInfoViewlet):
 
 class CheckoutInfoViewlet(BaseInfoViewlet):
 
-    index = ViewPageTemplateFile('info_checkout.pt')
+    index = ViewPageTemplateFile("info_checkout.pt")
 
     def render(self):
         sm = getSecurityManager()
         baseline = self.baseline()
         if baseline is not None and (
-                sm.checkPermission(ModifyPortalContent, self.context) or
-                sm.checkPermission(CheckoutPermission, baseline)):
+            sm.checkPermission(ModifyPortalContent, self.context)
+            or sm.checkPermission(CheckoutPermission, baseline)
+        ):
             return self.index()
         else:
-            return ''
+            return ""
 
     @memoize
     def baseline(self):

@@ -6,7 +6,7 @@ from unittest import TestSuite
 import doctest
 
 try:
-    import Products.ATContentTypes
+    import Products.ATContentTypes  # noqa
 except ImportError:
     HAS_AT = False
 else:
@@ -15,22 +15,26 @@ else:
 
 def test_suite():
     suite = TestSuite()
-    OPTIONFLAGS = (doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE)
+    OPTIONFLAGS = doctest.ELLIPSIS | doctest.NORMALIZE_WHITESPACE
     if HAS_AT:
-        suite.addTest(layered(
-            doctest.DocFileSuite(
-                'browser.rst',
-                optionflags=OPTIONFLAGS,
-                package='plone.app.iterate.tests',
-            ),
-            layer=PLONEAPPITERATE_FUNCTIONAL_TESTING)
+        suite.addTest(
+            layered(
+                doctest.DocFileSuite(
+                    "browser.rst",
+                    optionflags=OPTIONFLAGS,
+                    package="plone.app.iterate.tests",
+                ),
+                layer=PLONEAPPITERATE_FUNCTIONAL_TESTING,
+            )
         )
-    suite.addTest(layered(
-        doctest.DocFileSuite(
-            'dexterity.rst',
-            optionflags=OPTIONFLAGS,
-            package='plone.app.iterate.tests',
-        ),
-        layer=PLONEAPPITERATEDEX_FUNCTIONAL_TESTING)
+    suite.addTest(
+        layered(
+            doctest.DocFileSuite(
+                "dexterity.rst",
+                optionflags=OPTIONFLAGS,
+                package="plone.app.iterate.tests",
+            ),
+            layer=PLONEAPPITERATEDEX_FUNCTIONAL_TESTING,
+        )
     )
     return suite
