@@ -281,3 +281,57 @@ class TestIterations(unittest.TestCase):
         rels = list(catalog.findRelations({"from_id": obj_id}))
 
         self.assertEqual(len(rels), 0)
+
+    def test_baseline_relations_updated_on_checkin(self):
+        # Ensure that relations between the baseline and
+        # and other objects are up-to-date on checkin
+        from zope.event import notify
+        from zope.lifecycleevent import ObjectModifiedEvent
+        from z3c.relationfield import RelationValue
+
+        folder = self.portal.docs
+        baseline = folder.doc1
+        target = folder.doc2
+
+        intids = component.getUtility(IIntIds)
+        catalog = component.getUtility(ICatalog)
+
+        target_id = intids.getId(target)
+        target_rel = [RelationValue(target_id)]
+
+        # Test, if nothing is present in the relation catalog
+        rels = list(catalog.findRelations({'to_id': target_id}))
+        self.assertEqual(len(rels), 0)
+
+        # set relatedItems on baseline
+        baseline.relatedItems = target_rel
+        notify(ObjectModifiedEvent(baseline))
+
+        # Test, if relation is present in the relation catalog
+        rels = list(catalog.findRelations({'to_id': target_id}))
+        self.assertEqual(len(rels), 1)
+
+        # proof for empty relations
+        # baseline.relatedItems = []
+        # notify(ObjectModifiedEvent(baseline))
+        # rels = list(catalog.findRelations({'to_id': target_id}))
+        # self.assertEqual(len(rels), 0)
+
+        # make a workingcopy from baseline
+        wc = ICheckinCheckoutPolicy(baseline).checkout(folder)
+
+        # remove relations on wc
+        wc.relatedItems = []
+        notify(ObjectModifiedEvent(wc))
+
+        # baseline -> target relation should be still there, we are on wc
+        rels = list(catalog.findRelations({'to_id': target_id}))
+        self.assertEqual(len(rels), 1)
+
+        # baseline -> target relation should be empty now
+        # because we replaced our baseline with our wc (with empty relations) 
+        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
+        rels = list(catalog.findRelations({'to_id': target_id}))
+
+        # new baseline's relatedItems should be empty
+        self.assertEqual(len(rels), 0)
