@@ -311,12 +311,6 @@ class TestIterations(unittest.TestCase):
         rels = list(catalog.findRelations({'to_id': target_id}))
         self.assertEqual(len(rels), 1)
 
-        # proof for empty relations
-        # baseline.relatedItems = []
-        # notify(ObjectModifiedEvent(baseline))
-        # rels = list(catalog.findRelations({'to_id': target_id}))
-        # self.assertEqual(len(rels), 0)
-
         # make a workingcopy from baseline
         wc = ICheckinCheckoutPolicy(baseline).checkout(folder)
 
