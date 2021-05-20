@@ -142,9 +142,13 @@ class TestIterations(unittest.TestCase):
         version of the folder.  UIDs of contained content are also
         preserved."""
         container = self.portal.docs
-        folder = container[container.invokeFactory(type_name="Folder", id="foo-folder")]
+        folder = container[
+            container.invokeFactory(type_name="Folder", id="foo-folder")
+        ]
         existing_doc = folder[
-            folder.invokeFactory(type_name="Document", id="existing-folder-item")
+            folder.invokeFactory(
+                type_name="Document", id="existing-folder-item"
+            )
         ]
         existing_doc_uid = existing_doc.UID()
 
@@ -152,7 +156,9 @@ class TestIterations(unittest.TestCase):
         wc = ICheckinCheckoutPolicy(folder).checkout(container)
         new_doc = wc[
             wc.invokeFactory(
-                type_name="Document", id="new-folder-item", text="new folder item text"
+                type_name="Document",
+                id="new-folder-item",
+                text="new folder item text",
             )
         ]
         new_doc_uid = new_doc.UID()
@@ -161,10 +167,14 @@ class TestIterations(unittest.TestCase):
         catalog = getToolByName(self.portal, "portal_catalog")
 
         self.assertTrue("existing-folder-item" in new_folder)
-        self.assertEqual(new_folder["existing-folder-item"].UID(), existing_doc_uid)
+        self.assertEqual(
+            new_folder["existing-folder-item"].UID(), existing_doc_uid
+        )
         self.assertTrue("new-folder-item" in new_folder)
         self.assertEqual(new_folder["new-folder-item"].UID(), new_doc_uid)
-        brains = catalog(path="/".join(new_folder["new-folder-item"].getPhysicalPath()))
+        brains = catalog(
+            path="/".join(new_folder["new-folder-item"].getPhysicalPath())
+        )
         self.assertTrue(brains)
         self.assertTrue(
             "new folder item text" in new_folder["new-folder-item"].getText()
@@ -300,7 +310,7 @@ class TestIterations(unittest.TestCase):
         target_rel = [RelationValue(target_id)]
 
         # Test, if nothing is present in the relation catalog
-        rels = list(catalog.findRelations({'to_id': target_id}))
+        rels = list(catalog.findRelations({"to_id": target_id}))
         self.assertEqual(len(rels), 0)
 
         # set relatedItems on baseline
@@ -308,7 +318,7 @@ class TestIterations(unittest.TestCase):
         notify(ObjectModifiedEvent(baseline))
 
         # Test, if relation is present in the relation catalog
-        rels = list(catalog.findRelations({'to_id': target_id}))
+        rels = list(catalog.findRelations({"to_id": target_id}))
         self.assertEqual(len(rels), 1)
 
         # make a workingcopy from baseline
@@ -319,13 +329,13 @@ class TestIterations(unittest.TestCase):
         notify(ObjectModifiedEvent(wc))
 
         # baseline -> target relation should be still there, we are on wc
-        rels = list(catalog.findRelations({'to_id': target_id}))
+        rels = list(catalog.findRelations({"to_id": target_id}))
         self.assertEqual(len(rels), 1)
 
         # baseline -> target relation should be empty now
-        # because we replaced our baseline with our wc (with empty relations) 
+        # because we replaced our baseline with our wc (with empty relations)
         baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
-        rels = list(catalog.findRelations({'to_id': target_id}))
+        rels = list(catalog.findRelations({"to_id": target_id}))
 
         # new baseline's relatedItems should be empty
         self.assertEqual(len(rels), 0)
