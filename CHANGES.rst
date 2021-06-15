@@ -8,6 +8,20 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.16 (2021-06-14)
+-------------------
+
+Bug fixes:
+
+
+- Do not break if some custom code provides an alias for Products.Archetypes (#85)
+- Black and pep8 compliance
+  [sneridagh] (#88)
+- Update relations on Check-In WorkingCopy, by trigger an ObjectModifiedEvent event
+  black and flake8 formatting
+  [2silver] (#89)
+
+
 3.3.15 (2020-09-07)
 -------------------
 
