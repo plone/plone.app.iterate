@@ -168,12 +168,9 @@ class ContentCopier(BaseContentCopier):
 
 
 class FolderishContentCopier(ContentCopier):
-    """ """
-
     def _copyBaseline(self, container):
-        source_container = aq_parent(aq_inner(self.context))
         obj = createContentInContainer(
-            source_container,
+            container,
             self.context.portal_type,
             id="working_copy_of_{}".format(self.context.id),
         )
@@ -205,7 +202,7 @@ class FolderishContentCopier(ContentCopier):
         obj.reindexObject()
 
         # copy annotations
-        wc_annotations = IAnnotations(self.context)
+        wc_annotations = IAnnotations(obj)
         baseline_annotations = IAnnotations(self.context)
 
         wc_annotations.update(baseline_annotations)
@@ -213,13 +210,55 @@ class FolderishContentCopier(ContentCopier):
         if "plone.folder.ordered.order" in wc_annotations:
             wc_annotations.pop("plone.folder.ordered.order")
 
-        # clone workflow history, try avoid a dangling ref
-        try:
-            obj.workflow_history = PersistentMapping(
-                self.context.workflow_history.items()
-            )
-        except AttributeError:
-            # No workflow apparently.  Oh well.
-            pass
-
         return obj
+
+    def _replaceBaseline(self, baseline):
+        wc_id = self.context.getId()
+        wc_container = aq_parent(self.context)
+
+        # copy all field values from the working copy to the baseline
+        for schema in iterSchemata(baseline):
+            for name, field in getFieldsInOrder(schema):
+                # Skip read-only fields
+                if field.readonly:
+                    continue
+                if field.__name__ == "id":
+                    continue
+                try:
+                    value = field.get(schema(self.context))
+                except Exception:
+                    value = None
+
+                # TODO: We need a way to identify the DCFieldProperty
+                # fields and use the appropriate set_name/get_name
+                if name == "effective":
+                    baseline.effective_date = self.context.effective()
+                elif name == "expires":
+                    baseline.expiration_date = self.context.expires()
+                elif name == "subjects":
+                    baseline.setSubject(self.context.Subject())
+                else:
+                    field.set(baseline, value)
+
+        baseline.reindexObject()
+
+        # Move working children (newly created objects)
+        working_copy_children = [a for a in self.context.objectIds()]
+
+        clipboard = self.context.manage_cutObjects(working_copy_children)
+        baseline.manage_pasteObjects(clipboard)
+
+        # copy back annotations
+        wc_annotations = IAnnotations(self.context)
+        baseline_annotations = IAnnotations(baseline)
+
+        # Remove plone.folder.ordered.order from it to not mess with the original
+        if "plone.folder.ordered.order" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.order")
+
+        baseline_annotations.update(wc_annotations)
+
+        # delete the working copy
+        wc_container._delObject(wc_id)
+
+        return baseline

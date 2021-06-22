@@ -57,6 +57,15 @@
       />
 
   <genericsetup:registerProfile
+      name="testingdx"
+      title="plone.app.iterate: Test fixture for DX"
+      directory="profiles/testingdx"
+      description="Adds sample content types for testing"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.ITestCasePloneSiteRoot"
+      />
+
+  <genericsetup:registerProfile
       name="uninstall"
       title="Working Copy Support (Iterate) [uninstall]"
       directory="profiles/uninstall"
