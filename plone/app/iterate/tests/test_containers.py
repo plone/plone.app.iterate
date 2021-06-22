@@ -29,7 +29,6 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from Products.CMFCore.utils import getToolByName
 from zc.relation.interfaces import ICatalog
 from zope.intid.interfaces import IIntIds
 from zope import component

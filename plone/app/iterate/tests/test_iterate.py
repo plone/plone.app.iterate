@@ -21,7 +21,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
-from AccessControl import getSecurityManager
 from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
@@ -29,7 +28,6 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from Products.CMFCore.utils import getToolByName
 from zc.relation.interfaces import ICatalog
 from zope.intid.interfaces import IIntIds
 from zope import component
@@ -58,36 +56,6 @@ class TestIterations(unittest.TestCase):
         self.portal.invokeFactory("Folder", "workarea")
 
         self.repo = self.portal.portal_repository
-
-    @unittest.skip("This test needs to be fixed for Dexterity content.")
-    def test_workflowState(self):
-        # ensure baseline workflow state is retained on checkin, including
-        # security
-
-        doc = self.portal.docs.doc1
-
-        # sanity check that owner can edit visible docs
-        setRoles(self.portal, TEST_USER_ID, ["Owner"])
-        self.assertTrue(
-            getSecurityManager().checkPermission(
-                "Modify portal content", self.portal.docs.doc1
-            )
-        )
-
-        setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.wf.doActionFor(doc, "publish")
-        state = self.wf.getInfoFor(doc, "review_state")
-
-        self.repo.save(doc)
-        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
-        wc_state = self.wf.getInfoFor(wc, "review_state")
-
-        self.assertNotEqual(state, wc_state)
-
-        ICheckinCheckoutPolicy(wc).checkin("modified")
-        bstate = self.wf.getInfoFor(wc, "review_state")
-        self.assertEqual(state, bstate)
-        setRoles(self.portal, TEST_USER_ID, ["Owner"])
 
     def test_baselineVersionCreated(self):
         # if a baseline has no version ensure that one is created on checkout
@@ -134,51 +102,6 @@ class TestIterations(unittest.TestCase):
         new_doc = ICheckinCheckoutPolicy(wc).checkin("updated")
         new_position = container.getObjectPosition(new_doc.getId())
         self.assertEqual(new_position, original_position)
-
-    @unittest.skip("This test needs to be fixed for Dexterity content.")
-    def test_folderContents(self):
-        """When an folder is checked out, and item is added, and then
-        the folder is checked back in, the added item is in the new
-        version of the folder.  UIDs of contained content are also
-        preserved."""
-        container = self.portal.docs
-        folder = container[
-            container.invokeFactory(type_name="Folder", id="foo-folder")
-        ]
-        existing_doc = folder[
-            folder.invokeFactory(
-                type_name="Document", id="existing-folder-item"
-            )
-        ]
-        existing_doc_uid = existing_doc.UID()
-
-        self.repo.save(folder)
-        wc = ICheckinCheckoutPolicy(folder).checkout(container)
-        new_doc = wc[
-            wc.invokeFactory(
-                type_name="Document",
-                id="new-folder-item",
-                text="new folder item text",
-            )
-        ]
-        new_doc_uid = new_doc.UID()
-        new_folder = ICheckinCheckoutPolicy(wc).checkin("updated")
-
-        catalog = getToolByName(self.portal, "portal_catalog")
-
-        self.assertTrue("existing-folder-item" in new_folder)
-        self.assertEqual(
-            new_folder["existing-folder-item"].UID(), existing_doc_uid
-        )
-        self.assertTrue("new-folder-item" in new_folder)
-        self.assertEqual(new_folder["new-folder-item"].UID(), new_doc_uid)
-        brains = catalog(
-            path="/".join(new_folder["new-folder-item"].getPhysicalPath())
-        )
-        self.assertTrue(brains)
-        self.assertTrue(
-            "new folder item text" in new_folder["new-folder-item"].getText()
-        )
 
     def test_default_page_is_kept_in_folder(self):
         # Ensure that a default page that is checked out and back in is still
