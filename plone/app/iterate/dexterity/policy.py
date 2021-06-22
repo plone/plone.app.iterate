@@ -13,6 +13,7 @@ from plone.app.iterate.util import get_storage
 from zope.component import adapter
 from zope.component import queryAdapter
 from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
 
 
 @adapter(IDexterityIterateAware)
@@ -34,6 +35,10 @@ class CheckinCheckoutPolicyAdapter(CheckinCheckoutBasePolicyAdapter):
         new_baseline = copier.merge()
         # don't need to unlock the lock disappears with old baseline deletion
         notify(AfterCheckinEvent(new_baseline, checkin_message))
+
+        # update our new_baseline, ex. for all References ( and BackReferences)
+        notify(ObjectModifiedEvent(new_baseline))
+
         return new_baseline
 
     def _get_relation_to_baseline(self):
