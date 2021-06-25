@@ -21,6 +21,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
+from AccessControl import getSecurityManager
 from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
@@ -31,6 +32,7 @@ from plone.app.testing import TEST_USER_NAME
 from zc.relation.interfaces import ICatalog
 from zope.intid.interfaces import IIntIds
 from zope import component
+from plone.dexterity.utils import createContentInContainer
 
 import unittest
 
@@ -45,41 +47,62 @@ class TestIterations(unittest.TestCase):
         login(self.portal, TEST_USER_NAME)
 
         self.wf = self.portal.portal_workflow
-        self.wf.setChainForPortalTypes(("Document",), "plone_workflow")
+        self.wf.setChainForPortalTypes(
+            ("FolderishDocument",), "simple_publication_workflow"
+        )
 
         # add a folder with two documents in it
         self.portal.invokeFactory("Folder", "docs")
-        self.portal.docs.invokeFactory("Document", "doc1")
-        self.portal.docs.invokeFactory("Document", "doc2")
+        self.portal.docs.invokeFactory("FolderishDocument", "doc1")
+        self.portal.docs.invokeFactory("FolderishDocument", "doc2")
 
         # add a working copy folder
         self.portal.invokeFactory("Folder", "workarea")
 
         self.repo = self.portal.portal_repository
 
-    def test_baselineVersionCreated(self):
-        # if a baseline has no version ensure that one is created on checkout
+    def test_container_workflowState(self):
+        # ensure baseline workflow state is retained on checkin, including
+        # security
 
+        doc = self.portal.docs.doc1
+
+        # sanity check that owner can edit visible docs
+        setRoles(self.portal, TEST_USER_ID, ["Owner"])
+        self.assertTrue(
+            getSecurityManager().checkPermission(
+                "Modify portal content", self.portal.docs.doc1
+            )
+        )
+
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.wf.doActionFor(doc, "publish")
+        state = self.wf.getInfoFor(doc, "review_state")
+
+        self.repo.save(doc)
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        wc_state = self.wf.getInfoFor(wc, "review_state")
+
+        self.assertNotEqual(state, wc_state)
+
+        baseline = ICheckinCheckoutPolicy(wc).checkin("modified")
+        bstate = self.wf.getInfoFor(baseline, "review_state")
+        self.assertEqual(bstate, "published")
+
+        self.assertEquals(len(self.portal.workarea.objectIds()), 0)
+        setRoles(self.portal, TEST_USER_ID, ["Owner"])
+
+    def test_container_baselineCreated(self):
+        # if a baseline has no version ensure that one is created on checkout
         doc = self.portal.docs.doc1
         self.assertTrue(self.repo.isVersionable(doc))
 
-        history = self.repo.getHistory(doc)
-        self.assertEqual(len(history), 0)
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
-        ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        self.assertEquals(wc.id, "working_copy_of_doc1")
+        self.assertIn("working_copy_of_doc1", self.portal.workarea.objectIds())
 
-        history = self.repo.getHistory(doc)
-        self.assertEqual(len(history), 1)
-
-        doc2 = self.portal.docs.doc2
-        self.repo.save(doc2)
-
-        ICheckinCheckoutPolicy(doc2).checkout(self.portal.workarea)
-
-        history = self.repo.getHistory(doc2)
-        self.assertEqual(len(history), 1)
-
-    def test_folderOrder(self):
+    def test_container_folderOrder(self):
         """When an item is checked out and then back in, the original
         folder order is preserved."""
         container = self.portal.docs
@@ -103,7 +126,78 @@ class TestIterations(unittest.TestCase):
         new_position = container.getObjectPosition(new_doc.getId())
         self.assertEqual(new_position, original_position)
 
-    def test_default_page_is_kept_in_folder(self):
+    def test_container_contents(self):
+        """When an folderish content is checked out, and item is added, and then
+        the content is checked back in, if resources (images or files) are added item is in the new
+        version of the folder they are moved to the baseline container.  UIDs of contained content are also
+        preserved."""
+        container = self.portal.docs
+        doc = container.doc1
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(container)
+        self.repo.save(wc)
+        image = createContentInContainer(
+            wc,
+            "Image",
+            id="an-image",
+        )
+        another_doc = createContentInContainer(
+            wc,
+            "FolderishDocument",
+            id="document",
+        )
+        just_another_nested_doc = createContentInContainer(
+            another_doc,
+            "FolderishDocument",
+            id="just_another_doc",
+        )
+        image_uid = image.UID()
+        another_doc_uid = another_doc.UID()
+        just_another_nested_doc_uid = just_another_nested_doc.UID()
+
+        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
+
+        self.assertTrue("an-image" in baseline)
+        self.assertTrue("document" in baseline)
+        self.assertTrue("just_another_doc" in baseline["document"])
+        self.assertEqual(baseline["an-image"].UID(), image_uid)
+        self.assertEqual(baseline["document"].UID(), another_doc_uid)
+        self.assertEqual(
+            baseline["document"]["just_another_doc"].UID(), just_another_nested_doc_uid
+        )
+
+    def test_container_contents_with_collisions(self):
+        """When an folderish content is checked out, and item is added, and then
+        the content is checked back in, if resources (images or files) are added item is in the new
+        version of the folder they are moved to the baseline container.  UIDs of contained content are also
+        preserved and collisions handled by Zope cut/paste machinery."""
+        container = self.portal.docs
+        baseline = container.doc1
+        baseline_image = createContentInContainer(
+            baseline,
+            "Image",
+            id="an-image",
+        )
+        self.repo.save(baseline)
+        baseline_image_uid = baseline_image.UID()
+
+        wc = ICheckinCheckoutPolicy(baseline).checkout(container)
+        self.repo.save(wc)
+        image = createContentInContainer(
+            wc,
+            "Image",
+            id="an-image",
+        )
+        image_uid = image.UID()
+
+        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
+
+        self.assertTrue("copy_of_an-image" in baseline)
+        self.assertTrue("an-image" in baseline)
+        self.assertEqual(baseline["an-image"].UID(), baseline_image_uid)
+        self.assertEqual(baseline["copy_of_an-image"].UID(), image_uid)
+
+    def test_container_default_page_is_kept_in_folder(self):
         # Ensure that a default page that is checked out and back in is still
         # the default page.
         folder = self.portal.docs
@@ -123,19 +217,19 @@ class TestIterations(unittest.TestCase):
         self.assertEqual(folder.getProperty("default_page", ""), "doc1")
         self.assertEqual(folder.getDefaultPage(), "doc1")
 
-    def test_control_checkin_allowed_with_no_policy(self):
+    def test_container_control_checkin_allowed_with_no_policy(self):
         control = Control(self.portal, self.layer["request"])
         self.assertFalse(control.checkin_allowed())
 
-    def test_control_checkout_allowed_with_no_policy(self):
+    def test_container_control_checkout_allowed_with_no_policy(self):
         control = Control(self.portal, self.layer["request"])
         self.assertFalse(control.checkout_allowed())
 
-    def test_control_cancel_allowed_with_no_policy(self):
+    def test_container_control_cancel_allowed_with_no_policy(self):
         control = Control(self.portal, self.layer["request"])
         self.assertFalse(control.cancel_allowed())
 
-    def test_control_cancel_on_original_does_not_delete_original(self):
+    def test_container_control_cancel_on_original_does_not_delete_original(self):
         # checkout document
         doc = self.portal.docs.doc1
         policy = ICheckinCheckoutPolicy(self.portal.docs.doc1, None)
@@ -153,7 +247,7 @@ class TestIterations(unittest.TestCase):
         with self.assertRaises(CheckoutException):
             cancel()
 
-    def test_relationship_deleted_on_checkin(self):
+    def test_container_relationship_deleted_on_checkin(self):
         # Ensure that the relationship between the baseline and the wc is
         # removed when the working copy is checked in
         folder = self.portal.docs
@@ -213,52 +307,4 @@ class TestIterations(unittest.TestCase):
 
         rels = list(catalog.findRelations({"from_id": obj_id}))
 
-        self.assertEqual(len(rels), 0)
-
-    def test_baseline_relations_updated_on_checkin(self):
-        # Ensure that relations between the baseline and
-        # and other objects are up-to-date on checkin
-        from zope.event import notify
-        from zope.lifecycleevent import ObjectModifiedEvent
-        from z3c.relationfield import RelationValue
-
-        folder = self.portal.docs
-        baseline = folder.doc1
-        target = folder.doc2
-
-        intids = component.getUtility(IIntIds)
-        catalog = component.getUtility(ICatalog)
-
-        target_id = intids.getId(target)
-        target_rel = [RelationValue(target_id)]
-
-        # Test, if nothing is present in the relation catalog
-        rels = list(catalog.findRelations({"to_id": target_id}))
-        self.assertEqual(len(rels), 0)
-
-        # set relatedItems on baseline
-        baseline.relatedItems = target_rel
-        notify(ObjectModifiedEvent(baseline))
-
-        # Test, if relation is present in the relation catalog
-        rels = list(catalog.findRelations({"to_id": target_id}))
-        self.assertEqual(len(rels), 1)
-
-        # make a workingcopy from baseline
-        wc = ICheckinCheckoutPolicy(baseline).checkout(folder)
-
-        # remove relations on wc
-        wc.relatedItems = []
-        notify(ObjectModifiedEvent(wc))
-
-        # baseline -> target relation should be still there, we are on wc
-        rels = list(catalog.findRelations({"to_id": target_id}))
-        self.assertEqual(len(rels), 1)
-
-        # baseline -> target relation should be empty now
-        # because we replaced our baseline with our wc (with empty relations)
-        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
-        rels = list(catalog.findRelations({"to_id": target_id}))
-
-        # new baseline's relatedItems should be empty
         self.assertEqual(len(rels), 0)

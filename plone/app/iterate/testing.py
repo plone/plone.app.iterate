@@ -145,6 +145,7 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
         """Setup Plone Site with Addons."""
         super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
         applyProfile(portal, "plone.app.iterate:default")
+        applyProfile(portal, "plone.app.iterate:testingdx")
         # with named AND dotted behaviors we need to take care of both
         versioning_behavior = set(
             [

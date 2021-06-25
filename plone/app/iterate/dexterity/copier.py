@@ -17,6 +17,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
 from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
+from plone.dexterity.utils import createContentInContainer
 
 
 class ContentCopier(BaseContentCopier):
@@ -80,7 +81,13 @@ class ContentCopier(BaseContentCopier):
         wc_annotations = IAnnotations(self.context)
         baseline_annotations = IAnnotations(baseline)
 
-        baseline_annotations.clear()
+        # The next one is just wrong
+        # baseline_annotations.clear()
+
+        # Remove plone.folder.ordered.order from it to not mess with the original
+        if "plone.folder.ordered.order" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.order")
+
         baseline_annotations.update(wc_annotations)
 
         # delete the working copy
@@ -158,3 +165,100 @@ class ContentCopier(BaseContentCopier):
         # don't need to unlock the lock disappears with old baseline deletion
         notify(AfterCheckinEvent(new_baseline, checkin_message))
         return new_baseline
+
+
+class FolderishContentCopier(ContentCopier):
+    def _copyBaseline(self, container):
+        obj = createContentInContainer(
+            container,
+            self.context.portal_type,
+            id="working_copy_of_{}".format(self.context.id),
+        )
+
+        # copy all field values from the baseline to the working copy
+        for schema in iterSchemata(self.context):
+            for name, field in getFieldsInOrder(schema):
+                # Skip read-only fields
+                if field.readonly:
+                    continue
+                if field.__name__ == "id":
+                    continue
+                try:
+                    value = field.get(schema(self.context))
+                except Exception:
+                    value = None
+
+                # TODO: We need a way to identify the DCFieldProperty
+                # fields and use the appropriate set_name/get_name
+                if name == "effective":
+                    obj.effective_date = self.context.effective()
+                elif name == "expires":
+                    obj.expiration_date = self.context.expires()
+                elif name == "subjects":
+                    obj.setSubject(self.context.Subject())
+                else:
+                    field.set(obj, value)
+
+        obj.reindexObject()
+
+        # copy annotations
+        wc_annotations = IAnnotations(obj)
+        baseline_annotations = IAnnotations(self.context)
+
+        wc_annotations.update(baseline_annotations)
+        # Remove plone.folder.order from it to not spoil the wc
+        if "plone.folder.ordered.order" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.order")
+
+        return obj
+
+    def _replaceBaseline(self, baseline):
+        wc_id = self.context.getId()
+        wc_container = aq_parent(self.context)
+
+        # copy all field values from the working copy to the baseline
+        for schema in iterSchemata(baseline):
+            for name, field in getFieldsInOrder(schema):
+                # Skip read-only fields
+                if field.readonly:
+                    continue
+                if field.__name__ == "id":
+                    continue
+                try:
+                    value = field.get(schema(self.context))
+                except Exception:
+                    value = None
+
+                # TODO: We need a way to identify the DCFieldProperty
+                # fields and use the appropriate set_name/get_name
+                if name == "effective":
+                    baseline.effective_date = self.context.effective()
+                elif name == "expires":
+                    baseline.expiration_date = self.context.expires()
+                elif name == "subjects":
+                    baseline.setSubject(self.context.Subject())
+                else:
+                    field.set(baseline, value)
+
+        baseline.reindexObject()
+
+        # Move working children (newly created objects)
+        working_copy_children = [a for a in self.context.objectIds()]
+
+        clipboard = self.context.manage_cutObjects(working_copy_children)
+        baseline.manage_pasteObjects(clipboard)
+
+        # copy back annotations
+        wc_annotations = IAnnotations(self.context)
+        baseline_annotations = IAnnotations(baseline)
+
+        # Remove plone.folder.ordered.order from it to not mess with the original
+        if "plone.folder.ordered.order" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.order")
+
+        baseline_annotations.update(wc_annotations)
+
+        # delete the working copy
+        wc_container._delObject(wc_id)
+
+        return baseline
