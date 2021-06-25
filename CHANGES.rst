@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.0 (2021-06-25)
+------------------
+
+New features:
+
+
+- Add proper support for DX folderish content
+  [sneridagh] (#92)
+
+
 3.3.16 (2021-06-14)
 -------------------
 

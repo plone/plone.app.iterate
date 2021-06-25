@@ -7,7 +7,7 @@ LONG_DESCRIPTION = open("README.rst").read() + "\n" + open("CHANGES.rst").read()
 
 setup(
     name="plone.app.iterate",
-    version="3.3.17.dev0",
+    version="4.0.0",
     description="check-out/check-in staging for Plone",
     long_description=LONG_DESCRIPTION,
     classifiers=[
