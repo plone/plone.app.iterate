@@ -209,6 +209,8 @@ class FolderishContentCopier(ContentCopier):
         # Remove plone.folder.order from it to not spoil the wc
         if "plone.folder.ordered.order" in wc_annotations:
             wc_annotations.pop("plone.folder.ordered.order")
+        if "plone.folder.ordered.pos" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.pos")
 
         return obj
 
@@ -255,6 +257,8 @@ class FolderishContentCopier(ContentCopier):
         # Remove plone.folder.ordered.order from it to not mess with the original
         if "plone.folder.ordered.order" in wc_annotations:
             wc_annotations.pop("plone.folder.ordered.order")
+        if "plone.folder.ordered.pos" in wc_annotations:
+            wc_annotations.pop("plone.folder.ordered.pos")
 
         baseline_annotations.update(wc_annotations)
 
