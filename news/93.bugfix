@@ -1,2 +1,0 @@
-Fix checkin/checkout process for containers, since there was an annotation left to "reset" (pos) on checkout and it broke the sections viewlet
-[sneridagh]

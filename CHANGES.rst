@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.1 (2021-06-29)
+------------------
+
+Bug fixes:
+
+
+- Fix checkin/checkout process for containers, since there was an annotation left to "reset" (pos) on checkout and it broke the sections viewlet
+  [sneridagh] (#93)
+
+
 4.0.0 (2021-06-25)
 ------------------
 
