@@ -1,10 +1,16 @@
-<div class="portalMessage warning"
+<div class="portalMessage ${python:display_info['cssclass']}"
      tal:define="working_copy view/working_copy;
-                 isAnon context/@@plone_portal_state/anonymous;"
+                 isAnon context/@@plone_portal_state/anonymous;
+                 display_info python:view.display_info_for_mtype('warning');
+                 icons nocall: context/@@iconresolver;
+                 "
      i18n:domain="plone"
-     tal:condition="python: not isAnon">
+     tal:condition="python: not isAnon"
+     role="alert">
 
-    <strong i18n:translate="">Warning</strong>
+    <tal:icon tal:replace="structure python:icons.tag(display_info['icon'], tag_alt=display_info['msg'], tag_class='statusmessage-icon mb-1 me-2')" />
+
+    <strong>${python:display_info['msg']}</strong>
     <tal:block i18n:translate="working_copy_info">
         This item is being edited by
         <a i18n:name="creator"
