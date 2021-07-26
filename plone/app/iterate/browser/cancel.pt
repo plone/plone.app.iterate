@@ -36,19 +36,21 @@
 
             <div class="formControls">
 
-              <input class="destructive"
-                     name="form.button.Cancel"
-                     type="submit"
-                     value="Cancel checkout"
-                     i18n:attributes="value"
-              />
+        <input
+            class="btn btn-danger"
+            type="submit"
+            name="form.button.Cancel"
+            value="Cancel checkout"
+            i18n:attributes="value"
+            />
 
-              <input class="standalone"
-                     name="form.button.Keep"
-                     type="submit"
-                     value="Keep checkout"
-                     i18n:attributes="value"
-              />
+        <input
+            class="btn btn-secondary"
+            type="submit"
+            name="form.button.Keep"
+            value="Keep checkout"
+            i18n:attributes="value"
+            />
 
             </div>
 
