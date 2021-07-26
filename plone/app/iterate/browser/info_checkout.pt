@@ -1,12 +1,14 @@
-<div class="portalMessage info"
-     tal:define="
-       baseline view/baseline;
-     "
-     i18n:domain="plone"
->
+<div class="portalMessage ${python:display_info['cssclass']}"
+     tal:define="baseline view/baseline;
+                 display_info python:view.display_info_for_mtype('warning');
+                 icons nocall: context/@@iconresolver;
+                 "
+     i18n:domain="plone">
 
-  <strong i18n:translate="">Warning</strong>
-  <tal:block i18n:translate="checkout_info">
+    <tal:icon tal:replace="structure python:icons.tag(display_info['icon'], tag_alt=display_info['msg'], tag_class='statusmessage-icon mb-1 me-2')" />
+
+    <strong>${python:display_info['msg']}</strong>
+    <tal:block i18n:translate="checkout_info">
 
         This is a working copy of
     <a tal:content="baseline/Title"
