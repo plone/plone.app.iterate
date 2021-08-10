@@ -45,7 +45,7 @@
        class=".diff.DiffView"
        name="iterate_diff"
        template="diff.pt"
-       permission="zope2.View"
+       permission="cmf.ModifyPortalContent"
        />
 
     <browser:viewlet
