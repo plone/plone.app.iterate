@@ -64,12 +64,10 @@ class ContentCopier(BaseContentCopier):
                 except Exception:
                     value = None
 
-                # TODO: We need a way to identify the DCFieldProperty
-                # fields and use the appropriate set_name/get_name
                 if name == "effective":
-                    baseline.effective_date = self.context.effective()
+                    baseline.effective_date = self.context.effective_date
                 elif name == "expires":
-                    baseline.expiration_date = self.context.expires()
+                    baseline.expiration_date = self.context.expiration_date
                 elif name == "subjects":
                     baseline.setSubject(self.context.Subject())
                 else:
@@ -188,12 +186,10 @@ class FolderishContentCopier(ContentCopier):
                 except Exception:
                     value = None
 
-                # TODO: We need a way to identify the DCFieldProperty
-                # fields and use the appropriate set_name/get_name
                 if name == "effective":
-                    obj.effective_date = self.context.effective()
+                    obj.effective_date = self.context.effective_date
                 elif name == "expires":
-                    obj.expiration_date = self.context.expires()
+                    obj.expiration_date = self.context.expiration_date
                 elif name == "subjects":
                     obj.setSubject(self.context.Subject())
                 else:
@@ -231,12 +227,10 @@ class FolderishContentCopier(ContentCopier):
                 except Exception:
                     value = None
 
-                # TODO: We need a way to identify the DCFieldProperty
-                # fields and use the appropriate set_name/get_name
                 if name == "effective":
-                    baseline.effective_date = self.context.effective()
+                    baseline.effective_date = self.context.effective_date
                 elif name == "expires":
-                    baseline.expiration_date = self.context.expires()
+                    baseline.expiration_date = self.context.expiration_date
                 elif name == "subjects":
                     baseline.setSubject(self.context.Subject())
                 else:
