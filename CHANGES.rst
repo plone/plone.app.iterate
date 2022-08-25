@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+4.0.3 (2022-05-14)
+------------------
+
+Bug fixes:
+
+
+- Fix a typo in a a call to reindexObject (#101)
+
+
+4.0.2 (2021-09-08)
+------------------
+
+Bug fixes:
+
+
+- Fixed issue with Publication behavior fields having different values in the baseline and working copy [ericof] (#97)
+
+
 4.0.1 (2021-06-29)
 ------------------
 

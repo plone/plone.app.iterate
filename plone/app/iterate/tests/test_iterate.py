@@ -21,6 +21,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 
+from DateTime import DateTime
 from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
@@ -51,6 +52,7 @@ class TestIterations(unittest.TestCase):
         self.portal.invokeFactory("Folder", "docs")
         self.portal.docs.invokeFactory("Document", "doc1")
         self.portal.docs.invokeFactory("Document", "doc2")
+        self.portal.docs.invokeFactory("FolderishDocument", "doc3")
 
         # add a working copy folder
         self.portal.invokeFactory("Folder", "workarea")
@@ -262,3 +264,40 @@ class TestIterations(unittest.TestCase):
 
         # new baseline's relatedItems should be empty
         self.assertEqual(len(rels), 0)
+
+    def test_publication_behavior_values_not_changed(self):
+        doc = self.portal.docs.doc1
+        original_effective_date = doc.effective_date
+        original_expiration_date = doc.expiration_date
+        # Create a working copy
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        # Check in without modifying the existing values
+        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
+        # Values should be the same of the original document
+        self.assertEqual(original_effective_date, baseline.effective_date)
+        self.assertEqual(original_expiration_date, baseline.expiration_date)
+
+    def test_publication_behavior_values_not_changed_value_is_already_set(self):
+        doc = self.portal.docs.doc2
+        effective_date = DateTime("2021/09/08 10:06:00 UTC")
+        doc.effective_date = effective_date
+        original_expiration_date = doc.expiration_date
+        # Create a working copy
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        # Check in without modifying the existing values
+        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
+        # Values should be the same of the original document
+        self.assertEqual(effective_date, baseline.effective_date)
+        self.assertEqual(original_expiration_date, baseline.expiration_date)
+
+    def test_publication_behavior_values_not_changed_folderish(self):
+        doc = self.portal.docs.doc3
+        original_effective_date = doc.effective_date
+        original_expiration_date = doc.expiration_date
+        # Create a working copy
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        # Check in without modifying the existing values
+        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
+        # Values should be the same of the original document
+        self.assertEqual(original_effective_date, baseline.effective_date)
+        self.assertEqual(original_expiration_date, baseline.expiration_date)

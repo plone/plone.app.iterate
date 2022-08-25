@@ -75,7 +75,7 @@ class Checkout(BrowserView):
 
             # we do this for metadata update side affects which will update
             # lock info
-            context.reindexObject("review_state")
+            context.reindexObject(idxs=["review_state"])
 
             IStatusMessage(self.request).addStatusMessage(
                 _("Check-out created"), type="info"
