@@ -40,15 +40,3 @@ except ImportError:
         "Dexterity support for iterate is not available. "
         "You must install plone.app.relationfield"
     )
-
-
-try:
-    import plone.app.stagingbehavior  # noqa
-
-    logger.error(
-        "plone.app.stagingbehavior should NOT be installed with this version "
-        "of plone.app.iterate. You may experience problems running this "
-        "configuration. plone.app.iterate now has dexterity suport built-in."
-    )
-except ImportError:
-    pass

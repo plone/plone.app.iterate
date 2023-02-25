@@ -23,7 +23,7 @@
 
 from .interfaces import annotation_key
 from persistent.dict import PersistentDict
-from Products.CMFPlone.utils import get_installer
+from plone.base.utils import get_installer
 from zope.annotation import IAnnotations
 
 

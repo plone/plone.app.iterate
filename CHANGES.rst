@@ -98,7 +98,7 @@ Bug fixes:
 Bug fixes:
 
 
-- Add missing i18n:translate calls 
+- Add missing i18n:translate calls
   [erral] (#73)
 
 
