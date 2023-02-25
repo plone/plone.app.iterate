@@ -35,16 +35,8 @@ from zope.interface import Interface
 import pkg_resources
 
 
-try:
-    pkg_resources.get_distribution("Products.Archetypes")
-except pkg_resources.DistributionNotFound:
-
-    class IReference(Interface):
-        pass
-
-
-else:
-    from Products.Archetypes.interfaces import IReference
+class IReference(Interface):
+    pass
 
 
 ################################
@@ -103,7 +95,7 @@ class ICheckinEvent(IObjectEvent):
     """
 
     baseline = Attribute("The Working Copy's baseline")
-    relation = Attribute("The Working Copy Archetypes Relation Object")
+    relation = Attribute("The Working Copy Relation Object")
     checkin_message = Attribute("checkin message")
 
 
@@ -121,7 +113,7 @@ class ICheckoutEvent(IObjectEvent):
     """ an object is being checked out, event.object is the baseline """
 
     working_copy = Attribute("The object's working copy")
-    relation = Attribute("The Working Copy Archetypes Relation Object")
+    relation = Attribute("The Working Copy Relation Object")
 
 
 class ICancelCheckoutEvent(IObjectEvent):
@@ -139,7 +131,7 @@ class IWorkingCopyDeletedEvent(IObjectEvent):
     """
 
     baseline = Attribute("The working copy baseline")
-    relation = Attribute("The Working Copy Archetypes Relation Object")
+    relation = Attribute("The Working Copy Relation Object")
 
 
 #################################

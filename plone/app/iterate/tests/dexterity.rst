@@ -5,7 +5,7 @@ Tests for bugs that would distract from usage examples in stagingbehavior.txt
 
 If we access the site as an admin TTW::
 
-    >>> from plone.testing.z2 import Browser
+    >>> from plone.testing.zope import Browser
     >>> browser = Browser(layer["app"])
     >>> browser.handleErrors = False
     >>> portal = layer["portal"]
