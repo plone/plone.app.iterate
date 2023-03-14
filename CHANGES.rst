@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.0 (2023-03-14)
+------------------
+
+Breaking changes:
+
+
+- Drop support for Plone 5.2, Python 2, Archetypes.
+  Removed check and warning for plone.app.stagingbehavior.
+  Version 5 is for Plone 6 only.
+  [maurits] (#1)
+
+
 4.0.3 (2022-05-14)
 ------------------
 

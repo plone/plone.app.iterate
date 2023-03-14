@@ -1,4 +1,0 @@
-Drop support for Plone 5.2, Python 2, Archetypes.
-Removed check and warning for plone.app.stagingbehavior.
-Version 5 is for Plone 6 only.
-[maurits]
