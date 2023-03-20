@@ -45,7 +45,7 @@
 
             <div class="formControls">
                 <input
-                    class="context"
+                    class="btn btn-primary"
                     type="submit"
                     name="form.button.Checkin"
                     value="Check in"
@@ -53,7 +53,7 @@
                     />
 
                 <input
-                    class="standalone"
+                    class="btn btn-secondary"
                     type="submit"
                     name="form.button.Cancel"
                     value="Cancel"

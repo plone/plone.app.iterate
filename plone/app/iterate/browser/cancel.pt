@@ -28,7 +28,7 @@
       <div class="formControls">
 
         <input
-            class="destructive"
+            class="btn btn-danger"
             type="submit"
             name="form.button.Cancel"
             value="Cancel checkout"
@@ -36,7 +36,7 @@
             />
 
         <input
-            class="standalone"
+            class="btn btn-secondary"
             type="submit"
             name="form.button.Keep"
             value="Keep checkout"
