@@ -67,7 +67,7 @@
         />
 
     <!-- Resources -->
-
+    <!-- These resources are deprecated.  Remove them in Plone 7. -->
     <browser:resource
         name="checkin.png"
         image="checkin.png"
