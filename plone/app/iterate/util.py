@@ -23,7 +23,6 @@
 
 from .interfaces import annotation_key
 from persistent.dict import PersistentDict
-from plone.base.utils import get_installer
 from zope.annotation import IAnnotations
 
 
@@ -34,9 +33,3 @@ def get_storage(context, default=None):
             return default
         annotations[annotation_key] = PersistentDict()
     return annotations[annotation_key]
-
-
-def upgrade_by_reinstall(context):
-    qi = get_installer(context)
-    qi.uninstall_product("plone.app.iterate")
-    qi.install_product("plone.app.iterate")

@@ -70,15 +70,22 @@
       title="Working Copy Support (Iterate) [uninstall]"
       directory="profiles/uninstall"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="plone.base.interfaces.IMigratingPloneSiteRoot"
       />
 
-  <genericsetup:upgradeStep
-      source="*"
-      destination="121"
-      title="Reinstall plone.app.iterate"
-      description=""
-      profile="plone.app.iterate:plone.app.iterate"
-      handler="plone.app.iterate.util.upgrade_by_reinstall"
+  <genericsetup:registerProfile
+      name="to1000"
+      title="Use new icons"
+      directory="profiles/to1000"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:upgradeDepends
+      source="121"
+      destination="1000"
+      title="Use new icons"
+      profile="plone.app.iterate:default"
+      import_profile="plone.app.iterate:to1000"
       />
 
   <utility
