@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.1 (2023-03-22)
+------------------
+
+Bug fixes:
+
+
+- Use proper action icons in Plone 6.
+  [maurits] (#60)
+
+
 5.0.0 (2023-03-14)
 ------------------
 
