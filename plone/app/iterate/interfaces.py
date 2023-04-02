@@ -95,24 +95,24 @@ class ICheckinEvent(IObjectEvent):
 
 
 class IAfterCheckinEvent(IObjectEvent):
-    """ sent out after an object is checked in """
+    """sent out after an object is checked in"""
 
     checkin_message = Attribute("checkin message")
 
 
 class IBeforeCheckoutEvent(IObjectEvent):
-    """ sent out before a working copy is created """
+    """sent out before a working copy is created"""
 
 
 class ICheckoutEvent(IObjectEvent):
-    """ an object is being checked out, event.object is the baseline """
+    """an object is being checked out, event.object is the baseline"""
 
     working_copy = Attribute("The object's working copy")
     relation = Attribute("The Working Copy Relation Object")
 
 
 class ICancelCheckoutEvent(IObjectEvent):
-    """ a working copy is being cancelled """
+    """a working copy is being cancelled"""
 
     baseline = Attribute("The working copy's baseline")
 
@@ -294,7 +294,6 @@ class ICheckinCheckoutReference(Interface):
 
 
 class IIterateSettings(Interface):
-
     enable_checkout_workflow = schema.Bool(
         title=_("Enable checkout workflow"),
         description="",

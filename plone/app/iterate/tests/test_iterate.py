@@ -36,7 +36,6 @@ import unittest
 
 
 class TestIterations(unittest.TestCase):
-
     layer = PLONEAPPITERATEDEX_INTEGRATION_TESTING
 
     def setUp(self):

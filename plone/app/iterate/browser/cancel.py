@@ -31,7 +31,6 @@ from zope.component import getMultiAdapter
 
 
 class Cancel(BrowserView):
-
     index = ViewPageTemplateFile("cancel.pt")
 
     def __call__(self):

@@ -51,8 +51,8 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
         applyProfile(portal, "plone.app.iterate:testingdx")
         # with named AND dotted behaviors we need to take care of both
         versioning_behavior = {
-                "plone.app.versioningbehavior.behaviors.IVersionable",
-                "plone.versioning",
+            "plone.app.versioningbehavior.behaviors.IVersionable",
+            "plone.versioning",
         }
 
         # Disable automatic versioning of core content types

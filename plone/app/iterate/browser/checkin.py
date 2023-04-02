@@ -31,7 +31,6 @@ from zope.component import getMultiAdapter
 
 
 class Checkin(BrowserView):
-
     index = ViewPageTemplateFile("checkin.pt")
 
     def __call__(self):

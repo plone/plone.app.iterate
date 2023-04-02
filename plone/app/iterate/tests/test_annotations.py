@@ -11,7 +11,6 @@ import unittest
 
 
 class AnnotationsTestCase(unittest.TestCase):
-
     layer = PLONEAPPITERATEDEX_INTEGRATION_TESTING
 
     def setUp(self):

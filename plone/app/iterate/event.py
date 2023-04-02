@@ -68,7 +68,6 @@ class WorkingCopyDeletedEvent(ObjectEvent):
 
 @implementer(interfaces.IBeforeCheckoutEvent)
 class BeforeCheckoutEvent(ObjectEvent):
-
     pass
 
 

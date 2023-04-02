@@ -94,7 +94,6 @@ class BaseInfoViewlet(BrowserView):
 
 
 class BaselineInfoViewlet(BaseInfoViewlet):
-
     index = ViewPageTemplateFile("info_baseline.pt")
 
     def render(self):
@@ -118,7 +117,6 @@ class BaselineInfoViewlet(BaseInfoViewlet):
 
 
 class CheckoutInfoViewlet(BaseInfoViewlet):
-
     index = ViewPageTemplateFile("info_checkout.pt")
 
     def render(self):

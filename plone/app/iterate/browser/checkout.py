@@ -33,7 +33,6 @@ from zope.component import getMultiAdapter
 
 
 class Checkout(BrowserView):
-
     index = ViewPageTemplateFile("checkout.pt")
 
     def containers(self):
