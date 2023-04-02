@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.iterate.base import CheckinCheckoutBasePolicyAdapter
 from plone.app.iterate.dexterity.interfaces import IDexterityIterateAware
 from plone.app.iterate.dexterity.utils import get_baseline

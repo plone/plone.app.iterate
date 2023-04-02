@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.dexterity.content import Container
 from plone.app.contenttypes.interfaces import IDocument
 from zope.interface import Interface

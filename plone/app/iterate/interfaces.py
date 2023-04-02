@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -51,7 +50,7 @@ class IIterateAware(Interface):
 #  Lock types
 
 ITERATE_LOCK = LockType(
-    u"iterate.lock", stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT
+    "iterate.lock", stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT
 )  # noqa
 
 #################################
@@ -79,7 +78,7 @@ class ConflictError(CheckinException):
 annotation_key = "ore.iterate"
 
 
-class keys(object):
+class keys:
     # various common keys
     checkout_user = "checkout_user"
     checkout_time = "checkout_time"
@@ -166,10 +165,10 @@ class IWCContainerLocator(Interface):
     """
 
     available = schema.Bool(
-        title=u"Available", description=u"Whether location will be available."
+        title="Available", description="Whether location will be available."
     )
 
-    title = schema.TextLine(title=u"Title", description=u"Title of this location")
+    title = schema.TextLine(title="Title", description="Title of this location")
 
     def __call__():
         """Return a container object, or None if available() is False"""
@@ -301,15 +300,15 @@ class ICheckinCheckoutReference(Interface):
 class IIterateSettings(Interface):
 
     enable_checkout_workflow = schema.Bool(
-        title=_(u"Enable checkout workflow"),
-        description=u"",
+        title=_("Enable checkout workflow"),
+        description="",
         default=False,
         required=False,
     )
 
     checkout_workflow_policy = schema.ASCIILine(
-        title=_(u"Checkout workflow policy"),
-        description=u"",
+        title=_("Checkout workflow policy"),
+        description="",
         default="checkout_workflow_policy",
         required=True,
     )

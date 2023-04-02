@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -49,7 +48,7 @@ class CheckinEvent(ObjectEvent):
 @implementer(interfaces.IAfterCheckinEvent)
 class AfterCheckinEvent(ObjectEvent):
     def __init__(self, new_baseline, checkin_message):
-        super(AfterCheckinEvent, self).__init__(new_baseline)
+        super().__init__(new_baseline)
         self.message = checkin_message
 
 

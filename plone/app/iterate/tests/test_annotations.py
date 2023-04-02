@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IWCContainerLocator
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
@@ -30,13 +28,13 @@ class AnnotationsTestCase(unittest.TestCase):
         obj_annotations = IAnnotations(self.s1)
         self.assertEqual(obj_annotations, {})
 
-        obj_annotations["key1"] = u"value1"
+        obj_annotations["key1"] = "value1"
         obj_annotations = IAnnotations(self.s1)
-        self.assertEqual(obj_annotations, {"key1": u"value1"})
+        self.assertEqual(obj_annotations, {"key1": "value1"})
 
         # Now, let's get a working copy for it.
         locators = getAdapters((self.s1,), IWCContainerLocator)
-        location = u"plone.app.iterate.parent"
+        location = "plone.app.iterate.parent"
         locator = [c[1] for c in locators if c[0] == location][0]
 
         policy = ICheckinCheckoutPolicy(self.s1)
@@ -45,25 +43,25 @@ class AnnotationsTestCase(unittest.TestCase):
 
         # Annotations should be the same
         new_annotations = IAnnotations(wc)
-        self.assertEqual(new_annotations["key1"], u"value1")
+        self.assertEqual(new_annotations["key1"], "value1")
 
         # Now, let's modify the existing one, and create a new one
-        new_annotations["key1"] = u"value2"
-        new_annotations["key2"] = u"value1"
+        new_annotations["key1"] = "value2"
+        new_annotations["key2"] = "value1"
 
         # Check that annotations were stored correctly and original ones were
         # not overriten
         new_annotations = IAnnotations(wc)
-        self.assertEqual(new_annotations["key1"], u"value2")
-        self.assertEqual(new_annotations["key2"], u"value1")
+        self.assertEqual(new_annotations["key1"], "value2")
+        self.assertEqual(new_annotations["key2"], "value1")
 
         obj_annotations = IAnnotations(self.s1)
-        self.assertEqual(obj_annotations["key1"], u"value1")
+        self.assertEqual(obj_annotations["key1"], "value1")
         self.assertFalse("key2" in obj_annotations)
 
         # Now, we do a checkin
         policy = ICheckinCheckoutPolicy(wc)
-        policy.checkin(u"Commit message")
+        policy.checkin("Commit message")
 
         # And finally check that the old object has the same annotations as
         # its working copy
@@ -71,5 +69,5 @@ class AnnotationsTestCase(unittest.TestCase):
         obj_annotations = IAnnotations(self.s1)
         self.assertTrue("key1" in obj_annotations)
         self.assertTrue("key2" in obj_annotations)
-        self.assertEqual(obj_annotations["key1"], u"value2")
-        self.assertEqual(obj_annotations["key2"], u"value1")
+        self.assertEqual(obj_annotations["key1"], "value2")
+        self.assertEqual(obj_annotations["key2"], "value1")

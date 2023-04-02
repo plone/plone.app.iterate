@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -50,9 +49,9 @@ class Checkout(BrowserView):
         # We want to redirect to a specific template, else we might
         # end up downloading a file
         if "form.button.Checkout" in self.request.form:
-            control = getMultiAdapter((context, self.request), name=u"iterate_control")
+            control = getMultiAdapter((context, self.request), name="iterate_control")
             if not control.checkout_allowed():
-                raise CheckoutException(u"Not allowed")
+                raise CheckoutException("Not allowed")
 
             location = self.request.form.get("checkout_location", None)
             locator = None

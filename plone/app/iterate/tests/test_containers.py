@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -89,7 +88,7 @@ class TestIterations(unittest.TestCase):
         bstate = self.wf.getInfoFor(baseline, "review_state")
         self.assertEqual(bstate, "published")
 
-        self.assertEquals(len(self.portal.workarea.objectIds()), 0)
+        self.assertEqual(len(self.portal.workarea.objectIds()), 0)
         setRoles(self.portal, TEST_USER_ID, ["Owner"])
 
     def test_container_baselineCreated(self):
@@ -99,7 +98,7 @@ class TestIterations(unittest.TestCase):
 
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
-        self.assertEquals(wc.id, "working_copy_of_doc1")
+        self.assertEqual(wc.id, "working_copy_of_doc1")
         self.assertIn("working_copy_of_doc1", self.portal.workarea.objectIds())
 
     def test_container_folderOrder(self):

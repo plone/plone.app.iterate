@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006-2007 ObjectRealms, LLC
@@ -45,7 +44,7 @@ from zope.interface import implementer
 
 
 @implementer(ICheckinCheckoutPolicy)
-class CheckinCheckoutBasePolicyAdapter(object):
+class CheckinCheckoutBasePolicyAdapter:
     """Base Checkin Checkout Policy For Content
 
     - on checkout context is the baseline
@@ -111,7 +110,7 @@ class CheckinCheckoutBasePolicyAdapter(object):
 
 @implementer(interfaces.IObjectCopier)
 @component.adapter(interfaces.IIterateAware)
-class BaseContentCopier(object):
+class BaseContentCopier:
     def __init__(self, context):
         self.context = context
 

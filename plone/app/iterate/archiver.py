@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006-2007 ObjectRealms, LLC
@@ -29,7 +28,7 @@ from . import interfaces
 
 @implementer(interfaces.IObjectArchiver)
 @adapter(interfaces.IIterateAware)
-class ContentArchiver(object):
+class ContentArchiver:
     def __init__(self, context):
         self.context = context
         self.repository = getToolByName(context, "portal_repository")

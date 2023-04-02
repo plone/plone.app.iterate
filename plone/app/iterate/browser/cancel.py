@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -39,16 +38,16 @@ class Cancel(BrowserView):
         context = aq_inner(self.context)
 
         if "form.button.Cancel" in self.request.form:
-            control = getMultiAdapter((context, self.request), name=u"iterate_control")
+            control = getMultiAdapter((context, self.request), name="iterate_control")
             if not control.cancel_allowed():
-                raise CheckoutException(u"Not a checkout")
+                raise CheckoutException("Not a checkout")
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.cancelCheckout()
             baseline.reindexObject()
 
             IStatusMessage(self.request).addStatusMessage(
-                _(u"Checkout cancelled"), type="info"
+                _("Checkout cancelled"), type="info"
             )
             view_url = baseline.restrictedTraverse("@@plone_context_state").view_url()
             self.request.response.redirect(view_url)
