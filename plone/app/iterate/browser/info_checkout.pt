@@ -1,28 +1,40 @@
 <div class="portalMessage info"
-     tal:define="baseline view/baseline;"
-     i18n:domain="plone">
+     tal:define="
+       baseline view/baseline;
+     "
+     i18n:domain="plone"
+>
 
-    <strong i18n:translate="">Warning</strong>
-    <tal:block i18n:translate="checkout_info">
+  <strong i18n:translate="">Warning</strong>
+  <tal:block i18n:translate="checkout_info">
 
         This is a working copy of
-        <a i18n:name="baseline_title"
-            tal:attributes="href baseline/@@plone_context_state/view_url;
-                            title baseline/Description"
-            tal:content="baseline/Title"/>, made by
+    <a tal:content="baseline/Title"
+       tal:attributes="
+         href baseline/@@plone_context_state/view_url;
+         title baseline/Description;
+       "
+       i18n:name="baseline_title"
+    ></a>, made by
 
-        <a i18n:name="creator"
-            tal:attributes="href view/creator_url"
-            tal:omit-tag="not: view/creator_url"
-            tal:content="view/creator_name">john smith</a>
+    <a tal:content="view/creator_name"
+       tal:omit-tag="not: view/creator_url"
+       tal:attributes="
+         href view/creator_url;
+       "
+       i18n:name="creator"
+    >john smith</a>
 
         on
 
-        <span
-            i18n:name="created"
-            tal:content="view/created"/>.
-    </tal:block>
+    <span tal:content="view/created"
+          i18n:name="created"
+    ></span>.
+  </tal:block>
 
-    (<a i18n:translate="view_changes"
-         tal:attributes="href string:${context/absolute_url}/@@iterate_diff">View changes</a>)
+  (<a tal:attributes="
+       href string:${context/absolute_url}/@@iterate_diff;
+     "
+     i18n:translate="view_changes"
+  >View changes</a>)
 </div>

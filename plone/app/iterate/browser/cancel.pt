@@ -1,54 +1,61 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:metal="http://xml.zope.org/namespaces/metal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    lang="en"
-    metal:use-macro="context/main_template/macros/master"
-    i18n:domain="plone">
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="plone"
+>
+  <body>
 
-<metal:content fill-slot="content">
-<metal:content define-macro="content">
-<article id="content">
-    <form action="#"
-        method="post"
-        tal:attributes="action string:${context/absolute_url}/@@content-cancel-checkout">
+    <metal:content fill-slot="content">
+      <metal:content define-macro="content">
+        <article id="content">
+          <form action="#"
+                method="post"
+                tal:attributes="
+                  action string:${context/absolute_url}/@@content-cancel-checkout;
+                "
+          >
 
-      <h1 class="documentFirstHeading"
-          i18n:translate="title_cancel">
-        Cancel check-out of <span i18n:name="object_title" tal:content="context/Title" />.
-      </h1>
+            <h1 class="documentFirstHeading"
+                i18n:translate="title_cancel"
+            >
+        Cancel check-out of
+              <span tal:content="context/Title"
+                    i18n:name="object_title"
+              ></span>.
+            </h1>
 
-      <p i18n:translate="description_cancel">
+            <p i18n:translate="description_cancel">
         Canceling the check-out will delete this working copy, and any modifications
         made to it will be lost. The existing version of the content will become
         unlocked.
-      </p>
+            </p>
 
-      <div class="formControls">
+            <div class="formControls">
 
-        <input
-            class="destructive"
-            type="submit"
-            name="form.button.Cancel"
-            value="Cancel checkout"
-            i18n:attributes="value"
-            />
+              <input class="destructive"
+                     name="form.button.Cancel"
+                     type="submit"
+                     value="Cancel checkout"
+                     i18n:attributes="value"
+              />
 
-        <input
-            class="standalone"
-            type="submit"
-            name="form.button.Keep"
-            value="Keep checkout"
-            i18n:attributes="value"
-            />
+              <input class="standalone"
+                     name="form.button.Keep"
+                     type="submit"
+                     value="Keep checkout"
+                     i18n:attributes="value"
+              />
 
-      </div>
+            </div>
 
-    </form>
-</article>
-</metal:content>
-</metal:content>
+          </form>
+        </article>
+      </metal:content>
+    </metal:content>
 
-</body>
+  </body>
 </html>
