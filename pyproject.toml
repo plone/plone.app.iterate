@@ -60,6 +60,7 @@ Zope = [
   'Products.CMFDynamicViewFTI', 'zope.deprecation',
 ]
 python-dateutil = ['dateutil']
+ignore-packages = ['plone.app.relationfield']
 
 [tool.codespell]
 ignore-words-list = "ore"
