@@ -201,8 +201,8 @@ class TestIterations(unittest.TestCase):
         # the default page.
         folder = self.portal.docs
         doc = folder.doc1
-        from Products.CMFDynamicViewFTI.interfaces import (  # noqa: C901
-            ISelectableBrowserDefault,
+        from Products.CMFDynamicViewFTI.interfaces import (
+            ISelectableBrowserDefault
         )
 
         ISelectableBrowserDefault(folder).setDefaultPage("doc1")

@@ -47,7 +47,7 @@ class IIterateAware(Interface):
 
 ITERATE_LOCK = LockType(
     "iterate.lock", stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT
-)  # noqa
+)
 
 #################################
 #  Exceptions

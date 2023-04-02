@@ -19,10 +19,7 @@
 # along with iterate; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
-"""
-"""
-
-from plone.app.iterate import permissions  # noqa
+from plone.app.iterate import permissions
 from zope.i18nmessageid import MessageFactory
 
 import logging
@@ -33,7 +30,7 @@ logger = logging.getLogger("plone.app.iterate")
 
 
 try:
-    import plone.app.relationfield  # noqa
+    import plone.app.relationfield
 except ImportError:
     logger.warn(
         "Dexterity support for iterate is not available. "
