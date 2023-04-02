@@ -3,12 +3,25 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:zcml="http://namespaces.zope.org/zcml"
-    i18n_domain="plone">
+    i18n_domain="plone"
+    >
 
-  <include package="Products.CMFCore" file="meta.zcml"/>
-  <include package="Products.GenericSetup" file="meta.zcml"/>
-  <include package="zope.component" file="meta.zcml"/>
-  <include package="zope.viewlet" file="meta.zcml"/>
+  <include
+      package="Products.CMFCore"
+      file="meta.zcml"
+      />
+  <include
+      package="Products.GenericSetup"
+      file="meta.zcml"
+      />
+  <include
+      package="zope.component"
+      file="meta.zcml"
+      />
+  <include
+      package="zope.viewlet"
+      file="meta.zcml"
+      />
 
   <include package="plone.locking" />
   <include package="plone.memoize" />
@@ -22,16 +35,16 @@
   <include package="zope.component" />
   <include package="zope.viewlet" />
 
-  <include package=".subscribers"/>
-  <include package=".browser"/>
+  <include package=".subscribers" />
+  <include package=".browser" />
 
   <genericsetup:registerProfile
-    name="default"
-    title="Working Copy Support (Iterate)"
-    directory="profiles/default"
-    description="Adds working copy support (aka. in-place staging) to Plone."
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    />
+      name="default"
+      title="Working Copy Support (Iterate)"
+      description="Adds working copy support (aka. in-place staging) to Plone."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      />
 
   <!--
     Remove, when CMFPlone no more depends on this profile.
@@ -39,58 +52,58 @@
     Addon(profile_id=u'plone.app.iterate:plone.app.iterate')
   -->
   <genericsetup:registerProfile
-    name="plone.app.iterate"
-    title="Working Copy Support (Iterate)"
-    directory="profiles/default"
-    description="Adds working copy support (aka. in-place staging) to Plone."
-    provides="Products.GenericSetup.interfaces.EXTENSION"
-    post_handler=".setuphandlers.deprecate_profile"
-    />
+      name="plone.app.iterate"
+      title="Working Copy Support (Iterate)"
+      description="Adds working copy support (aka. in-place staging) to Plone."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      post_handler=".setuphandlers.deprecate_profile"
+      />
 
   <genericsetup:registerProfile
       name="test"
       title="plone.app.iterate: Test fixture"
-      directory="profiles/test"
       description="Extension profile to configure a test fixture"
-      for="Products.CMFPlone.interfaces.ITestCasePloneSiteRoot"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.ITestCasePloneSiteRoot"
+      directory="profiles/test"
       />
 
   <genericsetup:registerProfile
       name="testingdx"
       title="plone.app.iterate: Test fixture for DX"
-      directory="profiles/testingdx"
       description="Adds sample content types for testing"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.ITestCasePloneSiteRoot"
+      directory="profiles/testingdx"
       />
 
   <genericsetup:registerProfile
       name="uninstall"
       title="Working Copy Support (Iterate) [uninstall]"
-      directory="profiles/uninstall"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="plone.base.interfaces.IMigratingPloneSiteRoot"
+      directory="profiles/uninstall"
       />
 
   <genericsetup:registerProfile
       name="to1000"
       title="Use new icons"
-      directory="profiles/to1000"
       provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to1000"
       />
 
   <genericsetup:upgradeDepends
-      source="121"
-      destination="1000"
       title="Use new icons"
       profile="plone.app.iterate:default"
+      source="121"
+      destination="1000"
       import_profile="plone.app.iterate:to1000"
       />
 
   <utility
-      name="plone.app.iterate"
       factory=".setuphandlers.HiddenProfiles"
+      name="plone.app.iterate"
       />
 
   <adapter factory=".archiver.ContentArchiver" />
@@ -108,21 +121,24 @@
 
   <!-- Handle deletions of working copies -->
   <subscriber
-     for=".interfaces.IWorkingCopyRelation
-          zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-     handler=".event.handleDeletion"
-     />
+      for=".interfaces.IWorkingCopyRelation
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+      handler=".event.handleDeletion"
+      />
 
   <permission
-    id="plone.app.iterate.CheckInContent"
-    title="iterate : Check in content"
-    />
+      id="plone.app.iterate.CheckInContent"
+      title="iterate : Check in content"
+      />
 
   <permission
-    id="plone.app.iterate.CheckOutContent"
-    title="iterate : Check out content"
-    />
+      id="plone.app.iterate.CheckOutContent"
+      title="iterate : Check out content"
+      />
 
-  <include package=".dexterity" zcml:condition="installed plone.app.relationfield" />
+  <include
+      package=".dexterity"
+      zcml:condition="installed plone.app.relationfield"
+      />
 
 </configure>

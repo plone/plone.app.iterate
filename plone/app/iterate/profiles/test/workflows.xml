@@ -1,4 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<object name="portal_workflow" meta_type="Plone Workflow Tool">
-    <object name="workingcopy_workflow" meta_type="Workflow" />
+<?xml version="1.0" encoding="utf-8"?>
+<object meta_type="Plone Workflow Tool"
+        name="portal_workflow"
+>
+  <object meta_type="Workflow"
+          name="workingcopy_workflow"
+  />
 </object>

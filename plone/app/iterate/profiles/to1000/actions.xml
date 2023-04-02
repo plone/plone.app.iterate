@@ -1,19 +1,32 @@
-<?xml version="1.0"?>
-<object name="portal_actions" meta_type="Plone Actions Tool"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <object name="object_buttons" meta_type="CMF Action Category">
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        meta_type="Plone Actions Tool"
+        name="portal_actions"
+>
+  <object meta_type="CMF Action Category"
+          name="object_buttons"
+  >
 
-  <object name="iterate_checkin" meta_type="CMF Action" i18n:domain="plone">
-   <property name="icon_expr">string:box-arrow-in-up-right</property>
+    <object meta_type="CMF Action"
+            name="iterate_checkin"
+            i18n:domain="plone"
+    >
+      <property name="icon_expr">string:box-arrow-in-up-right</property>
+    </object>
+
+    <object meta_type="CMF Action"
+            name="iterate_checkout"
+            i18n:domain="plone"
+    >
+      <property name="icon_expr">string:box-arrow-down-left</property>
+    </object>
+
+    <object meta_type="CMF Action"
+            name="iterate_checkout_cancel"
+            i18n:domain="plone"
+    >
+      <property name="icon_expr">string:arrow-counterclockwise</property>
+    </object>
+
   </object>
-
-  <object name="iterate_checkout" meta_type="CMF Action" i18n:domain="plone">
-   <property name="icon_expr">string:box-arrow-down-left</property>
-  </object>
-
-  <object name="iterate_checkout_cancel" meta_type="CMF Action" i18n:domain="plone">
-   <property name="icon_expr">string:arrow-counterclockwise</property>
-  </object>
-
- </object>
 </object>
