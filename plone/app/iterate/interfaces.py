@@ -27,8 +27,6 @@ from zope.interface import Attribute
 from zope.interface import Interface
 from zope.interface.interfaces import IObjectEvent
 
-import pkg_resources
-
 
 class IReference(Interface):
     pass

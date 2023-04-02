@@ -1,8 +1,6 @@
 """Testing setup for integration and functional tests."""
 from plone.app.contenttypes.testing import PloneAppContenttypes
 from plone.app.testing import applyProfile
-from plone.app.testing import PLONE_FIXTURE
-from plone.app.testing import PloneSandboxLayer
 from plone.app.testing.layers import FunctionalTesting
 from plone.app.testing.layers import IntegrationTesting
 
