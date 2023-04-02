@@ -27,12 +27,8 @@ from Acquisition import aq_base
 from plone.app.iterate.interfaces import IIterateSettings
 from plone.app.iterate.util import get_storage
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import (
-    WorkflowPolicyConfig_id
-)
-from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import (
-    WorkflowPolicyConfig
-)
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig
 from zope.component import getUtility
 
 
