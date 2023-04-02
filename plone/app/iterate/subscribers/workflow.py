@@ -20,10 +20,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 """
-$Id: workflow.py 1824 2007-02-08 17:59:41Z hazmat $
-
 Applies new checkout specific workflows to content that is checked out.
-
 """
 
 from Acquisition import aq_base

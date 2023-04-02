@@ -1,7 +1,3 @@
-"""
-$Id: base.py 1808 2007-02-06 11:39:11Z hazmat $
-"""
-
 from AccessControl import getSecurityManager
 from DateTime import DateTime
 from plone.app.iterate.interfaces import IBaseline

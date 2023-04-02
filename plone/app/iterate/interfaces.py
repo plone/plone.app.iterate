@@ -19,10 +19,6 @@
 # along with CMFDeployment; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
-"""
-$Id: interfaces.py 1811 2007-02-06 18:40:02Z hazmat $
-"""
-
 from plone.app.iterate import PloneMessageFactory as _
 from plone.locking.interfaces import LockType
 from plone.locking.interfaces import MAX_TIMEOUT

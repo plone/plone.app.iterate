@@ -21,8 +21,6 @@
 ##################################################################
 """
 Checkin / Checkout Specific DAV Lock Manipulation and Introspection
-
-$Id: lock.py 1392 2006-06-20 01:02:17Z hazmat $
 """
 
 from .interfaces import ITERATE_LOCK
