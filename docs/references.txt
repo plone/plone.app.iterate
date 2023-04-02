@@ -35,7 +35,7 @@ adapter also keeps reference state.
 Backreferences
 --------------
 
-Developers utilizing semantically signifigant backreferences that can
+Developers utilizing semantically significant backreferences that can
 be modified on the working copy are expected to write a custom
 reference adapter ( see ICheckinCheckoutReference in interfaces.py )
 with implementations for checkoutBackReference and

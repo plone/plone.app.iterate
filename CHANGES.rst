@@ -377,7 +377,7 @@ Fixes:
   behavior implementation. This is for Plone 5 iterate support.
   [vangheem]
 
-- Don't remove aquisition on object for getToolByName call.
+- Don't remove acquisition on object for getToolByName call.
   [tomgross]
 
 
@@ -424,7 +424,7 @@ Fixes:
 2.1.11 (2014-01-27)
 -------------------
 
-- setted lock timeout to MAX_TIMEOUT to avoid baseline unwanted unlock after 10 minutes
+- set lock timeout to MAX_TIMEOUT to avoid baseline unwanted unlock after 10 minutes
   [parruc]
 
 

@@ -5,7 +5,7 @@ Todo
 Short Term
 ----------
 
- - always increment version on checkout (iff doc is not upto date )
+ - always increment version on checkout (if doc is not up to date )
    - better offer form option.
 
  - default event adapter for setting workflow on checked out content

@@ -47,7 +47,7 @@ Terms::
    a copy of the baseline, placed in a selectable container.
 
 The default policy adapter its meant to be easily subclassed, see policy.py for details,
-it does however have alot of responsibilities and maintains a series of invariants which
+it does however have a lot of responsibilities and maintains a series of invariants which
 any replacement must also maintain, described below. if your business logic can be
 encapsulated in an event subscriber it is much better to integrate it via that mechanism.
 
@@ -63,7 +63,7 @@ infrastructure between different frameworks. this means currently only one check
 a given content object at a time.
 
 A custom reference class ( see relation.py ) is used to track
-bookeeping information regarding the checkout via the archetypes
+bookkeeping information regarding the checkout via the archetypes
 reference engine, and to serve as an annotation property bag to
 store (custom) information about the checkout. it is utilized as a
 reference between the working copy to the baseline ( backref wc ).
