@@ -21,11 +21,10 @@
 ##################################################################
 """
 """
-from zope.interface.interfaces import ObjectEvent
+from . import interfaces
 from zope.event import notify
 from zope.interface import implementer
-
-from . import interfaces
+from zope.interface.interfaces import ObjectEvent
 
 
 @implementer(interfaces.ICheckoutEvent)

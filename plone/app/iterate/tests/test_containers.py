@@ -28,10 +28,10 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from zc.relation.interfaces import ICatalog
-from zope.intid.interfaces import IIntIds
-from zope import component
 from plone.dexterity.utils import createContentInContainer
+from zc.relation.interfaces import ICatalog
+from zope import component
+from zope.intid.interfaces import IIntIds
 
 import unittest
 
@@ -201,9 +201,9 @@ class TestIterations(unittest.TestCase):
         # the default page.
         folder = self.portal.docs
         doc = folder.doc1
-        from Products.CMFDynamicViewFTI.interfaces import (
+        from Products.CMFDynamicViewFTI.interfaces import (  # noqa: C901
             ISelectableBrowserDefault,
-        )  # noqa: C901
+        )
 
         ISelectableBrowserDefault(folder).setDefaultPage("doc1")
         self.assertEqual(folder.getProperty("default_page", ""), "doc1")

@@ -1,7 +1,7 @@
-from plone.dexterity.content import Container
 from plone.app.contenttypes.interfaces import IDocument
-from zope.interface import Interface
+from plone.dexterity.content import Container
 from zope.interface import implementer
+from zope.interface import Interface
 
 
 class IFolderishDocument(Interface):

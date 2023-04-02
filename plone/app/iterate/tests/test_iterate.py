@@ -29,8 +29,8 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from zc.relation.interfaces import ICatalog
-from zope.intid.interfaces import IIntIds
 from zope import component
+from zope.intid.interfaces import IIntIds
 
 import unittest
 
@@ -109,9 +109,9 @@ class TestIterations(unittest.TestCase):
         # the default page.
         folder = self.portal.docs
         doc = folder.doc1
-        from Products.CMFDynamicViewFTI.interfaces import (
+        from Products.CMFDynamicViewFTI.interfaces import (  # noqa: C901
             ISelectableBrowserDefault,
-        )  # noqa: C901
+        )
 
         ISelectableBrowserDefault(folder).setDefaultPage("doc1")
         self.assertEqual(folder.getProperty("default_page", ""), "doc1")
@@ -219,9 +219,9 @@ class TestIterations(unittest.TestCase):
     def test_baseline_relations_updated_on_checkin(self):
         # Ensure that relations between the baseline and
         # and other objects are up-to-date on checkin
+        from z3c.relationfield import RelationValue
         from zope.event import notify
         from zope.lifecycleevent import ObjectModifiedEvent
-        from z3c.relationfield import RelationValue
 
         folder = self.portal.docs
         baseline = folder.doc1

@@ -23,9 +23,9 @@ from plone.app.iterate import PloneMessageFactory as _
 from plone.locking.interfaces import LockType
 from plone.locking.interfaces import MAX_TIMEOUT
 from zope import schema
-from zope.interface.interfaces import IObjectEvent
 from zope.interface import Attribute
 from zope.interface import Interface
+from zope.interface.interfaces import IObjectEvent
 
 import pkg_resources
 
