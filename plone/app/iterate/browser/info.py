@@ -7,11 +7,15 @@ from plone.app.iterate.permissions import CheckoutPermission
 from plone.memoize.instance import memoize
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.log import logger
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
+
+import logging
+
+
+logger = logging.getLogger("Plone")
 
 
 @implementer(IViewlet)
