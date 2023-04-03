@@ -27,12 +27,3 @@ import logging
 
 PloneMessageFactory = MessageFactory("plone")
 logger = logging.getLogger("plone.app.iterate")
-
-
-try:
-    import plone.app.relationfield  # noqa: F401
-except ImportError:
-    logger.warn(
-        "Dexterity support for iterate is not available. "
-        "You must install plone.app.relationfield"
-    )

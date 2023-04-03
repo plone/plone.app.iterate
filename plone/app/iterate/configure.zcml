@@ -37,6 +37,7 @@
 
   <include package=".subscribers" />
   <include package=".browser" />
+  <include package=".dexterity" />
 
   <genericsetup:registerProfile
       name="default"
@@ -136,9 +137,5 @@
       title="iterate : Check out content"
       />
 
-  <include
-      package=".dexterity"
-      zcml:condition="installed plone.app.relationfield"
-      />
 
 </configure>
