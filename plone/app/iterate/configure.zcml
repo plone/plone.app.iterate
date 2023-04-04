@@ -48,9 +48,9 @@
       />
 
   <!--
-    Remove, when CMFPlone no more depends on this profile.
-    Products.CMFPlone/Products/CMFPlone/MigrationTool.py:99:
-    Addon(profile_id=u'plone.app.iterate:plone.app.iterate')
+    The plone.app.iterate:plone.app.iterate profile is deprecated.
+    Remove either in Plone 6.1 or 7.0, I am on the fence here.
+    See https://github.com/plone/plone.app.iterate/issues/99#issuecomment-1484686642
   -->
   <genericsetup:registerProfile
       name="plone.app.iterate"
