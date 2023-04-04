@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -20,19 +19,13 @@
 # along with CMFDeployment; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
-"""
-$Id: interfaces.py 1811 2007-02-06 18:40:02Z hazmat $
-"""
-
 from plone.app.iterate import PloneMessageFactory as _
 from plone.locking.interfaces import LockType
 from plone.locking.interfaces import MAX_TIMEOUT
 from zope import schema
-from zope.interface.interfaces import IObjectEvent
 from zope.interface import Attribute
 from zope.interface import Interface
-
-import pkg_resources
+from zope.interface.interfaces import IObjectEvent
 
 
 class IReference(Interface):
@@ -51,8 +44,8 @@ class IIterateAware(Interface):
 #  Lock types
 
 ITERATE_LOCK = LockType(
-    u"iterate.lock", stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT
-)  # noqa
+    "iterate.lock", stealable=False, user_unlockable=False, timeout=MAX_TIMEOUT
+)
 
 #################################
 #  Exceptions
@@ -79,7 +72,7 @@ class ConflictError(CheckinException):
 annotation_key = "ore.iterate"
 
 
-class keys(object):
+class keys:
     # various common keys
     checkout_user = "checkout_user"
     checkout_time = "checkout_time"
@@ -100,24 +93,24 @@ class ICheckinEvent(IObjectEvent):
 
 
 class IAfterCheckinEvent(IObjectEvent):
-    """ sent out after an object is checked in """
+    """sent out after an object is checked in"""
 
     checkin_message = Attribute("checkin message")
 
 
 class IBeforeCheckoutEvent(IObjectEvent):
-    """ sent out before a working copy is created """
+    """sent out before a working copy is created"""
 
 
 class ICheckoutEvent(IObjectEvent):
-    """ an object is being checked out, event.object is the baseline """
+    """an object is being checked out, event.object is the baseline"""
 
     working_copy = Attribute("The object's working copy")
     relation = Attribute("The Working Copy Relation Object")
 
 
 class ICancelCheckoutEvent(IObjectEvent):
-    """ a working copy is being cancelled """
+    """a working copy is being cancelled"""
 
     baseline = Attribute("The working copy's baseline")
 
@@ -166,10 +159,10 @@ class IWCContainerLocator(Interface):
     """
 
     available = schema.Bool(
-        title=u"Available", description=u"Whether location will be available."
+        title="Available", description="Whether location will be available."
     )
 
-    title = schema.TextLine(title=u"Title", description=u"Title of this location")
+    title = schema.TextLine(title="Title", description="Title of this location")
 
     def __call__():
         """Return a container object, or None if available() is False"""
@@ -299,17 +292,16 @@ class ICheckinCheckoutReference(Interface):
 
 
 class IIterateSettings(Interface):
-
     enable_checkout_workflow = schema.Bool(
-        title=_(u"Enable checkout workflow"),
-        description=u"",
+        title=_("Enable checkout workflow"),
+        description="",
         default=False,
         required=False,
     )
 
     checkout_workflow_policy = schema.ASCIILine(
-        title=_(u"Checkout workflow policy"),
-        description=u"",
+        title=_("Checkout workflow policy"),
+        description="",
         default="checkout_workflow_policy",
         required=True,
     )

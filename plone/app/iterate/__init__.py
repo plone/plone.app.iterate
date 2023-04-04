@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -20,10 +19,7 @@
 # along with iterate; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
-"""
-"""
-
-from plone.app.iterate import permissions  # noqa
+from plone.app.iterate import permissions  # noqa: F401
 from zope.i18nmessageid import MessageFactory
 
 import logging
@@ -31,12 +27,3 @@ import logging
 
 PloneMessageFactory = MessageFactory("plone")
 logger = logging.getLogger("plone.app.iterate")
-
-
-try:
-    import plone.app.relationfield  # noqa
-except ImportError:
-    logger.warn(
-        "Dexterity support for iterate is not available. "
-        "You must install plone.app.relationfield"
-    )

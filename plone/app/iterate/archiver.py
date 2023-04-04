@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006-2007 ObjectRealms, LLC
@@ -20,16 +19,15 @@
 # along with CMFDeployment; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
+from . import interfaces
 from Products.CMFCore.utils import getToolByName
 from zope.component import adapter
 from zope.interface import implementer
 
-from . import interfaces
-
 
 @implementer(interfaces.IObjectArchiver)
 @adapter(interfaces.IIterateAware)
-class ContentArchiver(object):
+class ContentArchiver:
     def __init__(self, context):
         self.context = context
         self.repository = getToolByName(context, "portal_repository")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -32,16 +31,15 @@ from zope.component import getMultiAdapter
 
 
 class Checkin(BrowserView):
-
     index = ViewPageTemplateFile("checkin.pt")
 
     def __call__(self):
         context = aq_inner(self.context)
 
         if "form.button.Checkin" in self.request.form:
-            control = getMultiAdapter((context, self.request), name=u"iterate_control")
+            control = getMultiAdapter((context, self.request), name="iterate_control")
             if not control.checkin_allowed():
-                raise CheckinException(u"Not a checkout")
+                raise CheckinException("Not a checkout")
 
             message = self.request.form.get("checkin_message", "")
 

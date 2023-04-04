@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from setuptools import find_packages
 from setuptools import setup
 
@@ -41,7 +40,6 @@ setup(
         "DateTime",
         "plone.locking",
         "plone.memoize",
-        "Products.CMFCore",
         "Products.CMFEditions",
         "Products.CMFPlacefulWorkflow",
         "Products.DCWorkflow",
@@ -56,12 +54,19 @@ setup(
         "zope.lifecycleevent",
         "zope.schema",
         "zope.viewlet",
+        "persistent",
+        "plone.base",
+        "plone.dexterity",
+        "plone.registry",
+        "z3c.relationfield",
+        "zc.relation",
+        "zope.intid",
     ],
     extras_require={
         "test": [
             "plone.app.testing",
-            "plone.app.contenttypes",
-            "plone.app.robotframework",
+            "plone.app.contenttypes[test]",
+            "plone.testing",
         ],
     },
     entry_points="""

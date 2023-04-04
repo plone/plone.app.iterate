@@ -1,72 +1,83 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:metal="http://xml.zope.org/namespaces/metal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    lang="en"
-    metal:use-macro="context/main_template/macros/master"
-    i18n:domain="plone">
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="plone"
+>
+  <body>
 
-<metal:content fill-slot="content">
-<metal:content define-macro="content">
-<article id="content">
+    <metal:content fill-slot="content">
+      <metal:content define-macro="content">
+        <article id="content">
 
-    <form action="#"
-        method="post"
-        tal:attributes="action string:${context/absolute_url}/@@content-checkin">
+          <form action="#"
+                method="post"
+                tal:attributes="
+                  action string:${context/absolute_url}/@@content-checkin;
+                "
+          >
 
-    <h1 class="documentFirstHeading"
-        i18n:translate="title_checkin">
-        Check in <span i18n:name="object_title" tal:content="here/Title" />
-    </h1>
+            <h1 class="documentFirstHeading"
+                i18n:translate="title_checkin"
+            >
+        Check in
+              <span tal:content="here/Title"
+                    i18n:name="object_title"
+              ></span>
+            </h1>
 
-    <p i18n:translate="description_checkin">
+            <p i18n:translate="description_checkin">
         Checking in this working copy will replace the existing item
         with the working copy.
-    </p>
+            </p>
 
-    <fieldset>
+            <fieldset>
 
-            <div class="field">
-              <label for="description"
-                    i18n:translate="label_checkin_message">Check-in Message
-               </label>
+              <div class="field">
+                <label for="description"
+                       i18n:translate="label_checkin_message"
+                >Check-in Message
+                </label>
 
-              <div class="formHelp" i18n:translate="help_checkin_message">
+                <div class="formHelp"
+                     i18n:translate="help_checkin_message"
+                >
                   Enter a message to be saved alongside the check-in. This
                   should explain what was changed, for audit purposes.
+                </div>
+
+                <textarea id="checkin_message"
+                          cols="60"
+                          name="checkin_message"
+                          rows="3"
+                ></textarea>
               </div>
 
-              <textarea cols="60"
-                        rows="3"
-                        id="checkin_message"
-                        name="checkin_message"></textarea>
-            </div>
+              <div class="formControls">
+                <input class="context"
+                       name="form.button.Checkin"
+                       type="submit"
+                       value="Check in"
+                       i18n:attributes="value"
+                />
 
-            <div class="formControls">
-                <input
-                    class="context"
-                    type="submit"
-                    name="form.button.Checkin"
-                    value="Check in"
-                    i18n:attributes="value"
-                    />
+                <input class="standalone"
+                       name="form.button.Cancel"
+                       type="submit"
+                       value="Cancel"
+                       i18n:attributes="value label_cancel"
+                />
+              </div>
 
-                <input
-                    class="standalone"
-                    type="submit"
-                    name="form.button.Cancel"
-                    value="Cancel"
-                    i18n:attributes="value label_cancel"
-                    />
-            </div>
+            </fieldset>
 
-    </fieldset>
+          </form>
+        </article>
+      </metal:content>
+    </metal:content>
 
-    </form>
-</article>
-</metal:content>
-</metal:content>
-
-</body>
+  </body>
 </html>

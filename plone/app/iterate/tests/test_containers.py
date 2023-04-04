@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -29,16 +28,15 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
-from zc.relation.interfaces import ICatalog
-from zope.intid.interfaces import IIntIds
-from zope import component
 from plone.dexterity.utils import createContentInContainer
+from zc.relation.interfaces import ICatalog
+from zope import component
+from zope.intid.interfaces import IIntIds
 
 import unittest
 
 
 class TestIterations(unittest.TestCase):
-
     layer = PLONEAPPITERATEDEX_INTEGRATION_TESTING
 
     def setUp(self):
@@ -89,7 +87,7 @@ class TestIterations(unittest.TestCase):
         bstate = self.wf.getInfoFor(baseline, "review_state")
         self.assertEqual(bstate, "published")
 
-        self.assertEquals(len(self.portal.workarea.objectIds()), 0)
+        self.assertEqual(len(self.portal.workarea.objectIds()), 0)
         setRoles(self.portal, TEST_USER_ID, ["Owner"])
 
     def test_container_baselineCreated(self):
@@ -99,7 +97,7 @@ class TestIterations(unittest.TestCase):
 
         wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
 
-        self.assertEquals(wc.id, "working_copy_of_doc1")
+        self.assertEqual(wc.id, "working_copy_of_doc1")
         self.assertIn("working_copy_of_doc1", self.portal.workarea.objectIds())
 
     def test_container_folderOrder(self):
@@ -202,9 +200,7 @@ class TestIterations(unittest.TestCase):
         # the default page.
         folder = self.portal.docs
         doc = folder.doc1
-        from Products.CMFDynamicViewFTI.interfaces import (
-            ISelectableBrowserDefault,
-        )  # noqa: C901
+        from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
 
         ISelectableBrowserDefault(folder).setDefaultPage("doc1")
         self.assertEqual(folder.getProperty("default_page", ""), "doc1")

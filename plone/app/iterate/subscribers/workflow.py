@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006-2007 ObjectRealms, LLC
@@ -21,22 +20,15 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
 """
-$Id: workflow.py 1824 2007-02-08 17:59:41Z hazmat $
-
 Applies new checkout specific workflows to content that is checked out.
-
 """
 
 from Acquisition import aq_base
 from plone.app.iterate.interfaces import IIterateSettings
 from plone.app.iterate.util import get_storage
 from plone.registry.interfaces import IRegistry
-from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import (
-    WorkflowPolicyConfig_id,
-)  # noqa
-from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import (
-    WorkflowPolicyConfig,
-)  # noqa
+from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConfig_id
+from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig
 from zope.component import getUtility
 
 

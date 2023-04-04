@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -22,11 +21,10 @@
 ##################################################################
 """
 """
-from zope.interface.interfaces import ObjectEvent
+from . import interfaces
 from zope.event import notify
 from zope.interface import implementer
-
-from . import interfaces
+from zope.interface.interfaces import ObjectEvent
 
 
 @implementer(interfaces.ICheckoutEvent)
@@ -49,7 +47,7 @@ class CheckinEvent(ObjectEvent):
 @implementer(interfaces.IAfterCheckinEvent)
 class AfterCheckinEvent(ObjectEvent):
     def __init__(self, new_baseline, checkin_message):
-        super(AfterCheckinEvent, self).__init__(new_baseline)
+        super().__init__(new_baseline)
         self.message = checkin_message
 
 
@@ -70,7 +68,6 @@ class WorkingCopyDeletedEvent(ObjectEvent):
 
 @implementer(interfaces.IBeforeCheckoutEvent)
 class BeforeCheckoutEvent(ObjectEvent):
-
     pass
 
 

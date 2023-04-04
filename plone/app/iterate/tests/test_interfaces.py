@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from plone.app.iterate.interfaces import IBaseline
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IIterateAware
@@ -27,7 +26,7 @@ class TestObjectsProvideCorrectInterfaces(TestCase):
     layer = PLONEAPPITERATEDEX_INTEGRATION_TESTING
 
     def setUp(self):
-        super(TestObjectsProvideCorrectInterfaces, self).setUp()
+        super().setUp()
 
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -45,7 +44,7 @@ class TestObjectsProvideCorrectInterfaces(TestCase):
         self.portal.manage_delObjects([self.folder.id])
         logout()
         setRoles(self.portal, TEST_USER_ID, ["Member"])
-        super(TestObjectsProvideCorrectInterfaces, self).tearDown()
+        super().tearDown()
 
     def do_checkout(self):
         policy = ICheckinCheckoutPolicy(self.obj)

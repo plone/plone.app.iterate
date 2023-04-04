@@ -13,11 +13,11 @@ If we access the site as an admin TTW::
     >>> from plone.app.testing.interfaces import SITE_OWNER_NAME, SITE_OWNER_PASSWORD
     >>> browser.addHeader("Authorization", "Basic %s:%s" % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
 
-KeyError with aquisition wrapper
+KeyError with acquisition wrapper
 =========================================
 
 When an item provides IBaseline (has been checked in at least once) and it is accessed through an
-Aquisition wrapper you get a KeyError from zope.intid, originating from five.intid.
+Acquisition wrapper you get a KeyError from zope.intid, originating from five.intid.
 
     >>> browser.open(portal_url + "/folder_factories")
     >>> browser.getControl("Folder").click()
@@ -53,7 +53,7 @@ Checkin
     >>> browser.url
     'http://nohost/plone/my-folder/my-sub-object'
 
-Test can view through Aquisition wrapper (repeating test_folder is deliberate here)
+Test can view through Acquisition wrapper (repeating test_folder is deliberate here)
 
     >>> browser.open("http://nohost/plone/my-folder/my-sub-object")
     >>> browser.contents

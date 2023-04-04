@@ -1,31 +1,32 @@
 <configure
-        xmlns="http://namespaces.zope.org/zope"
-        xmlns:zcml="http://namespaces.zope.org/zcml"
-        xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-        xmlns:plone="http://namespaces.plone.org/plone">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    >
 
-    <subscriber
-       for="plone.app.iterate.interfaces.IAfterCheckinEvent"
-       handler="plone.app.iterate.subscribers.locking.handleCheckin"
-       />
+  <subscriber
+      for="plone.app.iterate.interfaces.IAfterCheckinEvent"
+      handler="plone.app.iterate.subscribers.locking.handleCheckin"
+      />
 
-    <adapter
-       for="plone.dexterity.interfaces.IDexterityContent"
-       factory=".copier.ContentCopier"
-       />
+  <adapter
+      factory=".copier.ContentCopier"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
 
-    <adapter
-       for="plone.dexterity.interfaces.IDexterityContainer"
-       factory=".copier.FolderishContentCopier"
-       />
+  <adapter
+      factory=".copier.FolderishContentCopier"
+      for="plone.dexterity.interfaces.IDexterityContainer"
+      />
 
-    <adapter
-       for=".interfaces.IDexterityIterateAware"
-       factory=".policy.CheckinCheckoutPolicyAdapter"
-       />
+  <adapter
+      factory=".policy.CheckinCheckoutPolicyAdapter"
+      for=".interfaces.IDexterityIterateAware"
+      />
 
-    <class class="plone.dexterity.content.DexterityContent">
-        <implements interface="plone.app.iterate.dexterity.interfaces.IDexterityIterateAware" />
-    </class>
+  <class class="plone.dexterity.content.DexterityContent">
+    <implements interface="plone.app.iterate.dexterity.interfaces.IDexterityIterateAware" />
+  </class>
 
 </configure>

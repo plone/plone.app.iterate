@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-$Id: base.py 1808 2007-02-06 11:39:11Z hazmat $
-"""
-
 from AccessControl import getSecurityManager
 from DateTime import DateTime
 from plone.app.iterate.interfaces import IBaseline
@@ -12,17 +7,21 @@ from plone.app.iterate.permissions import CheckoutPermission
 from plone.memoize.instance import memoize
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
-from Products.CMFPlone.log import logger
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implementer
 from zope.viewlet.interfaces import IViewlet
 
+import logging
+
+
+logger = logging.getLogger("Plone")
+
 
 @implementer(IViewlet)
 class BaseInfoViewlet(BrowserView):
     def __init__(self, context, request, view, manager):
-        super(BaseInfoViewlet, self).__init__(context, request)
+        super().__init__(context, request)
         self.__parent__ = view
         self.view = view
         self.manager = manager
@@ -61,7 +60,7 @@ class BaseInfoViewlet(BrowserView):
         creator = self.creator()
         if creator is not None:
             portal_url = getToolByName(self.context, "portal_url")
-            return "{0}/author/{1}".format(portal_url(), creator.getId())
+            return f"{portal_url()}/author/{creator.getId()}"
 
     @memoize
     def creator_name(self):
@@ -99,7 +98,6 @@ class BaseInfoViewlet(BrowserView):
 
 
 class BaselineInfoViewlet(BaseInfoViewlet):
-
     index = ViewPageTemplateFile("info_baseline.pt")
 
     def render(self):
@@ -123,7 +121,6 @@ class BaselineInfoViewlet(BaseInfoViewlet):
 
 
 class CheckoutInfoViewlet(BaseInfoViewlet):
-
     index = ViewPageTemplateFile("info_checkout.pt")
 
     def render(self):

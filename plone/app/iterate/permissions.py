@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -22,6 +21,7 @@
 ##################################################################
 
 from AccessControl.Permission import addPermission
+
 
 CheckinPermission = "iterate : Check in content"
 CheckoutPermission = "iterate : Check out content"

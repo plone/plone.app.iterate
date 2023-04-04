@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-$Id: diff.py 1807 2007-02-06 06:52:46Z hazmat $
-"""
-
 from plone.app.iterate.interfaces import IBaseline
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IWorkingCopy

@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from plone.app.iterate.base import BaseContentCopier
 from plone.app.iterate import interfaces
+from plone.app.iterate.base import BaseContentCopier
 from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from plone.app.iterate.dexterity.relation import StagingRelationValue
 from plone.app.iterate.event import AfterCheckinEvent
+from plone.dexterity.utils import createContentInContainer
 from plone.dexterity.utils import iterSchemata
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
@@ -17,7 +17,6 @@ from zope.annotation.interfaces import IAnnotations
 from zope.event import notify
 from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
-from plone.dexterity.utils import createContentInContainer
 
 
 class ContentCopier(BaseContentCopier):
@@ -170,7 +169,7 @@ class FolderishContentCopier(ContentCopier):
         obj = createContentInContainer(
             container,
             self.context.portal_type,
-            id="working_copy_of_{}".format(self.context.id),
+            id=f"working_copy_of_{self.context.id}",
         )
 
         # copy all field values from the baseline to the working copy

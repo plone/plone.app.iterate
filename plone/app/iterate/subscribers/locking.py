@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006-2007 ObjectRealms, LLC
@@ -20,10 +19,6 @@
 # along with CMFDeployment; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ##################################################################
-"""
-$Id: locking.py 1824 2007-02-08 17:59:41Z hazmat $
-"""
-
 from plone.app.iterate import lock
 from plone.locking.interfaces import ILockable
 

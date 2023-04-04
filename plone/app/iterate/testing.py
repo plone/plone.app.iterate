@@ -1,8 +1,6 @@
 """Testing setup for integration and functional tests."""
 from plone.app.contenttypes.testing import PloneAppContenttypes
 from plone.app.testing import applyProfile
-from plone.app.testing import PLONE_FIXTURE
-from plone.app.testing import PloneSandboxLayer
 from plone.app.testing.layers import FunctionalTesting
 from plone.app.testing.layers import IntegrationTesting
 
@@ -38,7 +36,7 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
 
     def setUpZope(self, app, configurationContext):
         """Setup Zope with Addons."""
-        super(DexPloneAppIterateLayer, self).setUpZope(app, configurationContext)
+        super().setUpZope(app, configurationContext)
 
         import plone.app.iterate
 
@@ -46,16 +44,14 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
 
     def setUpPloneSite(self, portal):
         """Setup Plone Site with Addons."""
-        super(DexPloneAppIterateLayer, self).setUpPloneSite(portal)
+        super().setUpPloneSite(portal)
         applyProfile(portal, "plone.app.iterate:default")
         applyProfile(portal, "plone.app.iterate:testingdx")
         # with named AND dotted behaviors we need to take care of both
-        versioning_behavior = set(
-            [
-                "plone.app.versioningbehavior.behaviors.IVersionable",
-                "plone.versioning",
-            ],
-        )
+        versioning_behavior = {
+            "plone.app.versioningbehavior.behaviors.IVersionable",
+            "plone.versioning",
+        }
 
         # Disable automatic versioning of core content types
         for name in ("Document", "Event", "Link", "News Item"):

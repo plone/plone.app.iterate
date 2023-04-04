@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 ##################################################################
 #
 # (C) Copyright 2006 ObjectRealms, LLC
@@ -35,13 +34,13 @@ from zope.interface import implementer
 
 @implementer(IWCContainerLocator)
 @adapter(IDynamicType)
-class HomeFolderLocator(object):
+class HomeFolderLocator:
     """Locate the current user's home folder, if possible."""
 
     def __init__(self, context):
         self.context = context
 
-    title = _(u"Home folder")
+    title = _("Home folder")
 
     @property
     def available(self):
@@ -53,7 +52,7 @@ class HomeFolderLocator(object):
 
 @implementer(IWCContainerLocator)
 @adapter(IDynamicType)
-class ParentFolderLocator(object):
+class ParentFolderLocator:
     """Locate the parent of the context, if the user has the
     Add portal content permission.
     """
@@ -61,7 +60,7 @@ class ParentFolderLocator(object):
     def __init__(self, context):
         self.context = context
 
-    title = _(u"Parent folder")
+    title = _("Parent folder")
 
     @property
     def available(self):

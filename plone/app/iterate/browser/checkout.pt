@@ -1,95 +1,114 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:metal="http://xml.zope.org/namespaces/metal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    lang="en"
-    metal:use-macro="context/main_template/macros/master"
-    i18n:domain="plone">
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      xml:lang="en"
+      i18n:domain="plone"
+>
+  <body>
 
-<div id="content" metal:fill-slot="body"
-     tal:define="containers python:list(view.containers())">
+    <div id="content"
+         metal:fill-slot="body"
+         tal:define="
+           containers python:list(view.containers());
+         "
+    >
 
-    <form action="#"
-        method="post"
-        name="checkout"
-        tal:attributes="action string:${context/absolute_url}/@@content-checkout">
+      <form action="#"
+            method="post"
+            name="checkout"
+            tal:attributes="
+              action string:${context/absolute_url}/@@content-checkout;
+            "
+      >
 
-    <h1 i18n:translate="title_checkout">
-        Check out <span i18n:name="object_title" tal:content="here/Title" />
-    </h1>
+        <h1 i18n:translate="title_checkout">
+        Check out
+          <span tal:content="here/Title"
+                i18n:name="object_title"
+          ></span>
+        </h1>
 
-    <p i18n:translate="description_checkout">
+        <p i18n:translate="description_checkout">
         On check-out, a working copy of the content item will be created in the selected
         container, and the original will be locked to prevent other users from
         editing it.
-    </p>
+        </p>
 
-    <tal:one_container tal:condition="python:len(containers)==1">
-    <input
-        type="hidden"
-        name="checkout_location"
-        tal:define = "item python:containers[0]"
-        tal:attributes="id string:checkout_location_${item/name};
-                        value item/name"
-        />
-    </tal:one_container>
+        <tal:one_container tal:condition="python:len(containers)==1">
+          <input name="checkout_location"
+                 type="hidden"
+                 tal:define="
+                   item python:containers[0];
+                 "
+                 tal:attributes="
+                   id string:checkout_location_${item/name};
+                   value item/name;
+                 "
+          />
+        </tal:one_container>
 
-    <fieldset tal:condition="python:len(containers)!=1">
+        <fieldset tal:condition="python:len(containers)!=1">
 
-        <legend i18n:translate="legend_details">Details</legend>
+          <legend i18n:translate="legend_details">Details</legend>
 
-            <div class="field">
+          <div class="field">
 
-            <label for="checkout_folder" i18n:translate="label_checkout_folder">
+            <label for="checkout_folder"
+                   i18n:translate="label_checkout_folder"
+            >
                 Checkout Folder
             </label>
-            <div class="formHelp" i18n:translate="help_checkout_folder">
+            <div class="formHelp"
+                 i18n:translate="help_checkout_folder"
+            >
                 Select the folder to checkout to.
             </div>
 
             <div tal:repeat="item view/containers">
 
-                <input
-                    type="radio"
-                    name="checkout_location"
-                    tal:attributes="id string:checkout_location_${item/name};
-                                    value item/name"
-                    />
+              <input name="checkout_location"
+                     type="radio"
+                     tal:attributes="
+                       id string:checkout_location_${item/name};
+                       value item/name;
+                     "
+              />
 
-                <label
-                    tal:attributes="for string:checkout_location_${item/name}"
-                    tal:content="item/locator/title"
-                    />
-
-           </div>
+              <label tal:content="item/locator/title"
+                     tal:attributes="
+                       for string:checkout_location_${item/name};
+                     "
+              ></label>
 
             </div>
+
+          </div>
 
         </fieldset>
 
         <div class="formControls">
 
-            <input
-                class="context"
-                type="submit"
-                name="form.button.Checkout"
-                value="Check out"
-                i18n:attributes="value"
-                />
+          <input class="context"
+                 name="form.button.Checkout"
+                 type="submit"
+                 value="Check out"
+                 i18n:attributes="value"
+          />
 
-            <input
-                class="standalone"
-                type="submit"
-                name="form.button.Cancel"
-                value="Cancel"
-                i18n:attributes="value label_cancel"
-                />
+          <input class="standalone"
+                 name="form.button.Cancel"
+                 type="submit"
+                 value="Cancel"
+                 i18n:attributes="value label_cancel"
+          />
 
         </div>
 
-    </form>
+      </form>
 
-</div>
+    </div>
 
-</html>
+  </body></html>
