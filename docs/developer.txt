@@ -72,7 +72,7 @@ Reference Adapters
 ------------------
 
 are a plugin point for developers using/developing rich archetypes reference applications
-to have the flexiblity to implement support for custom reference classes, and change
+to have the flexibility to implement support for custom reference classes, and change
 backref policy.
 
 Reference handling is a topic onto itself, see `references.rst`__, if you dont use
