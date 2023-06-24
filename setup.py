@@ -1,22 +1,29 @@
+from pathlib import Path
 from setuptools import find_packages
 from setuptools import setup
 
 
-LONG_DESCRIPTION = open("README.rst").read() + "\n" + open("CHANGES.rst").read() + "\n"
+version = "5.0.3.dev0"
+
+long_description = (
+    f"{Path('README.rst').read_text()}\n{Path('CHANGES.rst').read_text()}"
+)
 
 setup(
     name="plone.app.iterate",
-    version="5.0.3.dev0",
+    version=version,
     description="check-out/check-in staging for Plone",
-    long_description=LONG_DESCRIPTION,
+    long_description=long_description,
+    long_description_content_type="text/x-rst",
+    # Get more strings from
+    # https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: 6.0",
         "Framework :: Plone :: Core",
-        "Framework :: Zope2",
-        "Framework :: Zope :: 4",
+        "Framework :: Zope :: 5",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
