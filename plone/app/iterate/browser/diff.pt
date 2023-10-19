@@ -140,7 +140,9 @@
 
         <tal:block tal:condition="diffs/recursive">
           <h2 i18n:translate="">Changed files</h2>
-          <i tal:condition="not:diffs/getSubDiffs">None</i>
+          <i tal:condition="not:diffs/getSubDiffs"
+             i18n:translate=""
+          >None</i>
           <ul tal:condition="diffs/getSubDiffs">
             <li tal:repeat="cs diffs/getSubDiffs">
               <tal:check condition="not:cs/same">
