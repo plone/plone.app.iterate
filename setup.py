@@ -63,6 +63,7 @@ setup(
         "zope.schema",
         "zope.viewlet",
         "persistent",
+        "plone.app.layout",
         "plone.base",
         "plone.dexterity",
         "plone.registry",
