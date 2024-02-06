@@ -45,6 +45,7 @@ setup(
     install_requires=[
         "Acquisition",
         "DateTime",
+        "plone.app.relationfield",
         "plone.locking",
         "plone.memoize",
         "Products.CMFEditions",
