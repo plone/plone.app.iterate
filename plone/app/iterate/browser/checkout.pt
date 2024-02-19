@@ -91,14 +91,14 @@
 
         <div class="formControls">
 
-          <input class="context"
+          <input class="btn btn-primary"
                  name="form.button.Checkout"
                  type="submit"
                  value="Check out"
                  i18n:attributes="value"
           />
 
-          <input class="standalone"
+          <input class="btn btn-secondary"
                  name="form.button.Cancel"
                  type="submit"
                  value="Cancel"

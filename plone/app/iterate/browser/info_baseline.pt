@@ -1,40 +1,47 @@
-<div class="portalMessage warning"
-     tal:define="
-       working_copy view/working_copy;
-       isAnon context/@@plone_portal_state/anonymous;
-     "
-     tal:condition="python: not isAnon"
-     i18n:domain="plone"
->
+<div class="container">
+  <div class="portalMessage ${python:display_info['cssclass']}"
+       role="alert"
+       tal:define="
+         working_copy view/working_copy;
+         isAnon context/@@plone_portal_state/anonymous;
+         display_info python:view.display_info_for_mtype('warning');
+         icons nocall: context/@@iconresolver;
+       "
+       tal:condition="python: not isAnon"
+       i18n:domain="plone"
+  >
 
-  <strong i18n:translate="">Warning</strong>
-  <tal:block i18n:translate="working_copy_info">
+    <tal:icon tal:replace="structure python:icons.tag(display_info['icon'], tag_alt=display_info['msg'], tag_class='statusmessage-icon mb-1 me-2')" />
+
+    <strong>${python:display_info['msg']}</strong>
+    <tal:block i18n:translate="working_copy_info">
         This item is being edited by
-    <a tal:content="view/creator_name"
-       tal:omit-tag="not: view/creator_url"
-       tal:attributes="
-         href view/creator_url;
-       "
-       i18n:name="creator"
-    >john smith</a>
+      <a tal:content="view/creator_name"
+         tal:omit-tag="not: view/creator_url"
+         tal:attributes="
+           href view/creator_url;
+         "
+         i18n:name="creator"
+      >john smith</a>
         in
-    <a tal:attributes="
-         href working_copy/@@plone_context_state/view_url;
-         title working_copy/Description;
-       "
-       i18n:name="working_copy"
-       i18n:translate="label_working_copy"
-    >a working copy</a>
+      <a tal:attributes="
+           href working_copy/@@plone_context_state/view_url;
+           title working_copy/Description;
+         "
+         i18n:name="working_copy"
+         i18n:translate="label_working_copy"
+      >a working copy</a>
         created on
-    <span tal:content="view/created"
-          i18n:name="created"
-    ></span>.
+      <span tal:content="view/created"
+            i18n:name="created"
+      ></span>.
 
-  </tal:block>
+    </tal:block>
 
-  (<a tal:attributes="
-       href string:${context/absolute_url}/@@iterate_diff;
-     "
-     i18n:translate="label_view_changes"
-  >View changes</a>)
+    (<a tal:attributes="
+         href string:${context/absolute_url}/@@iterate_diff;
+       "
+       i18n:translate="label_view_changes"
+    >View changes</a>)
+  </div>
 </div>

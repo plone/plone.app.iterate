@@ -57,14 +57,14 @@
               </div>
 
               <div class="formControls">
-                <input class="context"
+                <input class="btn btn-primary"
                        name="form.button.Checkin"
                        type="submit"
                        value="Check in"
                        i18n:attributes="value"
                 />
 
-                <input class="standalone"
+                <input class="btn btn-secondary"
                        name="form.button.Cancel"
                        type="submit"
                        value="Cancel"

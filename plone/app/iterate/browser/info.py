@@ -4,6 +4,7 @@ from plone.app.iterate.interfaces import IBaseline
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import keys
 from plone.app.iterate.permissions import CheckoutPermission
+from plone.app.layout.viewlets.globalstatusmessage import MTYPES_DISPLAY
 from plone.memoize.instance import memoize
 from Products.CMFCore.permissions import ModifyPortalContent
 from Products.CMFCore.utils import getToolByName
@@ -95,6 +96,10 @@ class BaseInfoViewlet(BrowserView):
 
     def _getReference(self):
         raise NotImplementedError
+
+    def display_info_for_mtype(self, mtype):
+        """get info for display of an mtype"""
+        return MTYPES_DISPLAY.get(mtype, MTYPES_DISPLAY["info"])
 
 
 class BaselineInfoViewlet(BaseInfoViewlet):
