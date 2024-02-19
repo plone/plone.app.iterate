@@ -5,11 +5,16 @@ from plone.app.iterate.base import BaseContentCopier
 from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from plone.app.iterate.dexterity.relation import StagingRelationValue
 from plone.app.iterate.event import AfterCheckinEvent
+from plone.app.relationfield.event import update_behavior_relations
 from plone.dexterity.utils import createContentInContainer
 from plone.dexterity.utils import iterSchemata
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.DCWorkflow import DCWorkflowDefinition
 from z3c.relationfield import event
+from z3c.relationfield import RelationValue
+from z3c.relationfield.event import updateRelations
+from z3c.relationfield.schema import RelationChoice
+from z3c.relationfield.schema import RelationList
 from zc.relation.interfaces import ICatalog
 from ZODB.PersistentMapping import PersistentMapping
 from zope import component
@@ -191,9 +196,19 @@ class FolderishContentCopier(ContentCopier):
                     obj.expiration_date = self.context.expiration_date
                 elif name == "subjects":
                     obj.setSubject(self.context.Subject())
+                elif isinstance(field, RelationList):
+                    if value:
+                        field.set(
+                            obj,
+                            [RelationValue(i.to_id) for i in value if not i.isBroken()],
+                        )
+                elif isinstance(field, RelationChoice):
+                    if value and not value.isBroken():
+                        field.set(obj, RelationValue(value.to_id))
                 else:
                     field.set(obj, value)
 
+        update_relation_catalog(obj)
         obj.reindexObject()
 
         # copy annotations
@@ -232,9 +247,18 @@ class FolderishContentCopier(ContentCopier):
                     baseline.expiration_date = self.context.expiration_date
                 elif name == "subjects":
                     baseline.setSubject(self.context.Subject())
+                elif isinstance(field, RelationList):
+                    if value:
+                        field.set(
+                            baseline,
+                            [RelationValue(i.to_id) for i in value if not i.isBroken()],
+                        )
+                elif isinstance(field, RelationChoice):
+                    if value and not value.isBroken():
+                        field.set(baseline, RelationValue(value.to_id))
                 else:
                     field.set(baseline, value)
-
+        update_relation_catalog(baseline)
         baseline.reindexObject()
 
         # Move working children (newly created objects)
@@ -259,3 +283,12 @@ class FolderishContentCopier(ContentCopier):
         wc_container._delObject(wc_id)
 
         return baseline
+
+
+def update_relation_catalog(obj):
+    # updateRelations from z3c.relationfield does not properly update relations in behaviors
+    # that are registered with a marker-interface.
+    # update_behavior_relations from plone.app.relationfield does that but does not update
+    # those in the main schema.
+    updateRelations(obj, None)
+    update_behavior_relations(obj, None)

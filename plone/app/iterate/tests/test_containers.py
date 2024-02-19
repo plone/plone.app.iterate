@@ -29,6 +29,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.dexterity.utils import createContentInContainer
+from z3c.relationfield import RelationValue
 from zc.relation.interfaces import ICatalog
 from zope import component
 from zope.intid.interfaces import IIntIds
@@ -304,3 +305,28 @@ class TestIterations(unittest.TestCase):
         rels = list(catalog.findRelations({"from_id": obj_id}))
 
         self.assertEqual(len(rels), 0)
+
+    def test_relationfield_handling(self):
+        # relations are not simply copied
+        folder = self.portal.docs
+        doc = folder.doc1
+        target = folder.doc2
+        intids = component.getUtility(IIntIds)
+        doc.relatedItems = [RelationValue(intids.getId(target))]
+        wc = ICheckinCheckoutPolicy(doc).checkout(doc)
+        self.assertNotEqual(doc.relatedItems[0], wc.relatedItems[0])
+        self.assertEqual(doc.relatedItems[0].to_object, target)
+        self.assertEqual(doc.relatedItems[0].from_object, doc)
+        self.assertEqual(wc.relatedItems[0].to_object, target)
+        self.assertEqual(wc.relatedItems[0].from_object, wc)
+        wc = ICheckinCheckoutPolicy(wc).checkin("modified")
+        self.assertEqual(doc.relatedItems[0].to_object, target)
+        self.assertEqual(doc.relatedItems[0].from_object, doc)
+        self.assertEqual(len(doc.relatedItems), 1)
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(doc)
+        wc.relatedItems = [RelationValue(intids.getId(folder))]
+        wc = ICheckinCheckoutPolicy(wc).checkin("modified")
+        self.assertEqual(doc.relatedItems[0].to_object, folder)
+        self.assertEqual(doc.relatedItems[0].from_object, doc)
+        self.assertEqual(len(doc.relatedItems), 1)

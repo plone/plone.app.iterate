@@ -34,8 +34,6 @@ from plone.app.iterate.event import CheckoutEvent
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IObjectCopier
 from plone.app.iterate.util import get_storage
-from Products.CMFCore import interfaces as cmf_ifaces
-from Products.CMFCore.utils import getToolByName
 from zc.relation.interfaces import ICatalog
 from zope import component
 from zope.component import queryAdapter
@@ -113,43 +111,6 @@ class CheckinCheckoutBasePolicyAdapter:
 class BaseContentCopier:
     def __init__(self, context):
         self.context = context
-
-    def _recursivelyReattachUIDs(self, baseline, new_baseline):
-        original_refs = len(new_baseline.getRefs())
-        original_back_refs = len(new_baseline.getBRefs())
-        new_baseline._setUID(baseline.UID())
-        new_refs = len(new_baseline.getRefs())
-        new_back_refs = len(new_baseline.getBRefs())
-        if original_refs != new_refs:
-            self._removeDuplicateReferences(new_baseline, backrefs=False)
-        if original_back_refs != new_back_refs:
-            self._removeDuplicateReferences(new_baseline, backrefs=True)
-
-        if cmf_ifaces.IFolderish.providedBy(baseline):
-            new_ids = new_baseline.contentIds()
-            for child in baseline.contentValues():
-                if child.getId() in new_ids:
-                    self._recursivelyReattachUIDs(child, new_baseline[child.getId()])
-
-    def _removeDuplicateReferences(self, item, backrefs=False):
-        # Remove duplicate (back) references from this item.
-        reference_tool = getToolByName(self.context, "reference_catalog")
-        if backrefs:
-            ref_func = reference_tool.getBackReferences
-        else:
-            ref_func = reference_tool.getReferences
-        try:
-            # Plone 4.1 or later
-            brains = ref_func(item, objects=False)
-        except TypeError:
-            # Plone 4.0 or earlier.  Nothing to fix here
-            return
-        for brain in brains:
-            if brain.getObject() is None:
-                reference_tool.uncatalog_object(brain.getPath())
-
-    #################################
-    # Checkout Support Methods
 
     def _copyBaseline(self, container):
         # copy the context from source to the target container
