@@ -56,23 +56,21 @@
                 ></textarea>
               </div>
 
-            <div class="formControls">
-                <input
-                    class="btn btn-primary"
-                    type="submit"
-                    name="form.button.Checkin"
-                    value="Check in"
-                    i18n:attributes="value"
-                    />
+              <div class="formControls">
+                <input class="btn btn-primary"
+                       name="form.button.Checkin"
+                       type="submit"
+                       value="Check in"
+                       i18n:attributes="value"
+                />
 
-                <input
-                    class="btn btn-secondary"
-                    type="submit"
-                    name="form.button.Cancel"
-                    value="Cancel"
-                    i18n:attributes="value label_cancel"
-                    />
-            </div>
+                <input class="btn btn-secondary"
+                       name="form.button.Cancel"
+                       type="submit"
+                       value="Cancel"
+                       i18n:attributes="value label_cancel"
+                />
+              </div>
 
             </fieldset>
 

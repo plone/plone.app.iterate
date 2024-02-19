@@ -91,21 +91,19 @@
 
         <div class="formControls">
 
-            <input
-                class="btn btn-primary"
-                type="submit"
-                name="form.button.Checkout"
-                value="Check out"
-                i18n:attributes="value"
-                />
+          <input class="btn btn-primary"
+                 name="form.button.Checkout"
+                 type="submit"
+                 value="Check out"
+                 i18n:attributes="value"
+          />
 
-            <input
-                class="btn btn-secondary"
-                type="submit"
-                name="form.button.Cancel"
-                value="Cancel"
-                i18n:attributes="value label_cancel"
-                />
+          <input class="btn btn-secondary"
+                 name="form.button.Cancel"
+                 type="submit"
+                 value="Cancel"
+                 i18n:attributes="value label_cancel"
+          />
 
         </div>
 
