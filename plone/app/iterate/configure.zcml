@@ -23,6 +23,16 @@
       file="meta.zcml"
       />
 
+  <permission
+      id="plone.app.iterate.CheckInContent"
+      title="iterate : Check in content"
+      />
+
+  <permission
+      id="plone.app.iterate.CheckOutContent"
+      title="iterate : Check out content"
+      />
+
   <include package="plone.locking" />
   <include package="plone.memoize" />
   <include package="Products.CMFCore" />
@@ -126,16 +136,5 @@
            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
       handler=".event.handleDeletion"
       />
-
-  <permission
-      id="plone.app.iterate.CheckInContent"
-      title="iterate : Check in content"
-      />
-
-  <permission
-      id="plone.app.iterate.CheckOutContent"
-      title="iterate : Check out content"
-      />
-
 
 </configure>

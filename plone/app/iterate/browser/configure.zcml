@@ -20,7 +20,7 @@
       for="..interfaces.IIterateAware"
       class=".checkout.Checkout"
       template="checkout.pt"
-      permission="zope2.View"
+      permission="plone.app.iterate.CheckOutContent"
       />
 
   <browser:page
@@ -28,7 +28,7 @@
       for="..interfaces.IIterateAware"
       class=".checkin.Checkin"
       template="checkin.pt"
-      permission="cmf.ModifyPortalContent"
+      permission="plone.app.iterate.CheckInContent"
       />
 
   <browser:page
@@ -46,7 +46,7 @@
       for="..interfaces.IIterateManagedContent"
       class=".diff.DiffView"
       template="diff.pt"
-      permission="zope2.View"
+      permission="cmf.ModifyPortalContent"
       />
 
   <browser:viewlet
