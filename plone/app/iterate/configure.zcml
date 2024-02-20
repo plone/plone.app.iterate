@@ -104,6 +104,13 @@
       directory="profiles/to1000"
       />
 
+  <genericsetup:registerProfile
+      name="to1001"
+      title="Load rolemap"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/to1001"
+      />
+
   <genericsetup:upgradeDepends
       title="Use new icons"
       profile="plone.app.iterate:default"
