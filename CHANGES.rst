@@ -8,6 +8,18 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.4 (2024-02-21)
+------------------
+
+Bug fixes:
+
+
+- Adapt viewlet styles to Plone 6 [pbauer] (#95)
+- Fix handling of relation-fields for working copies of folderish content. [pbauer] (#118)
+- Use the package-permissions to protect views and toolbar-actions.
+  [pbauer] (#120)
+
+
 5.0.3 (2024-01-19)
 ------------------
 
