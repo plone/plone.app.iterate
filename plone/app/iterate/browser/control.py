@@ -25,6 +25,8 @@ from Acquisition import aq_inner
 from plone.app.iterate import interfaces
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IWorkingCopy
+from plone.app.iterate.permissions import CheckinPermission
+from plone.app.iterate.permissions import CheckoutPermission
 from plone.memoize.view import memoize
 from Products.Five.browser import BrowserView
 
@@ -67,6 +69,13 @@ class Control(BrowserView):
         if not can_modify:
             return False
 
+        can_checkin = checkPermission(
+            CheckinPermission,
+            original,
+        )
+        if not can_checkin:
+            return False
+
         return True
 
     def checkout_allowed(self):
@@ -89,6 +98,14 @@ class Control(BrowserView):
 
         # check if its is a checkout
         if policy.getBaseline() is not None:
+            return False
+
+        checkPermission = getSecurityManager().checkPermission
+        can_checkout = checkPermission(
+            CheckoutPermission,
+            context,
+        )
+        if not can_checkout:
             return False
 
         return True

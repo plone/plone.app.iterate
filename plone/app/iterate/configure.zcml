@@ -23,6 +23,16 @@
       file="meta.zcml"
       />
 
+  <permission
+      id="plone.app.iterate.CheckInContent"
+      title="iterate : Check in content"
+      />
+
+  <permission
+      id="plone.app.iterate.CheckOutContent"
+      title="iterate : Check out content"
+      />
+
   <include package="plone.locking" />
   <include package="plone.memoize" />
   <include package="Products.CMFCore" />
@@ -102,6 +112,17 @@
       import_profile="plone.app.iterate:to1000"
       />
 
+  <genericsetup:upgradeSteps
+      profile="plone.app.iterate:default"
+      source="1000"
+      destination="1001"
+      >
+    <genericsetup:upgradeDepends
+        title="Load rolemap"
+        import_steps="rolemap"
+        />
+  </genericsetup:upgradeSteps>
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="plone.app.iterate"
@@ -126,16 +147,5 @@
            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
       handler=".event.handleDeletion"
       />
-
-  <permission
-      id="plone.app.iterate.CheckInContent"
-      title="iterate : Check in content"
-      />
-
-  <permission
-      id="plone.app.iterate.CheckOutContent"
-      title="iterate : Check out content"
-      />
-
 
 </configure>
