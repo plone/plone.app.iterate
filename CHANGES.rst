@@ -8,6 +8,16 @@ Changelog
 
 .. towncrier release notes start
 
+5.0.5 (2024-02-27)
+------------------
+
+Bug fixes:
+
+
+- Hide the `to1000` from the advanced view to create a new plone Site
+  [gforcada] (#121)
+
+
 5.0.4 (2024-02-21)
 ------------------
 
