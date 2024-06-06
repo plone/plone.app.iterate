@@ -7,12 +7,3 @@ commit-id = "a89af8f2"
 
 [pyproject]
 codespell_ignores = "ore,checkin"
-
-[github]
-jobs = [
-    "qa",
-    "test",
-    "coverage",
-    "dependencies",
-    "release_ready",
-    ]
