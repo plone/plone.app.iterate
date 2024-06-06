@@ -6,7 +6,7 @@ template = "default"
 commit-id = "a89af8f2"
 
 [pyproject]
-codespell_ignores = "ore"
+codespell_ignores = "ore,checkin"
 
 [github]
 jobs = [
