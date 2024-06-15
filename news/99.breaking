@@ -1,0 +1,3 @@
+Remove old GenericSetup profile with id `plone.app.iterate`.
+See `issue 99 <https://github.com/plone/plone.app.iterate/issues/99#issuecomment-1484686642>`_.
+[maurits]

@@ -57,20 +57,6 @@
       directory="profiles/default"
       />
 
-  <!--
-    The plone.app.iterate:plone.app.iterate profile is deprecated.
-    Remove either in Plone 6.1 or 7.0, I am on the fence here.
-    See https://github.com/plone/plone.app.iterate/issues/99#issuecomment-1484686642
-  -->
-  <genericsetup:registerProfile
-      name="plone.app.iterate"
-      title="Working Copy Support (Iterate)"
-      description="Adds working copy support (aka. in-place staging) to Plone."
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      directory="profiles/default"
-      post_handler=".setuphandlers.deprecate_profile"
-      />
-
   <genericsetup:registerProfile
       name="test"
       title="plone.app.iterate: Test fixture"
