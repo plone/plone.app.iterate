@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.0 (2024-06-26)
+------------------
+
+Breaking changes:
+
+
+- Remove old GenericSetup profile with id `plone.app.iterate`.
+  See `issue 99 <https://github.com/plone/plone.app.iterate/issues/99#issuecomment-1484686642>`_.
+  [maurits] (#99)
+
+
 5.0.5 (2024-02-27)
 ------------------
 
