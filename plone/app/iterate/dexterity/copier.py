@@ -98,6 +98,10 @@ class ContentCopier(BaseContentCopier):
         return baseline
 
     def _reassembleWorkingCopy(self, new_baseline, baseline):
+        # Does not change Plone Site permissions.
+        if new_baseline.portal_type == "Plone Site":
+            return new_baseline
+
         # reattach the source's workflow history, try avoid a dangling ref
         try:
             new_baseline.workflow_history = PersistentMapping(
@@ -171,11 +175,20 @@ class ContentCopier(BaseContentCopier):
 
 class FolderishContentCopier(ContentCopier):
     def _copyBaseline(self, container):
+        if self.context.portal_type == "Plone Site":
+            portal_type = "Document"
+        else:
+            portal_type = self.context.portal_type
         obj = createContentInContainer(
             container,
-            self.context.portal_type,
+            portal_type,
             id=f"working_copy_of_{self.context.id}",
         )
+        # Since the working copy of the Portal is originally a Document,
+        # we force its portal_type to "Plone Site", so that the "Plone Site"
+        # schema is used.
+        if self.context.portal_type == "Plone Site":
+            obj.portal_type = "Plone Site"
 
         # copy all field values from the baseline to the working copy
         for schema in iterSchemata(self.context):
