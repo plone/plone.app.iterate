@@ -3,7 +3,16 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "a89af8f2"
+commit-id = "5d22fbf8"
 
 [pyproject]
 codespell_ignores = "ore,checkin"
+
+[github]
+jobs = [
+    "qa",
+    "test",
+    "coverage",
+    "dependencies",
+    "release_ready",
+    ]
