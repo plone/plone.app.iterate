@@ -7,3 +7,15 @@ commit-id = "a89af8f2"
 
 [pyproject]
 codespell_ignores = "ore,checkin"
+
+[github]
+# FIXME: Removed circular job, because of a circular dependency in Plone 6.0.
+# Fixed in Plone 6.1. Remove the "jobs" configuration when running circular job
+# with Plone 6.1.
+jobs = [
+    "qa",
+    "test",
+    "coverage",
+    "dependencies",
+    "release_ready",
+    ]
