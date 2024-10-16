@@ -7,3 +7,6 @@ commit-id = "a89af8f2"
 
 [pyproject]
 codespell_ignores = "ore,checkin"
+
+[tox]
+constraints_file = "https://dist.plone.org/release/6.1-dev/constraints.txt"
