@@ -8,6 +8,17 @@ Changelog
 
 .. towncrier release notes start
 
+6.0.1 (2024-10-23)
+------------------
+
+Internal:
+
+
+- Use Plone 6.1 constraints in tox to avoid circular dependency error in Plone 6.0. @wesleybl (#131)
+- Update configuration files.
+  [plone devs]
+
+
 6.0.0 (2024-06-26)
 ------------------
 
