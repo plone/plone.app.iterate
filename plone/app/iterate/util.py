@@ -21,7 +21,7 @@
 ##################################################################
 
 from .interfaces import annotation_key
-from persistent.dict import PersistentDict
+from persistent.mapping import PersistentMapping
 from zope.annotation import IAnnotations
 
 
@@ -30,5 +30,5 @@ def get_storage(context, default=None):
     if annotation_key not in annotations:
         if default is not None:
             return default
-        annotations[annotation_key] = PersistentDict()
+        annotations[annotation_key] = PersistentMapping()
     return annotations[annotation_key]
