@@ -220,7 +220,7 @@ class TestIterations(unittest.TestCase):
 
     def test_container_control_checkout_allowed_with_no_policy(self):
         control = Control(self.portal.docs, self.layer["request"])
-        self.assertFalse(control.checkout_allowed())
+        self.assertTrue(control.checkout_allowed())
 
     def test_container_control_cancel_allowed_with_no_policy(self):
         control = Control(self.portal.docs, self.layer["request"])

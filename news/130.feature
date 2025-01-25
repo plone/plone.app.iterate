@@ -1,1 +1,1 @@
-Allows working copy of Plone Site. @wesleybl
+Support working copies of the Plone Site. @wesleybl
