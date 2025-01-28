@@ -65,7 +65,12 @@ class CheckinCheckoutBasePolicyAdapter:
 
         # use the object copier to checkout the content to the container
         copier = queryAdapter(self.context, IObjectCopier)
-        working_copy, relation = copier.copyTo(container)
+        # The container for the Portal's working copy is the Portal itself.
+        if self.context.portal_type == "Plone Site":
+            working_copy_container = self.context
+        else:
+            working_copy_container = container
+        working_copy, relation = copier.copyTo(working_copy_container)
 
         # publish the event for any subscribers
         notify(CheckoutEvent(self.context, working_copy, relation))

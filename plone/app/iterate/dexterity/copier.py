@@ -6,6 +6,7 @@ from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from plone.app.iterate.dexterity.relation import StagingRelationValue
 from plone.app.iterate.event import AfterCheckinEvent
 from plone.app.relationfield.event import update_behavior_relations
+from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import createContentInContainer
 from plone.dexterity.utils import iterSchemata
 from Products.CMFCore.utils import getToolByName
@@ -19,6 +20,7 @@ from zc.relation.interfaces import ICatalog
 from ZODB.PersistentMapping import PersistentMapping
 from zope import component
 from zope.annotation.interfaces import IAnnotations
+from zope.component import getUtility
 from zope.event import notify
 from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
@@ -98,6 +100,10 @@ class ContentCopier(BaseContentCopier):
         return baseline
 
     def _reassembleWorkingCopy(self, new_baseline, baseline):
+        # Does not change Plone Site permissions.
+        if new_baseline.portal_type == "Plone Site":
+            return new_baseline
+
         # reattach the source's workflow history, try avoid a dangling ref
         try:
             new_baseline.workflow_history = PersistentMapping(
@@ -171,11 +177,25 @@ class ContentCopier(BaseContentCopier):
 
 class FolderishContentCopier(ContentCopier):
     def _copyBaseline(self, container):
+        if self.context.portal_type == "Plone Site":
+            portal_type = "Document"
+        else:
+            portal_type = self.context.portal_type
         obj = createContentInContainer(
             container,
-            self.context.portal_type,
+            portal_type,
             id=f"working_copy_of_{self.context.id}",
         )
+        # Since the working copy of the Portal is originally a Document,
+        # we force its portal_type to "Plone Site", so that the "Plone Site"
+        # schema is used.
+        if self.context.portal_type == "Plone Site":
+            obj.portal_type = "Plone Site"
+            # Especially in Classic UI we may get a 404 NotFound on the document
+            # because it gets its layout/display from the Plone Site FTI.
+            document_fti = getUtility(IDexterityFTI, name="Document")
+            if obj.getLayout() not in document_fti.view_methods:
+                obj._setProperty("layout", document_fti.default_view or "view")
 
         # copy all field values from the baseline to the working copy
         for schema in iterSchemata(self.context):

@@ -29,4 +29,8 @@
     <implements interface="plone.app.iterate.dexterity.interfaces.IDexterityIterateAware" />
   </class>
 
+  <class class="Products.CMFPlone.Portal.PloneSite">
+    <implements interface="plone.app.iterate.dexterity.interfaces.IDexterityIterateAware" />
+  </class>
+
 </configure>

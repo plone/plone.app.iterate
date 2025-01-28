@@ -47,10 +47,6 @@ class Control(BrowserView):
         if not interfaces.IIterateAware.providedBy(context):
             return False
 
-        archiver = interfaces.IObjectArchiver(context)
-        if not archiver.isVersionable():
-            return False
-
         if not IWorkingCopy.providedBy(context):
             return False
 
@@ -83,10 +79,6 @@ class Control(BrowserView):
         context = aq_inner(self.context)
 
         if not interfaces.IIterateAware.providedBy(context):
-            return False
-
-        archiver = interfaces.IObjectArchiver(context)
-        if not archiver.isVersionable():
             return False
 
         policy = ICheckinCheckoutPolicy(context, None)

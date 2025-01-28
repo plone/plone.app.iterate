@@ -64,11 +64,11 @@ class ParentFolderLocator:
 
     @property
     def available(self):
-        return bool(
-            getSecurityManager().checkPermission(
-                AddPortalContent, aq_parent(aq_inner(self.context))
-            )
-        )
+        obj = aq_inner(self.context)
+        # In Plone Site checkout, the working copy container is the portal itself.
+        if obj.portal_type != "Plone Site":
+            obj = aq_parent(obj)
+        return bool(getSecurityManager().checkPermission(AddPortalContent, obj))
 
     def __call__(self):
         if not self.available:
