@@ -6,6 +6,7 @@ from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from plone.app.iterate.dexterity.relation import StagingRelationValue
 from plone.app.iterate.event import AfterCheckinEvent
 from plone.app.relationfield.event import update_behavior_relations
+from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import createContentInContainer
 from plone.dexterity.utils import iterSchemata
 from Products.CMFCore.utils import getToolByName
@@ -19,6 +20,7 @@ from zc.relation.interfaces import ICatalog
 from ZODB.PersistentMapping import PersistentMapping
 from zope import component
 from zope.annotation.interfaces import IAnnotations
+from zope.component import getUtility
 from zope.event import notify
 from zope.intid.interfaces import IIntIds
 from zope.schema import getFieldsInOrder
@@ -189,6 +191,11 @@ class FolderishContentCopier(ContentCopier):
         # schema is used.
         if self.context.portal_type == "Plone Site":
             obj.portal_type = "Plone Site"
+            # Especially in Classic UI we may get a 404 NotFound on the document
+            # because it gets its layout/display from the Plone Site FTI.
+            document_fti = getUtility(IDexterityFTI, name="Document")
+            if obj.getLayout() not in document_fti.view_methods:
+                obj._setProperty("layout", document_fti.default_view or "view")
 
         # copy all field values from the baseline to the working copy
         for schema in iterSchemata(self.context):
