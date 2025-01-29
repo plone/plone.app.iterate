@@ -219,11 +219,11 @@ class TestIterations(unittest.TestCase):
         self.assertFalse(control.checkin_allowed())
 
     def test_container_control_checkout_allowed_with_no_policy(self):
-        control = Control(self.portal.docs, self.layer["request"])
+        control = Control(self.portal, self.layer["request"])
         self.assertTrue(control.checkout_allowed())
 
     def test_container_control_cancel_allowed_with_no_policy(self):
-        control = Control(self.portal.docs, self.layer["request"])
+        control = Control(self.portal, self.layer["request"])
         self.assertFalse(control.cancel_allowed())
 
     def test_container_control_cancel_on_original_does_not_delete_original(self):
