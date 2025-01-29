@@ -36,6 +36,8 @@ import unittest
 
 
 class TestIterations(unittest.TestCase):
+    """Test plone.app.iterate on non-folderish items."""
+
     layer = PLONEAPPITERATEDEX_INTEGRATION_TESTING
 
     def setUp(self):
@@ -50,7 +52,6 @@ class TestIterations(unittest.TestCase):
         self.portal.invokeFactory("LockableFolder", "docs")
         self.portal.docs.invokeFactory("Document", "doc1")
         self.portal.docs.invokeFactory("Document", "doc2")
-        self.portal.docs.invokeFactory("FolderishDocument", "doc3")
 
         # add a working copy folder
         self.portal.invokeFactory("Folder", "workarea")
@@ -284,16 +285,4 @@ class TestIterations(unittest.TestCase):
         baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
         # Values should be the same of the original document
         self.assertEqual(effective_date, baseline.effective_date)
-        self.assertEqual(original_expiration_date, baseline.expiration_date)
-
-    def test_publication_behavior_values_not_changed_folderish(self):
-        doc = self.portal.docs.doc3
-        original_effective_date = doc.effective_date
-        original_expiration_date = doc.expiration_date
-        # Create a working copy
-        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
-        # Check in without modifying the existing values
-        baseline = ICheckinCheckoutPolicy(wc).checkin("updated")
-        # Values should be the same of the original document
-        self.assertEqual(original_effective_date, baseline.effective_date)
         self.assertEqual(original_expiration_date, baseline.expiration_date)
