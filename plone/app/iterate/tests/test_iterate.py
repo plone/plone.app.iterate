@@ -60,6 +60,7 @@ class TestIterations(unittest.TestCase):
 
     def test_baselineVersionCreated(self):
         # if a baseline has no version ensure that one is created on checkout
+        self.assertIn("Document", self.repo.getVersionableContentTypes())
 
         doc = self.portal.docs.doc1
         self.assertTrue(self.repo.isVersionable(doc))
@@ -73,7 +74,11 @@ class TestIterations(unittest.TestCase):
         self.assertEqual(len(history), 1)
 
         doc2 = self.portal.docs.doc2
+        history = self.repo.getHistory(doc2)
+        self.assertEqual(len(history), 0)
         self.repo.save(doc2)
+        history = self.repo.getHistory(doc2)
+        self.assertEqual(len(history), 1)
 
         ICheckinCheckoutPolicy(doc2).checkout(self.portal.workarea)
 

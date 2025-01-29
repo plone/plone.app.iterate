@@ -95,6 +95,8 @@ class TestIterations(unittest.TestCase):
 
     def test_container_baselineCreated(self):
         # if a baseline has no version ensure that one is created on checkout
+        self.assertIn("FolderishDocument", self.repo.getVersionableContentTypes())
+
         doc = self.portal.docs.doc1
         self.assertTrue(self.repo.isVersionable(doc))
 

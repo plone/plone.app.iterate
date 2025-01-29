@@ -56,17 +56,18 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
             "plone.versioning",
         }
 
-        # Disable automatic versioning of core content types
-        for name in ("Document", "Event", "Link", "News Item"):
-            fti = portal.portal_types[name]
-            # write back the behaviors without the versioning behaviors
-            # using a Set to keep it simple
-            # a = set((1,2,3))
-            # b = set([2,4])
-            # res = tuple(a.difference(b)) >> (1,3)
-            fti.behaviors = tuple(
-                set(fti.behaviors).difference(versioning_behavior),
-            )
+        # Disable automatic versioning of Documents.  Note that Documents are
+        # still versionable after this.  You just need to do it explicitly,
+        # like plone.app.iterate does when needed.
+        fti = portal.portal_types["Document"]
+        # write back the behaviors without the versioning behaviors
+        # using a Set to keep it simple
+        # a = set((1,2,3))
+        # b = set([2,4])
+        # res = tuple(a.difference(b)) >> (1,3)
+        fti.behaviors = tuple(
+            set(fti.behaviors).difference(versioning_behavior),
+        )
 
 
 PLONEAPPITERATEDEX_FIXTURE = DexPloneAppIterateLayer()
