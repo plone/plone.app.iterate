@@ -40,14 +40,16 @@ class DexPloneAppIterateLayer(PloneAppContenttypes):
         super().setUpZope(app, configurationContext)
 
         import plone.app.iterate
+        import plone.app.iterate.tests
 
         self.loadZCML(package=plone.app.iterate)
+        self.loadZCML(package=plone.app.iterate.tests)
 
     def setUpPloneSite(self, portal):
         """Setup Plone Site with Addons."""
         super().setUpPloneSite(portal)
         applyProfile(portal, "plone.app.iterate:default")
-        applyProfile(portal, "plone.app.iterate:testingdx")
+        applyProfile(portal, "plone.app.iterate.tests:testingdx")
         # with named AND dotted behaviors we need to take care of both
         versioning_behavior = {
             "plone.app.versioningbehavior.behaviors.IVersionable",
