@@ -29,9 +29,11 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.dexterity.utils import createContentInContainer
+from plone.locking.interfaces import ILockable
 from z3c.relationfield import RelationValue
 from zc.relation.interfaces import ICatalog
 from zope import component
+from zope.annotation.interfaces import IAnnotations
 from zope.intid.interfaces import IIntIds
 
 import unittest
@@ -61,6 +63,13 @@ class TestIterations(unittest.TestCase):
         self.portal.invokeFactory("Folder", "workarea")
 
         self.repo = self.portal.portal_repository
+
+    def get_control_view(self, doc):
+        # Remove any memoized items from the request.
+        # Especially, we may have memoized 'cancel_allowed'.
+        request = self.layer["request"]
+        IAnnotations(request).pop("plone.memoize", None)
+        return Control(doc, request)
 
     def test_container_workflowState(self):
         # ensure baseline workflow state is retained on checkin, including
@@ -218,17 +227,115 @@ class TestIterations(unittest.TestCase):
         self.assertEqual(folder.getProperty("default_page", ""), "doc1")
         self.assertEqual(folder.getDefaultPage(), "doc1")
 
-    def test_container_control_checkin_allowed_with_no_policy(self):
-        control = Control(self.portal, self.layer["request"])
-        self.assertFalse(control.checkin_allowed())
+    def test_container_control_portal(self):
+        # The portal is not versionable, but it is lockable.
+        doc = self.portal
+        self.assertNotIn("Plone Site", self.repo.getVersionableContentTypes())
+        self.assertFalse(self.repo.isVersionable(doc))
+        try:
+            lockable = ILockable(doc)
+        except TypeError:
+            lockable = False
+        self.assertTrue(lockable)
 
-    def test_container_control_checkout_allowed_with_no_policy(self):
-        control = Control(self.portal, self.layer["request"])
+        # Initially of course you can only check-out.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
         self.assertTrue(control.checkout_allowed())
 
-    def test_container_control_cancel_allowed_with_no_policy(self):
-        control = Control(self.portal, self.layer["request"])
+        # Make a checkout.  Now you can only check-in or cancel.
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        control = self.get_control_view(wc)
+        self.assertTrue(control.checkin_allowed())
+        self.assertTrue(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+        # On the original you cannot do anything now, because there is a working copy.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
         self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+    def test_container_control_lockable_folder(self):
+        # LockableFolder is not versionable, but it is lockable.
+        doc = self.portal.docs
+        self.assertNotIn("LockableFolder", self.repo.getVersionableContentTypes())
+        self.assertFalse(self.repo.isVersionable(doc))
+        try:
+            lockable = ILockable(doc)
+        except TypeError:
+            lockable = False
+        self.assertTrue(lockable)
+
+        # Initially of course you can only check-out.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertTrue(control.checkout_allowed())
+
+        # Make a checkout.  Now you can only check-in or cancel.
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        control = self.get_control_view(wc)
+        self.assertTrue(control.checkin_allowed())
+        self.assertTrue(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+        # On the original you cannot do anything now, because there is a working copy.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+    def test_container_control_normal_folder(self):
+        # LockableFolder is not versionable, and not lockable.
+        self.portal.invokeFactory("Folder", "normal")
+        doc = self.portal.normal
+        self.assertNotIn("Folder", self.repo.getVersionableContentTypes())
+        self.assertFalse(self.repo.isVersionable(doc))
+        try:
+            lockable = ILockable(doc)
+        except TypeError:
+            lockable = False
+        self.assertFalse(lockable)
+
+        # Nothing is allowed.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+    def test_container_control_folderish_document(self):
+        # FolderishDocument is both versionable and lockable.
+        doc = self.portal.docs.doc1
+        self.assertIn("FolderishDocument", self.repo.getVersionableContentTypes())
+        self.assertTrue(self.repo.isVersionable(doc))
+        try:
+            lockable = ILockable(doc)
+        except TypeError:
+            lockable = False
+        self.assertTrue(lockable)
+
+        # Initially of course you can only check-out.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertTrue(control.checkout_allowed())
+
+        # Make a checkout.  Now you can only check-in or cancel.
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        control = self.get_control_view(wc)
+        self.assertTrue(control.checkin_allowed())
+        self.assertTrue(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+        # On the original you cannot do anything now, because there is a working copy.
+        control = self.get_control_view(doc)
+        IAnnotations(self.layer["request"]).pop("plone.memoize", None)
+
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
 
     def test_container_control_cancel_on_original_does_not_delete_original(self):
         # checkout document

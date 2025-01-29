@@ -28,8 +28,10 @@ from plone.app.testing import login
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.locking.interfaces import ILockable
 from zc.relation.interfaces import ICatalog
 from zope import component
+from zope.annotation.interfaces import IAnnotations
 from zope.intid.interfaces import IIntIds
 
 import unittest
@@ -49,7 +51,7 @@ class TestIterations(unittest.TestCase):
         self.wf.setChainForPortalTypes(("Document",), "plone_workflow")
 
         # add a folder with two documents in it
-        self.portal.invokeFactory("LockableFolder", "docs")
+        self.portal.invokeFactory("Folder", "docs")
         self.portal.docs.invokeFactory("Document", "doc1")
         self.portal.docs.invokeFactory("Document", "doc2")
 
@@ -57,6 +59,13 @@ class TestIterations(unittest.TestCase):
         self.portal.invokeFactory("Folder", "workarea")
 
         self.repo = self.portal.portal_repository
+
+    def get_control_view(self, doc):
+        # Remove any memoized items from the request.
+        # Especially, we may have memoized 'cancel_allowed'.
+        request = self.layer["request"]
+        IAnnotations(request).pop("plone.memoize", None)
+        return Control(doc, request)
 
     def test_baselineVersionCreated(self):
         # if a baseline has no version ensure that one is created on checkout
@@ -127,17 +136,98 @@ class TestIterations(unittest.TestCase):
         self.assertEqual(folder.getProperty("default_page", ""), "doc1")
         self.assertEqual(folder.getDefaultPage(), "doc1")
 
-    def test_control_checkin_allowed_with_no_policy(self):
-        control = Control(self.portal.docs.doc1, self.layer["request"])
-        self.assertFalse(control.checkin_allowed())
+    def test_control_document(self):
+        # A Document is both versionable and lockable.
+        doc = self.portal.docs.doc1
+        self.assertIn("Document", self.repo.getVersionableContentTypes())
+        self.assertTrue(self.repo.isVersionable(doc))
+        try:
+            lockable = ILockable(doc)
+        except TypeError:
+            lockable = False
+        self.assertTrue(lockable)
 
-    def test_control_checkout_allowed_with_no_policy(self):
-        control = Control(self.portal.docs.doc1, self.layer["request"])
+        # Initially of course you can only check-out.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
         self.assertTrue(control.checkout_allowed())
 
-    def test_control_cancel_allowed_with_no_policy(self):
-        control = Control(self.portal.docs.doc1, self.layer["request"])
+        # Make a checkout.  Now you can only check-in or cancel.
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        control = self.get_control_view(wc)
+        self.assertTrue(control.checkin_allowed())
+        self.assertTrue(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+        # On the original you cannot do anything now, because there is a working copy.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
         self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+    def test_control_news_item(self):
+        # A News Item is both versionable and lockable.
+        self.portal.invokeFactory("News Item", "news1")
+        doc = self.portal.news1
+        self.assertIn("News Item", self.repo.getVersionableContentTypes())
+        self.assertTrue(self.repo.isVersionable(doc))
+        try:
+            lockable = ILockable(doc)
+        except TypeError:
+            lockable = False
+        self.assertTrue(lockable)
+
+        # Initially of course you can only check-out.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertTrue(control.checkout_allowed())
+
+        # Make a checkout.  Now you can only check-in or cancel.
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        control = self.get_control_view(wc)
+        self.assertTrue(control.checkin_allowed())
+        self.assertTrue(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+        # On the original you cannot do anything now, because there is a working copy.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+    def test_control_locked_document(self):
+        doc = self.portal.docs.doc1
+        ILockable(doc).lock()
+
+        # Now you can do nothing.
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+        # After unlock, you can check-out again.
+        ILockable(doc).unlock()
+        control = self.get_control_view(doc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertTrue(control.checkout_allowed())
+
+        # Make a checkout and lock it.
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+        ILockable(wc).lock()
+        control = self.get_control_view(wc)
+        self.assertFalse(control.checkin_allowed())
+        self.assertFalse(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
+
+        # After unlock, you can check-in and cancel again.
+        ILockable(wc).unlock()
+        control = self.get_control_view(wc)
+        self.assertTrue(control.checkin_allowed())
+        self.assertTrue(control.cancel_allowed())
+        self.assertFalse(control.checkout_allowed())
 
     def test_control_cancel_on_original_does_not_delete_original(self):
         # checkout document
