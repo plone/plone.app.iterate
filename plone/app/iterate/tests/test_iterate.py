@@ -122,15 +122,15 @@ class TestIterations(unittest.TestCase):
         self.assertEqual(folder.getDefaultPage(), "doc1")
 
     def test_control_checkin_allowed_with_no_policy(self):
-        control = Control(self.portal, self.layer["request"])
+        control = Control(self.portal.docs.doc1, self.layer["request"])
         self.assertFalse(control.checkin_allowed())
 
     def test_control_checkout_allowed_with_no_policy(self):
-        control = Control(self.portal.docs, self.layer["request"])
+        control = Control(self.portal.docs.doc1, self.layer["request"])
         self.assertTrue(control.checkout_allowed())
 
     def test_control_cancel_allowed_with_no_policy(self):
-        control = Control(self.portal.docs, self.layer["request"])
+        control = Control(self.portal.docs.doc1, self.layer["request"])
         self.assertFalse(control.cancel_allowed())
 
     def test_control_cancel_on_original_does_not_delete_original(self):
