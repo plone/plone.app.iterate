@@ -47,7 +47,7 @@ class TestIterations(unittest.TestCase):
         self.wf.setChainForPortalTypes(("Document",), "plone_workflow")
 
         # add a folder with two documents in it
-        self.portal.invokeFactory("Folder", "docs")
+        self.portal.invokeFactory("LockableFolder", "docs")
         self.portal.docs.invokeFactory("Document", "doc1")
         self.portal.docs.invokeFactory("Document", "doc2")
         self.portal.docs.invokeFactory("FolderishDocument", "doc3")

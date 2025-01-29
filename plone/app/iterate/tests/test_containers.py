@@ -51,7 +51,7 @@ class TestIterations(unittest.TestCase):
         )
 
         # add a folder with two documents in it
-        self.portal.invokeFactory("Folder", "docs")
+        self.portal.invokeFactory("LockableFolder", "docs")
         self.portal.docs.invokeFactory("FolderishDocument", "doc1")
         self.portal.docs.invokeFactory("FolderishDocument", "doc2")
 
