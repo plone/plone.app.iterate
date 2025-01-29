@@ -45,4 +45,4 @@ def unlockContext(context):
 
 def isLocked(context):
     lockable = ILockable(context)
-    lockable.locked()
+    return lockable.locked()
