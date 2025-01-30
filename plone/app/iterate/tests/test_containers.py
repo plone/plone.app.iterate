@@ -55,7 +55,7 @@ class TestIterations(unittest.TestCase):
         )
 
         # add a folder with two documents in it
-        self.portal.invokeFactory("LockableFolder", "docs")
+        self.portal.invokeFactory("Folder", "docs")
         self.portal.docs.invokeFactory("FolderishDocument", "doc1")
         self.portal.docs.invokeFactory("FolderishDocument", "doc2")
 
@@ -259,7 +259,8 @@ class TestIterations(unittest.TestCase):
 
     def test_container_control_lockable_folder(self):
         # LockableFolder is not versionable, but it is lockable.
-        doc = self.portal.docs
+        self.portal.invokeFactory("LockableFolder", "safe")
+        doc = self.portal.safe
         self.assertNotIn("LockableFolder", self.repo.getVersionableContentTypes())
         self.assertFalse(self.repo.isVersionable(doc))
         try:
@@ -288,9 +289,8 @@ class TestIterations(unittest.TestCase):
         self.assertFalse(control.checkout_allowed())
 
     def test_container_control_normal_folder(self):
-        # LockableFolder is not versionable, and not lockable.
-        self.portal.invokeFactory("Folder", "normal")
-        doc = self.portal.normal
+        # Folder is not versionable, and not lockable.
+        doc = self.portal.docs
         self.assertNotIn("Folder", self.repo.getVersionableContentTypes())
         self.assertFalse(self.repo.isVersionable(doc))
         try:
