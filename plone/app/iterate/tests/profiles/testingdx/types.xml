@@ -6,5 +6,8 @@
   <object meta_type="Dexterity FTI"
           name="FolderishDocument"
   />
+  <object meta_type="Dexterity FTI"
+          name="LockableFolder"
+  />
 
 </object>

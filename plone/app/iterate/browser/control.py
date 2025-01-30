@@ -23,6 +23,7 @@
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from plone.app.iterate import interfaces
+from plone.app.iterate import lock
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IWorkingCopy
 from plone.app.iterate.permissions import CheckinPermission
@@ -39,6 +40,15 @@ class Control(BrowserView):
     This is a public view, referenced in action condition expressions.
     """
 
+    def _can_lock(self):
+        try:
+            if lock.isLocked(self.context):
+                return False
+        except TypeError:
+            # This portal_type does not support locking.
+            return False
+        return True
+
     def checkin_allowed(self):
         """Check if a checkin is allowed"""
         context = aq_inner(self.context)
@@ -48,6 +58,9 @@ class Control(BrowserView):
             return False
 
         if not IWorkingCopy.providedBy(context):
+            return False
+
+        if not self._can_lock():
             return False
 
         policy = ICheckinCheckoutPolicy(context, None)
@@ -81,6 +94,9 @@ class Control(BrowserView):
         if not interfaces.IIterateAware.providedBy(context):
             return False
 
+        if not self._can_lock():
+            return False
+
         policy = ICheckinCheckoutPolicy(context, None)
         if policy is None:
             return False
@@ -107,6 +123,8 @@ class Control(BrowserView):
         """Check to see if the user can cancel the checkout on the
         given working copy
         """
+        if not self._can_lock():
+            return False
         policy = ICheckinCheckoutPolicy(self.context, None)
         if policy is None:
             return False
