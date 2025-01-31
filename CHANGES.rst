@@ -8,6 +8,24 @@ Changelog
 
 .. towncrier release notes start
 
+6.1.0 (2025-01-31)
+------------------
+
+New features:
+
+
+- Support working copies of the Plone Site. @wesleybl (#130)
+- Support working copies of content types that don't have versioning enabled. @davisagli (#130)
+
+
+Bug fixes:
+
+
+- Do not allow checkout when item is not lockable or is already locked.
+  [maurits] (#135)
+- Fix DeprecationWarnings. [maurits] (#4090)
+
+
 6.0.1 (2024-10-23)
 ------------------
 
