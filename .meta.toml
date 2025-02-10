@@ -1,9 +1,9 @@
 # Generated from:
-# https://github.com/plone/meta/tree/main/config/default
+# https://github.com/plone/meta/tree/main/src/plone/meta/default
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "792c8799"
+commit-id = "fe9ffb59"
 
 [pyproject]
 codespell_ignores = "ore,checkin"
