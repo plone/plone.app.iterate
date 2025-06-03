@@ -1,5 +1,5 @@
-from plone.indexer import indexer
 from plone.app.iterate.interfaces import IWorkingCopy
+from plone.indexer import indexer
 
 
 @indexer(IWorkingCopy)

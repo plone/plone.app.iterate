@@ -112,7 +112,10 @@
       />
 
   <adapter factory=".archiver.ContentArchiver" />
-  <adapter factory=".indexer.is_working_copy" name="is_working_copy" />
+  <adapter
+      factory=".indexer.is_working_copy"
+      name="is_working_copy"
+      />
 
   <!-- Checkout folder locators -->
   <adapter
