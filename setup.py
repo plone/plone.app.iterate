@@ -46,6 +46,7 @@ setup(
         "Acquisition",
         "DateTime",
         "plone.app.relationfield",
+        "plone.indexer",
         "plone.locking",
         "plone.memoize",
         "Products.CMFEditions",
