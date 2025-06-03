@@ -381,3 +381,13 @@ class TestIterations(unittest.TestCase):
         # Values should be the same of the original document
         self.assertEqual(effective_date, baseline.effective_date)
         self.assertEqual(original_expiration_date, baseline.expiration_date)
+
+    def test_is_working_copy_in_catalog_metadata(self):
+        # Create a working copy
+        doc = self.portal.docs.doc1
+        wc = ICheckinCheckoutPolicy(doc).checkout(self.portal.workarea)
+
+        # Check catalog metadata
+        catalog = self.portal.portal_catalog
+        brain = catalog.unrestrictedSearchResults(UID=wc.UID())[0]
+        self.assertTrue(brain.is_working_copy)

@@ -91,12 +91,31 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      profile="plone.app.iterate:default"
+      source="1001"
+      destination="1002"
+      >
+    <genericsetup:upgradeDepends
+        title="Add is_working_copy column to catalog"
+        import_steps="catalog"
+        />
+    <genericsetup:upgradeStep
+        title="Reindex working copies"
+        handler=".setuphandlers.reindex_working_copies"
+        />
+  </genericsetup:upgradeSteps>
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="plone.app.iterate"
       />
 
   <adapter factory=".archiver.ContentArchiver" />
+  <adapter
+      factory=".indexer.is_working_copy"
+      name="is_working_copy"
+      />
 
   <!-- Checkout folder locators -->
   <adapter
