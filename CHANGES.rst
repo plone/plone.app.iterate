@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+6.2.0 (2025-06-03)
+------------------
+
+New features:
+
+
+- Add `is_working_copy` column to catalog metadata. @davisagli (#143)
+
+
 6.1.0 (2025-01-31)
 ------------------
 
