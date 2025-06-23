@@ -43,7 +43,7 @@ class Cancel(BrowserView):
 
             policy = ICheckinCheckoutPolicy(context)
             baseline = policy.cancelCheckout()
-            baseline.reindexObject()
+            baseline.reindexObject(idxs=["review_state"])
 
             IStatusMessage(self.request).addStatusMessage(
                 _("Checkout cancelled"), type="info"
