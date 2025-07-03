@@ -6,6 +6,7 @@ from plone.app.iterate.dexterity import ITERATE_RELATION_NAME
 from plone.app.iterate.dexterity.relation import StagingRelationValue
 from plone.app.iterate.event import AfterCheckinEvent
 from plone.app.relationfield.event import update_behavior_relations
+from plone.base.utils import unrestricted_construct_instance
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import createContentInContainer
 from plone.dexterity.utils import iterSchemata
@@ -176,26 +177,50 @@ class ContentCopier(BaseContentCopier):
 
 
 class FolderishContentCopier(ContentCopier):
-    def _copyBaseline(self, container):
-        if self.context.portal_type == "Plone Site":
+    def _createWorkingCopyObject(self, container):
+        """Create the working copy object in the container.
+
+        This method handles the creation logic including special cases
+        for different portal types like Plone Site and LRF.
+        """
+        context_portal_type = self.context.portal_type
+
+        if context_portal_type == "Plone Site":
             portal_type = "Document"
         else:
-            portal_type = self.context.portal_type
-        obj = createContentInContainer(
-            container,
-            portal_type,
-            id=f"working_copy_of_{self.context.id}",
-        )
+            portal_type = context_portal_type
+
+        # LRF can't be created at the portal root.
+        # So we need to use unrestricted_construct_instance.
+        if portal_type == "LRF":
+            obj = unrestricted_construct_instance(
+                portal_type,
+                container,
+                id=f"working_copy_of_{self.context.id}",
+            )
+        else:
+            obj = createContentInContainer(
+                container,
+                portal_type,
+                id=f"working_copy_of_{self.context.id}",
+            )
+
         # Since the working copy of the Portal is originally a Document,
         # we force its portal_type to "Plone Site", so that the "Plone Site"
         # schema is used.
-        if self.context.portal_type == "Plone Site":
+        if context_portal_type == "Plone Site":
             obj.portal_type = "Plone Site"
             # Especially in Classic UI we may get a 404 NotFound on the document
             # because it gets its layout/display from the Plone Site FTI.
             document_fti = getUtility(IDexterityFTI, name="Document")
             if obj.getLayout() not in document_fti.view_methods:
                 obj._setProperty("layout", document_fti.default_view or "view")
+
+        return obj
+
+    def _copyBaseline(self, container):
+        # Create the working copy object
+        obj = self._createWorkingCopyObject(container)
 
         # copy all field values from the baseline to the working copy
         for schema in iterSchemata(self.context):
