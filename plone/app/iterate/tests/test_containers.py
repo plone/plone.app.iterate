@@ -64,6 +64,25 @@ class TestIterations(unittest.TestCase):
 
         self.repo = self.portal.portal_repository
 
+    def _create_lrf_type(self):
+        """Create a mock LRF content type for testing"""
+        from plone.dexterity.fti import DexterityFTI
+
+        # Create a DexterityFTI for LRF type
+        fti = DexterityFTI("LRF")
+        fti.title = "Language Root Folder"
+        fti.description = "A mock LRF type for testing"
+        fti.factory = "plone.dexterity.content.Container"
+        fti.schema = "plone.app.contenttypes.interfaces.IFolder"
+        fti.behaviors = ("plone.basic",)
+        fti.allow_discussion = False
+        fti.global_allow = False
+        fti.filter_content_types = False
+
+        # Register the FTI
+        portal_types = self.portal.portal_types
+        portal_types._setObject("LRF", fti)
+
     def get_control_view(self, doc):
         # Remove any memoized items from the request.
         # Especially, we may have memoized 'cancel_allowed'.
@@ -453,3 +472,26 @@ class TestIterations(unittest.TestCase):
         # Values should be the same of the original document
         self.assertEqual(original_effective_date, baseline.effective_date)
         self.assertEqual(original_expiration_date, baseline.expiration_date)
+
+    def test_create_working_copy_object_lrf_type(self):
+        """Test creating working copy object for LRF type"""
+        from plone.app.iterate.dexterity.copier import FolderishContentCopier
+        from plone.base.utils import unrestricted_construct_instance
+
+        # Create LRF content type in portal_types for this test
+        self._create_lrf_type()
+
+        # Create a LRF using the registered mock type
+        lrf_context = unrestricted_construct_instance("LRF", self.portal, "en")
+
+        # Create the copier with our LRF context
+        copier = FolderishContentCopier(lrf_context)
+
+        # Call the method we're testing
+        result = copier._createWorkingCopyObject(self.portal)
+
+        # Verify the returned object has the correct properties
+        self.assertIsNotNone(result)
+        self.assertEqual(result.portal_type, "LRF")
+        self.assertEqual(result.id, "working_copy_of_en")
+        self.assertIn("working_copy_of_en", self.portal.objectIds())
