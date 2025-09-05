@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+6.3.0 (2025-09-05)
+------------------
+
+New features:
+
+
+- Add working copy support for `LFR` type. @wesleybl (#145)
+
+
 6.2.0 (2025-06-03)
 ------------------
 
