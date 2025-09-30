@@ -134,5 +134,10 @@
            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
       handler=".event.handleDeletion"
       />
+  <subscriber
+      for=".interfaces.IWorkingCopy
+           OFS.interfaces.IObjectWillBeRemovedEvent"
+      handler=".event.cancelOnDelete"
+      />
 
 </configure>

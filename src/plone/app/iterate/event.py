@@ -75,3 +75,11 @@ def handleDeletion(reference, event):
     workingCopy = reference.getSourceObject()
     baseline = reference.getTargetObject()
     notify(WorkingCopyDeletedEvent(workingCopy, baseline, reference))
+
+
+def cancelOnDelete(wc, event):
+    # make sure working copy locks and marker are cleaned up
+    # if the working copy is deleted without cancelling
+    baseline = interfaces.ICheckinCheckoutPolicy(wc).getBaseline()
+    if baseline is not None:
+        notify(CancelCheckoutEvent(wc, baseline))

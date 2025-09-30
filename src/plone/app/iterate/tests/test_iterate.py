@@ -391,3 +391,22 @@ class TestIterations(unittest.TestCase):
         catalog = self.portal.portal_catalog
         brain = catalog.unrestrictedSearchResults(UID=wc.UID())[0]
         self.assertTrue(brain.is_working_copy)
+
+    def test_deleting_working_copy_unlocks_baseline(self):
+        # Ensure that when a working copy is deleted,
+        # the baseline is no longer locked.
+
+        folder = self.portal.docs
+        doc = folder.doc1
+
+        # Create working copy
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+
+        # Baseline is locked
+        self.assertTrue(ILockable(doc).locked())
+
+        # Delete working copy without checking in or cancelling
+        folder.manage_delObjects([wc.getId()])
+
+        # Baseline is no longer locked
+        self.assertFalse(ILockable(doc).locked())
