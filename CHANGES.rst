@@ -8,6 +8,15 @@ Changelog
 
 .. towncrier release notes start
 
+6.3.2 (2025-10-01)
+------------------
+
+Bug fixes:
+
+
+- Clean up baseline if a working copy is deleted without canceling the checkout first. @davisagli (#63)
+
+
 6.3.1 (2025-09-11)
 ------------------
 
