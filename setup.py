@@ -49,7 +49,6 @@ setup(
         "Products.DCWorkflow",
         "Products.GenericSetup>=1.8.2",
         "Products.statusmessages",
-        "setuptools",
         "Zope",
         "plone.app.layout",
         "plone.base",
