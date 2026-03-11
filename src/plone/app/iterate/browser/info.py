@@ -15,7 +15,6 @@ from zope.viewlet.interfaces import IViewlet
 
 import logging
 
-
 logger = logging.getLogger("Plone")
 
 

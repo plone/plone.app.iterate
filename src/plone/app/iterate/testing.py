@@ -5,7 +5,6 @@ from plone.app.testing import applyProfile
 from plone.app.testing.layers import FunctionalTesting
 from plone.app.testing.layers import IntegrationTesting
 
-
 ADMIN = {
     "id": "admin",
     "password": "secret",

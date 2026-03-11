@@ -26,7 +26,6 @@ Checkin / Checkout Specific DAV Lock Manipulation and Introspection
 from .interfaces import ITERATE_LOCK
 from plone.locking.interfaces import ILockable
 
-
 __all__ = ["lockContext", "unlockContext", "isLocked"]
 
 
