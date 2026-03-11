@@ -31,7 +31,6 @@ from Products.CMFPlacefulWorkflow.PlacefulWorkflowTool import WorkflowPolicyConf
 from Products.CMFPlacefulWorkflow.WorkflowPolicyConfig import WorkflowPolicyConfig
 from zope.component import getUtility
 
-
 USE_WORKFLOW = "checkout_workflow_policy"
 
 policy_storage = "previous_wf_policy"
