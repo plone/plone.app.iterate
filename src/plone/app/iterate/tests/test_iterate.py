@@ -22,6 +22,7 @@
 
 from DateTime import DateTime
 from plone.app.iterate.browser.control import Control
+from plone.app.iterate.dexterity.utils import get_relations
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.testing import PLONEAPPITERATEDEX_INTEGRATION_TESTING
 from plone.app.testing import login
@@ -410,3 +411,28 @@ class TestIterations(unittest.TestCase):
 
         # Baseline is no longer locked
         self.assertFalse(ILockable(doc).locked())
+
+    def test_deleting_working_copy_removes_relation(self):
+        """Deleting a working copy removes its relation (#180)."""
+        folder = self.portal.docs
+        doc = folder.doc1
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+        folder.manage_delObjects([wc.getId()])
+        self.assertEqual(get_relations(doc), [])
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+        self.assertEqual(ICheckinCheckoutPolicy(doc).getWorkingCopy(), wc)
+
+    def test_broken_relation_does_not_hide_working_copy(self):
+        """A broken relation left by older versions is skipped (#180)."""
+        folder = self.portal.docs
+        doc = folder.doc1
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+        relation = get_relations(doc)[0]
+        relation.broken(relation.to_path)
+        folder._delObject(wc.getId(), suppress_events=True)
+
+        wc = ICheckinCheckoutPolicy(doc).checkout(folder)
+        self.assertEqual(len(get_relations(doc)), 2)
+        self.assertEqual(ICheckinCheckoutPolicy(doc).getWorkingCopy(), wc)
+        self.assertEqual(ICheckinCheckoutPolicy(wc).getBaseline(), doc)

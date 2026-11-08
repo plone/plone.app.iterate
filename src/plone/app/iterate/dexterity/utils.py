@@ -25,6 +25,9 @@ def get_relations(context):
 
 def get_checkout_relation(context):
     relations = get_relations(context)
+    for relation in relations:
+        if not relation.isBroken():
+            return relation
     if len(relations) > 0:
         return relations[0]
     else:
