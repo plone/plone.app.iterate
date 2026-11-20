@@ -307,7 +307,7 @@ class FolderishContentCopier(ContentCopier):
         baseline.reindexObject()
 
         # Move working children (newly created objects)
-        working_copy_children = [a for a in self.context.objectIds()]
+        working_copy_children = [*self.context.objectIds()]
 
         clipboard = self.context.manage_cutObjects(working_copy_children)
         baseline.manage_pasteObjects(clipboard)
