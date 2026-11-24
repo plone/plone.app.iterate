@@ -22,6 +22,9 @@
 """ """
 
 from . import interfaces
+from plone.app.iterate.dexterity.utils import get_checkout_relation
+from zc.relation.interfaces import ICatalog
+from zope.component import getUtility
 from zope.event import notify
 from zope.interface import implementer
 from zope.interface.interfaces import ObjectEvent
@@ -79,8 +82,9 @@ def handleDeletion(reference, event):
 
 
 def cancelOnDelete(wc, event):
-    # make sure working copy locks and marker are cleaned up
+    # make sure working copy locks, marker and relation are cleaned up
     # if the working copy is deleted without cancelling
     baseline = interfaces.ICheckinCheckoutPolicy(wc).getBaseline()
     if baseline is not None:
         notify(CancelCheckoutEvent(wc, baseline))
+        getUtility(ICatalog).unindex(get_checkout_relation(wc))
